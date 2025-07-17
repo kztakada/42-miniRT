@@ -2,6 +2,7 @@
 
 miniRT
 
+minilibx
 */**/*.o
 */**/*.a
 .DS_Store
