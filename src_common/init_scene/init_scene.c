@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:11:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 14:21:49 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:59:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_scene(t_scene *scene)
 	scene->screen.qx = (t_vect){1.0f, 0.0f, 0.0f};
 	scene->screen.qy = (t_vect){0.0f, 1.0f, 0.0f};
 	scene->sampling.count = 1;
-	scene->sampling.max_count = MAX_SAMP;
+	scene->sampling.max_count = MAX_FIX_SAMPLING;
 	scene->camera.pos = (t_vect){0.0f, 0.0f, 0.0f};
 	scene->camera.dir = (t_vect){0.0f, 0.0f, -1.0f};
 	scene->camera.pos_initial = scene->camera.pos;

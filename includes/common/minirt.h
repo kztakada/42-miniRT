@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 15:12:33 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:57:15 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,30 @@
 # include <math.h>
 # include <pthread.h>
 # include <stdio.h>
+
+// key code
+# define KEY_ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define KEY_PLUS 61
+# define KEY_MINUS 45
+# define KEY_SPACE 32
+# define KEY_R 114
+# define KEY_C 99
+# define KEY_D 100
+# define KEY_X 120
+# define KEY_Y 121
+# define KEY_Z 122
+# define KEY_A 97
+
+// mouse code
+# define MOUSE_LEFT 1
+# define MOUSE_MIDDLE 2
+# define MOUSE_RIGHT 3
+# define MOUSE_SCROLL_UP 4
+# define MOUSE_SCROLL_DOWN 5
 
 typedef enum e_bool
 {
@@ -261,10 +285,10 @@ typedef struct s_sampling
 	// bool				set;
 	int count;     // samp;
 	int max_count; // max_samp;
-					// int					recursion_depth;
-					// double				cosine;
-					// double				light;
-					// bool				gamma_correction;
+	// int					recursion_depth;
+	// double				cosine;
+	// double				light;
+	// bool				gamma_correction;
 }							t_sampling;
 
 typedef struct s_camera
@@ -351,6 +375,8 @@ t_binary_result				create_scene(t_scene *scene, const char *file_path);
 
 // render_scene
 t_binary_result				render_scene(t_scene *scene);
+void						set_key_controls(t_scene_with_mlx *r_scene);
+void						render_mlx_image(t_scene_with_mlx *r_scene);
 
 // utils
 void						free_scene(t_scene *scene);

@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   render_mlx_image.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:58:30 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/19 17:57:42 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "minirt.h"
 
-// window title
-# define WIN_TITLE "MiniRT"
+void	render_mlx_image(t_scene_with_mlx *r_scene)
+{
+	t_scene	*scene;
 
-// window size
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
-
-// multi-threading
-# define MAX_THREADS 8
-
-// sampling
-# define MAX_FIX_SAMPLING 16
-# define MAX_RAND_SAMPLING 100
-
-// material
-# define CHECKERBOARD_SIZE 1.0
-
-#endif
+	scene = r_scene->scene;
+	if (scene->sampling.count == scene->sampling.max_count)
+		return ;
+	return ;
+}

@@ -6,13 +6,13 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:48:53 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 15:21:02 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:42:13 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
+static t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
 		t_scene *scene)
 {
 	r_scene->mlx_img = mlx_img;
@@ -37,6 +37,17 @@ t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
 	return (SUCCESS);
 }
 
+static int	render_loop(void *data)
+{
+	t_scene_with_mlx	*r_scene;
+
+	r_scene = (t_scene_with_mlx *)data;
+	render_mlx_image(r_scene);
+	mlx_put_image_to_window(r_scene->mlx, r_scene->mlx_win,
+		r_scene->mlx_img->img, 0, 0);
+	return (0);
+}
+
 t_binary_result	render_scene(t_scene *scene)
 {
 	t_scene_with_mlx	r_scene;
@@ -50,6 +61,9 @@ t_binary_result	render_scene(t_scene *scene)
 		return (FAILURE);
 	}
 	mlx_put_image_to_window(r_scene.mlx, r_scene.mlx_win, mlx_img.img, 0, 0);
+	set_key_controls(&r_scene);
+	mlx_loop_hook(r_scene.mlx, render_loop, &r_scene);
+	mlx_loop(r_scene.mlx);
 	free_scene_with_mlx(&r_scene);
 	return (SUCCESS);
 }

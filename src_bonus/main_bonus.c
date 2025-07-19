@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/16 21:43:53 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 18:01:36 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 	// 初期化
 	init_scene(&scene);
 	srand(time(NULL));
+	scene.sampling.max_count = MAX_RAND_SAMPLING;
 	// 引数のrtファイルからシーンデータを作成
 	if (create_scene(&scene, argv[1]) == FAILURE)
 	{
@@ -36,7 +37,10 @@ int	main(int argc, char **argv)
 	// セットアップ
 	// setup_scene(&scene);
 	// 描画処理 minilibXはload_sceneの中だけで定義される
-	load_scene(&scene); // loop処理なので以降の処理は実行されない?
-	free_scene(&scene);
+	if (render_scene(&scene) == FAILURE)
+	{
+		free_scene(&scene);
+		return (EXIT_FAILURE);
+	}; // loop処理なので以降の処理は実行されない?
 	return (EXIT_SUCCESS);
 }
