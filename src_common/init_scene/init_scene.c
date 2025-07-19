@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:11:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/16 21:15:28 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:21:49 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	init_scene(t_scene *scene)
 {
 	printf("Initializing scene...\n");
+	scene->screen.width = WIN_WIDTH;
+	scene->screen.height = WIN_HEIGHT;
 	scene->screen.qx = (t_vect){1.0f, 0.0f, 0.0f};
 	scene->screen.qy = (t_vect){0.0f, 1.0f, 0.0f};
 	scene->sampling.count = 1;

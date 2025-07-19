@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/16 21:42:30 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/19 13:49:36 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS_MAIN		=	$(wildcard src_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
 					$(wildcard src_common/init_scene/*.c) \
 					$(wildcard src_common/create_scene/*.c) \
-					$(wildcard src_common/load_scene/*.c) \
+					$(wildcard src_common/render_scene/*.c) \
 					$(wildcard src_common/utils/*.c) \
 
 OBJS_PATH		=	objs/

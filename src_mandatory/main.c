@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/16 21:44:13 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 14:16:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int	main(int argc, char **argv)
 	// セットアップ
 	// setup_scene(&scene);
 	// 描画処理 minilibXはload_sceneの中だけで定義される
-	load_scene(&scene); // loop処理なので以降の処理は実行されない?
+	if (render_scene(&scene) == FAILURE)
+	{
+		free_scene(&scene);
+		return (EXIT_FAILURE);
+	}; // loop処理なので以降の処理は実行されない?
 	free_scene(&scene);
 	return (EXIT_SUCCESS);
 }

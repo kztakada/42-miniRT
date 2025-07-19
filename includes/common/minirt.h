@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/16 21:41:45 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 13:52:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,8 +349,8 @@ void						init_scene(t_scene *scene);
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
 
-// load_scene
-void						load_scene(t_scene *scene);
+// render_scene
+t_binary_result				render_scene(t_scene *scene);
 
 // utils
 void						free_scene(t_scene *scene);
