@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/19 13:49:36 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/19 14:41:46 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ MLX_MAC			=	$(MLX_DIR)libmlx_Darwin.a
 FRAMEWORKS_MAC	=	-L /usr/X11/include/../lib -lXext -lX11
 
 ISDEBUG = 0
+ARGS ?= sample.rt
 
 ifeq ($(ISDEBUG), 1)
 	CC = $(DEBUG_CC)
@@ -77,7 +78,7 @@ debug:
 	$(MAKE) ISDEBUG=1 all
 
 va:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
 
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)

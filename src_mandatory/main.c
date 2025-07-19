@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 14:16:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:27:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ int	main(int argc, char **argv)
 		free_scene(&scene);
 		return (EXIT_FAILURE);
 	}; // loop処理なので以降の処理は実行されない?
-	free_scene(&scene);
 	return (EXIT_SUCCESS);
 }

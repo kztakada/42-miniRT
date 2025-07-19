@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 13:52:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:12:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,13 +335,13 @@ typedef struct s_image
 	int						endian;
 }							t_image;
 
-typedef struct s_scene_for_mlx
+typedef struct s_scene_with_mlx
 {
 	void					*mlx;
 	void					*mlx_win;
 	t_image					*mlx_img;
 	t_scene					*scene;
-}							t_scene_for_mlx;
+}							t_scene_with_mlx;
 
 // init_scene
 void						init_scene(t_scene *scene);
@@ -354,5 +354,6 @@ t_binary_result				render_scene(t_scene *scene);
 
 // utils
 void						free_scene(t_scene *scene);
+void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
 
 #endif

@@ -6,28 +6,28 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 13:48:53 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 14:19:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:21:02 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_binary_result	init_mlx(t_scene_for_mlx *mlx_scene, t_image *mlx_img,
+t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
 		t_scene *scene)
 {
-	mlx_scene->mlx_img = mlx_img;
-	mlx_scene->scene = scene;
-	mlx_scene->mlx = mlx_init();
-	if (mlx_scene->mlx == NULL)
+	r_scene->mlx_img = mlx_img;
+	r_scene->scene = scene;
+	r_scene->mlx = mlx_init();
+	if (r_scene->mlx == NULL)
 		return (FAILURE);
-	mlx_scene->mlx_win = mlx_new_window(mlx_scene->mlx, scene->screen.width,
+	r_scene->mlx_win = mlx_new_window(r_scene->mlx, scene->screen.width,
 			scene->screen.height, WIN_TITLE);
-	if (mlx_scene->mlx_win == NULL)
-		return (FAILURE);
-	mlx_img->img = mlx_new_image(mlx_scene->mlx, scene->screen.width,
+	if (r_scene->mlx_win == NULL)
+		return (free_scene_with_mlx(r_scene), FAILURE);
+	mlx_img->img = mlx_new_image(r_scene->mlx, scene->screen.width,
 			scene->screen.height);
 	if (mlx_img->img == NULL)
-		return (FAILURE);
+		return (free_scene_with_mlx(r_scene), FAILURE);
 	mlx_img->addr = mlx_get_data_addr(mlx_img->img, &mlx_img->bits_per_pixel,
 			&mlx_img->line_length, &mlx_img->endian);
 	mlx_img->width = scene->screen.width;
@@ -39,17 +39,17 @@ t_binary_result	init_mlx(t_scene_for_mlx *mlx_scene, t_image *mlx_img,
 
 t_binary_result	render_scene(t_scene *scene)
 {
-	t_scene_for_mlx	mlx_scene;
-	t_image			mlx_img;
+	t_scene_with_mlx	r_scene;
+	t_image				mlx_img;
 
 	printf("Rendering scene...\n");
-	if (init_mlx(&mlx_scene, &mlx_img, scene) == FAILURE)
+	if (init_mlx(&r_scene, &mlx_img, scene) == FAILURE)
 	{
 		ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
 		ft_putstr_fd(ERR_MLX_INIT, STDERR_FILENO);
 		return (FAILURE);
 	}
-	mlx_destroy_image(mlx_scene.mlx, mlx_img.img);
-	mlx_destroy_window(mlx_scene.mlx, mlx_scene.mlx_win);
+	mlx_put_image_to_window(r_scene.mlx, r_scene.mlx_win, mlx_img.img, 0, 0);
+	free_scene_with_mlx(&r_scene);
 	return (SUCCESS);
 }
