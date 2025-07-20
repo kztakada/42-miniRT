@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 18:58:05 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/20 18:40:15 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,18 @@ typedef struct s_color
 	float					b;
 }							t_color;
 
-typedef struct s_vect
+typedef struct s_vector
 {
 	float					x;
 	float					y;
 	float					z;
-}							t_vect;
+}							t_vector;
 
 /* ************************************************************************** */
 
 typedef struct s_light
 {
-	t_vect pos; // coords;
+	t_vector pos; // coords;
 	float					brightness;
 	t_color					color;
 	// struct s_light	*next;
@@ -112,34 +112,34 @@ typedef struct s_material
 typedef struct s_plane
 {
 	// t_obj_id	id;
-	t_vect pos; // coords;
-	t_vect dir; // orient;
-	t_vect					pos_initial;
-	t_vect					dir_initial;
+	t_vector pos; // coords;
+	t_vector dir; // orient;
+	t_vector				pos_initial;
+	t_vector				dir_initial;
 	// t_color		color;
 }							t_plane;
 
 typedef struct s_cylinder
 {
 	// t_obj_id	id;
-	t_vect pos; // coords;
-	t_vect dir; // orient;
-	t_vect					pos_initial;
-	t_vect					dir_initial;
+	t_vector pos; // coords;
+	t_vector dir; // orient;
+	t_vector				pos_initial;
+	t_vector				dir_initial;
 	float					diameter;
 	float					height;
 	float					r2;
-	t_vect					p1;
-	t_vect					p2;
-	t_vect					delta_p;
+	t_vector				p1;
+	t_vector				p2;
+	t_vector				delta_p;
 	// t_color		color;
 }							t_cylinder;
 
 typedef struct s_sphere
 {
 	// t_obj_id	id;
-	t_vect pos; // coords;
-	t_vect					pos_initial;
+	t_vector pos; // coords;
+	t_vector				pos_initial;
 	float					diameter;
 	float					r2;
 	// t_color		color;
@@ -148,9 +148,9 @@ typedef struct s_sphere
 typedef struct s_triangle
 {
 	// t_obj_id	id;
-	t_vect c[3]; // triangleはinitial定義なし;
-	t_vect					edge[3];
-	t_vect					n;
+	t_vector c[3]; // triangleはinitial定義なし;
+	t_vector				edge[3];
+	t_vector				n;
 	// t_color		color;
 	float					area2;
 }							t_triangle;
@@ -158,16 +158,16 @@ typedef struct s_triangle
 typedef struct s_cone
 {
 	// t_obj_id	id;
-	t_vect pos; // coords;
-	t_vect dir; // orient;
-	t_vect					pos_initial;
-	t_vect					dir_initial;
+	t_vector pos; // coords;
+	t_vector dir; // orient;
+	t_vector				pos_initial;
+	t_vector				dir_initial;
 	float					h;
 	float					h2;
 	float					angle;
 	float					cos2;
-	t_vect					c1;
-	t_vect					c2;
+	t_vector				c1;
+	t_vector				c2;
 	float					r1;
 	float					r2;
 	// t_color		color;
@@ -176,10 +176,10 @@ typedef struct s_cone
 typedef struct s_torus
 {
 	// t_obj_id	id;
-	t_vect pos; // coords;
-	t_vect dir; // orient;
-	t_vect					pos_initial;
-	t_vect					dir_initial;
+	t_vector pos; // coords;
+	t_vector dir; // orient;
+	t_vector				pos_initial;
+	t_vector				dir_initial;
 	float					sml_r;
 	float					sml_r2;
 	float					big_r;
@@ -199,13 +199,13 @@ typedef union u_obj_shape
 
 typedef struct s_ray
 {
-	t_vect pos; // or;
-	t_vect					dir;
+	t_vector pos; // or;
+	t_vector				dir;
 }							t_ray;
 
 typedef float				(*t_f_calc_cross_distance)(t_list *obj, t_ray *ray,
 					float min_dist, float max_dist);
-typedef t_vect				(*t_f_calc_normal)(t_list *obj, t_hit *hit);
+typedef t_vector			(*t_f_calc_normal)(t_list *obj, t_hit *hit);
 typedef t_color				(*t_f_get_color)(t_list *obj, t_hit *hit);
 typedef void				(*t_f_print_focused_obj)(t_list *obj);
 
@@ -219,11 +219,11 @@ typedef struct s_obj
 	t_f_print_focused_obj	print_focused_obj;
 
 	// ローカル座標系
-	t_vect					ex;
-	t_vect					ey;
-	t_vect					ez;
+	t_vector				ex;
+	t_vector				ey;
+	t_vector				ez;
 
-	// t_vect			coords; uv作成で使用するが、t_f_get_colorで初期化時に定義する
+	// t_vector			coords; uv作成で使用するが、t_f_get_colorで初期化時に定義する
 	// t_color					color;
 	// t_color					color2;
 	// float			h; uv作成で使用するが、t_f_get_colorで初期化時に定義する
@@ -248,8 +248,8 @@ typedef struct s_obj
 
 struct						s_hit
 {
-	t_vect					nhit;
-	t_vect					phit;
+	t_vector				nhit;
+	t_vector				phit;
 	float					t;
 	t_color					color;
 };
@@ -270,14 +270,14 @@ typedef struct s_scene		t_scene;
 typedef struct s_screen
 {
 	// bool				res_set;
-	int						width;
-	int						height;
-	t_color *dot; // *pixel;
-	t_vect					pos;
-	t_vect px; // ピクセル単位の変換用ベクトル
-	t_vect py; // ピクセル単位の変換用ベクトル
-	t_vect qx; // 画面水平方向基底ベクトル
-	t_vect qy; // 画面垂直方向基底ベクトル
+	size_t					width;
+	size_t					height;
+	t_color *dots; // *pixel;
+	t_vector				pos;
+	t_vector px; // ピクセル単位の変換用ベクトル
+	t_vector py; // ピクセル単位の変換用ベクトル
+	t_vector qx; // 画面水平方向基底ベクトル
+	t_vector qy; // 画面垂直方向基底ベクトル
 }							t_screen;
 
 typedef struct s_sampling
@@ -293,10 +293,10 @@ typedef struct s_sampling
 
 typedef struct s_camera
 {
-	t_vect pos; // coords;
-	t_vect dir; // orient;
-	t_vect					pos_initial;
-	t_vect					dir_initial;
+	t_vector pos; // coords;
+	t_vector dir; // orient;
+	t_vector				pos_initial;
+	t_vector				dir_initial;
 	size_t					fov;
 	// float			scale;
 	// t_obj_id	id;
@@ -377,6 +377,14 @@ t_binary_result				create_scene(t_scene *scene, const char *file_path);
 t_binary_result				render_scene(t_scene *scene);
 void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
+
+// util_foundation
+t_color						add_colors(t_color c1, t_color c2);
+t_color						scale_color(float coefficient, t_color c1);
+t_color						multiply_colors(t_color c1, t_color c2);
+float						clamp_color(float color_value, float limit_min,
+								float limit_max);
+int							color_to_int_rgb(t_color color);
 
 // utils
 void						free_scene(t_scene *scene);
