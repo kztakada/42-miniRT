@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:57:15 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 18:58:05 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,10 +285,10 @@ typedef struct s_sampling
 	// bool				set;
 	int count;     // samp;
 	int max_count; // max_samp;
-	// int					recursion_depth;
-	// double				cosine;
-	// double				light;
-	// bool				gamma_correction;
+					// int					recursion_depth;
+					// double				cosine;
+					// double				light;
+					// bool				gamma_correction;
 }							t_sampling;
 
 typedef struct s_camera
@@ -329,7 +329,7 @@ struct						s_scene
 	t_list *objs;   // t_obj	*objs;
 	t_thread				thread[MAX_THREADS];
 
-	int process; // レンダリング状況　heightで割って算出
+	// int process; // レンダリング状況　heightで割って算出
 
 	// int					lnum; データ解析用に別で定義する
 	// int					pnum; データ解析用に別で定義する

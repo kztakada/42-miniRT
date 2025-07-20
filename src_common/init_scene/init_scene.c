@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:11:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:59:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/19 18:57:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,4 @@ void	init_scene(t_scene *scene)
 		scene->thread[i].scene = scene;
 		scene->thread[i].mlx_img = NULL;
 	}
-	scene->process = 0; // Initial rendering status
 }
