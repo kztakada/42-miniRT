@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/20 18:40:15 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:01:31 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include "settings.h"
+# include <float.h>
 # include <math.h>
 # include <pthread.h>
 # include <stdio.h>
@@ -315,7 +316,7 @@ typedef struct s_thread_data
 	int						num;
 	t_scene					*scene;
 	void					*mlx_img;
-}							t_thread;
+}							t_thread_data;
 
 struct						s_scene
 {
@@ -327,7 +328,7 @@ struct						s_scene
 
 	t_list *lights; // t_light	*light;
 	t_list *objs;   // t_obj	*objs;
-	t_thread				thread[MAX_THREADS];
+	t_thread_data			thread[MAX_THREADS];
 
 	// int process; // レンダリング状況　heightで割って算出
 
@@ -373,12 +374,21 @@ void						init_scene(t_scene *scene);
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
 
-// render_scene
-t_binary_result				render_scene(t_scene *scene);
+// render_scene_to_mlx
+t_binary_result				render_scene_to_mlx(t_scene *scene);
 void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
+t_binary_result				run_threaded_render(t_scene_with_mlx *r_scene,
+								t_scene *scene);
+t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
+t_color						raytracing(t_scene *scene, t_ray *render_ray,
+								int depth);
 
 // util_foundation
+t_vector					add_vectors(t_vector a, t_vector b);
+t_vector					sub_vectors(t_vector a, t_vector b);
+t_vector					scale_vector(float scalar, t_vector v);
+t_vector					normalize_vector(t_vector v);
 t_color						add_colors(t_color c1, t_color c2);
 t_color						scale_color(float coefficient, t_color c1);
 t_color						multiply_colors(t_color c1, t_color c2);

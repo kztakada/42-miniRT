@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_scene.c                                     :+:      :+:    :+:   */
+/*   render_scene_to_mlx.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/19 13:48:53 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:42:13 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/21 16:07:56 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/21 16:07:57 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	render_loop(void *data)
 	return (0);
 }
 
-t_binary_result	render_scene(t_scene *scene)
+t_binary_result	render_scene_to_mlx(t_scene *scene)
 {
 	t_scene_with_mlx	r_scene;
 	t_image				mlx_img;

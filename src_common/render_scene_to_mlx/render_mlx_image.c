@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/20 18:41:12 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/21 15:49:44 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 	scene = r_scene->scene;
 	if (scene->sampling.count == scene->sampling.max_count)
 		return ;
-	// if (exec_multithread_renderer(r_scene, scene) == FAILURE)
-	// {
-	// 	free_scene_with_mlx(r_scene);
-	// 	exit(EXIT_FAILURE);
-	// }
+	if (run_threaded_render(r_scene, scene) == FAILURE)
+	{
+		free_scene_with_mlx(r_scene);
+		exit(EXIT_FAILURE);
+	}
 	scene->sampling.count++;
 	print_rendering_progress(scene);
 	screen_to_mlx_image(r_scene->mlx_img, scene);

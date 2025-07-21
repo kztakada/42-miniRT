@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:58:30 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:13:43 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@
 # define MAX_THREADS 8
 
 // sampling
-# define MAX_FIX_SAMPLING 16
+# define MAX_FIX_SAMPLING 4
+/* MAX_FIX_SAMPLING requires perfect square */
 # define MAX_RAND_SAMPLING 100
 
 // material
 # define CHECKERBOARD_SIZE 1.0
+
+// raytracing
+# define MAX_RECURSION_DEPTH 5
 
 #endif

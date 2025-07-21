@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   raytracing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 16:30:23 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/21 22:12:13 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "minirt.h"
 
-// error messages *************************************************/
-# define ERR_PREFIX "Error\n"
-# define ERR_INVALID_ARG "Invalid argument (Usage: ./miniRT <scene_file.rt>)\n"
+t_color	raytracing(t_scene *scene, t_ray *render_ray, int max_depth)
+{
+	t_color color;
 
-// render_scene_to_mlx
-# define ERR_MLX_INIT "Failed to initialize minilibX\n"
-# define ERR_CREATE_TH "Failed to create thread\n"
-# define ERR_JOIN_TH "Failed to join thread\n"
-
-#endif
+	(void)scene;
+	(void)render_ray;
+	if (max_depth <= 0)
+		return ((t_color){0.0f, 0.0f, 0.0f});
+	color = (t_color){255.0f, 255.0f, 255.0f};
+	return (color);
+}
