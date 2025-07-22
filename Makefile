@@ -6,27 +6,27 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/21 16:12:40 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/22 14:25:17 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	miniRT
 
-CC				=	cc
+CC				=	cc -O2 -fopt-info-inline
 DEBUG_CC		=	cc -D IS_DEBUG=1 -g -fsanitize=address,undefined
 CFLAGS			=	-Wall -Wextra -Werror
 
 INC_MAIN		=	-I includes/mandatory/
 INCS			=	-I includes/common/ $(INC_MAIN) -I $(LIBFT_DIR) -I $(MLX_DIR)
 
-
-SRCS_MAIN		=	$(wildcard src_mandatory/*.c)
+SRCS_PATH		=	src/
+SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
-					$(wildcard src_common/init_scene/*.c) \
-					$(wildcard src_common/create_scene/*.c) \
-					$(wildcard src_common/render_scene_to_mlx/*.c) \
-					$(wildcard src_common/util_foundation/*.c) \
-					$(wildcard src_common/utils/*.c) \
+					$(wildcard src/init_scene/*.c) \
+					$(wildcard src/create_scene/*.c) \
+					$(wildcard src/render_scene_to_mlx/*.c) \
+					$(wildcard src/util_foundation/*.c) \
+					$(wildcard src/utils/*.c) \
 
 OBJS_PATH		=	objs/
 OBJS			=	$(SRCS:src/%.c=objs/%.o)
@@ -58,7 +58,7 @@ endif
 
 ifdef WITH_BONUS
     INC_MAIN = -I includes/bonus/
-    SRCS_MAIN =	$(wildcard src_bonus/*.c)
+    SRCS_MAIN =	$(wildcard src/use_only_bonus/*.c)
 endif
 
 all:	$(NAME)
