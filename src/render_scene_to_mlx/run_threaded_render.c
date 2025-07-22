@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 15:50:06 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 22:23:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/22 15:16:56 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,6 @@ static void	*render_thread(void *data)
 	return (NULL);
 }
 
-static t_binary_result	set_threaded_failure(char *err_msg)
-{
-	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
-	ft_putstr_fd(err_msg, STDERR_FILENO);
-	return (FAILURE);
-}
-
 t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
 {
 	int				i;
@@ -70,7 +63,7 @@ t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
 		if (pthread_create(&(scene->thread[i].id), NULL, render_thread,
 				&(scene->thread[i])) != 0)
 		{
-			result = set_threaded_failure(ERR_CREATE_TH);
+			result = put_out_failure(ERR_CREATE_TH);
 			break ;
 		}
 		i++;
@@ -78,7 +71,7 @@ t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
 	while (i > 0)
 	{
 		if (pthread_join(scene->thread[i - 1].id, NULL) != 0)
-			result = set_threaded_failure(ERR_JOIN_TH);
+			result = put_out_failure(ERR_JOIN_TH);
 		i--;
 	}
 	return (result);

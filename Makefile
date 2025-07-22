@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/22 14:25:17 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/22 15:29:10 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,10 @@ INCS			=	-I includes/common/ $(INC_MAIN) -I $(LIBFT_DIR) -I $(MLX_DIR)
 SRCS_PATH		=	src/
 SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
-					$(wildcard src/init_scene/*.c) \
+					$(wildcard src/set_default_scene/*.c) \
 					$(wildcard src/create_scene/*.c) \
 					$(wildcard src/render_scene_to_mlx/*.c) \
+					$(wildcard src/setup_scene/*.c) \
 					$(wildcard src/util_foundation/*.c) \
 					$(wildcard src/utils/*.c) \
 

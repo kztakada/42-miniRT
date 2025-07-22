@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 16:06:30 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/22 15:21:40 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(int argc, char **argv)
 		ft_putstr_fd(ERR_INVALID_ARG, STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	// 初期化
-	init_scene(&scene);
+	// デフォルトシーンを設定
+	set_default_scene(&scene);
 	// 引数のrtファイルからシーンデータを作成
 	if (create_scene(&scene, argv[1]) == FAILURE)
 	{
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	// セットアップ
-	// setup_scene(&scene);
+	setup_scene(&scene);
 	// 描画処理 minilibXはload_sceneの中だけで定義される
 	if (render_scene_to_mlx(&scene) == FAILURE)
 	{

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 22:01:31 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/22 15:27:34 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,8 +368,8 @@ typedef struct s_scene_with_mlx
 	t_scene					*scene;
 }							t_scene_with_mlx;
 
-// init_scene
-void						init_scene(t_scene *scene);
+// set_default_scene
+void						set_default_scene(t_scene *scene);
 
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
@@ -380,9 +380,14 @@ void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
 t_binary_result				run_threaded_render(t_scene_with_mlx *r_scene,
 								t_scene *scene);
-t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_color						raytracing(t_scene *scene, t_ray *render_ray,
 								int depth);
+
+// setup_scene
+void						setup_scene(t_scene *scene);
+
+// which_use_mandatory_or_bonus
+t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);
@@ -399,5 +404,6 @@ int							color_to_int_rgb(t_color color);
 // utils
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
+t_binary_result				put_out_failure(char *err_msg);
 
 #endif
