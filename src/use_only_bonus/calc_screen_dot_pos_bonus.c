@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 19:34:33 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 20:41:40 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:01:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ t_vector	calc_screen_dot_pos(t_scene *scene, int x, int y)
 	flipped_y = scene->screen.height - 1 - y;
 	rand_f[0] = get_rand_float();
 	rand_f[1] = get_rand_float();
-	diff_x = scale_vector((float)x + rand_f[0], scene->screen.qx);
-	diff_y = scale_vector((float)flipped_y + rand_f[1], scene->screen.qy);
+	diff_x = scale_vector((float)x + rand_f[0], scene->screen.x_per_pixel);
+	diff_y = scale_vector((float)flipped_y + rand_f[1],
+			scene->screen.y_per_pixel);
 	dot_pos = add_vectors(scene->screen.pos, diff_x);
 	dot_pos = add_vectors(dot_pos, diff_y);
 	return (dot_pos);

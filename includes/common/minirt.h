@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:27:34 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/23 01:29:18 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ typedef struct s_raytracing
 
 typedef struct s_scene		t_scene;
 
+/* screen.pos is screen right up corner */
 typedef struct s_screen
 {
 	// bool				res_set;
@@ -275,10 +276,10 @@ typedef struct s_screen
 	size_t					height;
 	t_color *dots; // *pixel;
 	t_vector				pos;
-	t_vector px; // ピクセル単位の変換用ベクトル
-	t_vector py; // ピクセル単位の変換用ベクトル
-	t_vector qx; // 画面水平方向基底ベクトル
-	t_vector qy; // 画面垂直方向基底ベクトル
+	t_vector x_per_pixel; // ピクセル単位の変換用ベクトル
+	t_vector y_per_pixel; // ピクセル単位の変換用ベクトル
+	t_vector x_half;      // スクリーンの半分の水平方向の３次元的な傾き
+	t_vector y_half;      // スクリーンの半分の垂直方向の３次元的な傾き
 }							t_screen;
 
 typedef struct s_sampling
@@ -394,6 +395,8 @@ t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
 t_vector					scale_vector(float scalar, t_vector v);
 t_vector					normalize_vector(t_vector v);
+t_vector					cross_vector(t_vector a, t_vector b);
+float						vector_len(t_vector v);
 t_color						add_colors(t_color c1, t_color c2);
 t_color						scale_color(float coefficient, t_color c1);
 t_color						multiply_colors(t_color c1, t_color c2);

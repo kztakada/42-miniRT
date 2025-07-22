@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:50:55 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 22:49:58 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:15:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,15 @@ inline t_vector	normalize_vector(t_vector v)
 	result.x = v.x / magnitude;
 	result.y = v.y / magnitude;
 	result.z = v.z / magnitude;
+	return (result);
+}
+
+inline t_vector	cross_vector(t_vector a, t_vector b)
+{
+	t_vector	result;
+
+	result.x = a.y * b.z - a.z * b.y;
+	result.y = a.z * b.x - a.x * b.z;
+	result.z = a.x * b.y - a.y * b.x;
 	return (result);
 }
