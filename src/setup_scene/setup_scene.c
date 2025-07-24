@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:11 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/23 01:26:17 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:10:35 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_vector	calc_screen_x_half(t_scene *scene)
 	float		fov_rad;
 	float		screen_half_width;
 
-	fov_rad = (float)scene->camera.fov * (M_PI / 180.0F);
+	fov_rad = (float)scene->camera.fov * ((float)M_PI / 180.0F);
 	if (should_handle_gimbal(scene->camera.dir.y))
 		reference_vector = (t_vector){0, 0, -1.0F};
 	else

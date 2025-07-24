@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:18:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:19:19 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 # define ERR_MLX_INIT "Failed to initialize minilibX\n"
 # define ERR_CREATE_TH "Failed to create thread\n"
 # define ERR_JOIN_TH "Failed to join thread\n"
+
+// util_foundation
+# define ERR_INVALID_COLOR_RATIO "Invalid color ratio (must be between 0.0 and 1.0)\n"
 
 #endif

@@ -6,32 +6,35 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 15:50:06 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:16:56 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/24 22:36:44 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	add_raytracing(t_color *original_color, t_scene *scene,
-		t_ray *render_ray)
+static t_color	raytrace_at_dot(t_scene *scene, t_vector dot_pos)
 {
-	t_color	raytraced_color;
+	t_color			raytraced_color;
+	t_raytracing	rt;
 
-	raytraced_color = raytracing(scene, render_ray, MAX_RECURSION_DEPTH);
-	*original_color = add_colors(*original_color, raytraced_color);
+	rt.pov_ray.pos = scene->camera.pos;
+	rt.pov_ray.dir = normalize_vector(sub_vectors(dot_pos, rt.pov_ray.pos));
+	rt.refract_index = AIR_REFRACT_INDEX;
+	raytraced_color = raytracing(scene, &rt, MAX_RECURSION_DEPTH);
+	return (raytraced_color);
 }
 
+// i[0] is x, i[1] is y, i[2] is dot index
 static void	*render_thread(void *data)
 {
 	t_thread_data	*thread;
 	t_screen		*screen;
-	t_ray			render_ray;
 	t_vector		dot_pos;
+	t_color			raytraced_color;
 	int				i[3];
 
 	thread = (t_thread_data *)data;
 	screen = &thread->scene->screen;
-	render_ray.pos = thread->scene->camera.pos;
 	i[1] = thread->num;
 	while (i[1] < (int)screen->height)
 	{
@@ -39,10 +42,10 @@ static void	*render_thread(void *data)
 		while (i[0] < (int)screen->width)
 		{
 			dot_pos = calc_screen_dot_pos(thread->scene, i[0], i[1]);
-			render_ray.dir = sub_vectors(dot_pos, render_ray.pos);
-			render_ray.dir = normalize_vector(render_ray.dir);
 			i[2] = i[1] * screen->width + i[0];
-			add_raytracing(&(screen->dots[i[2]]), thread->scene, &render_ray);
+			raytraced_color = raytrace_at_dot(thread->scene, dot_pos);
+			screen->dots[i[2]] = add_colors(screen->dots[i[2]],
+					raytraced_color);
 			i[0]++;
 		}
 		i[1] += MAX_THREADS;

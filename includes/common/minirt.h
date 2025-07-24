@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/23 01:29:18 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/24 22:36:21 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <math.h>
 # include <pthread.h>
 # include <stdio.h>
+
+// calculation constants
+# define EPSILON 0.0001F
 
 // key code
 # define KEY_ESC 65307
@@ -87,6 +90,7 @@ typedef struct s_light
 
 /* ************************************************************************** */
 typedef struct s_hit		t_hit;
+typedef struct s_obj		t_obj;
 
 typedef struct s_texture
 {
@@ -204,17 +208,16 @@ typedef struct s_ray
 	t_vector				dir;
 }							t_ray;
 
-typedef float				(*t_f_calc_cross_distance)(t_list *obj, t_ray *ray,
-					float min_dist, float max_dist);
-typedef t_vector			(*t_f_calc_normal)(t_list *obj, t_hit *hit);
-typedef t_color				(*t_f_get_color)(t_list *obj, t_hit *hit);
-typedef void				(*t_f_print_focused_obj)(t_list *obj);
+typedef t_hit				(*t_f_calc_obj_hit)(t_obj *obj, t_ray *pov_ray);
+typedef t_vector			(*t_f_calc_normal)(t_obj *obj, t_hit *hit);
+typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
+typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 
-typedef struct s_obj
+struct						s_obj
 {
 	t_material				material;
 	t_obj_shape				shape;
-	t_f_calc_cross_distance	calc_cross_distance;
+	t_f_calc_obj_hit		calc_obj_hit;
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
 	t_f_print_focused_obj	print_focused_obj;
@@ -243,26 +246,39 @@ typedef struct s_obj
 	// float				refract;
 	// struct s_obj		*next;
 	// float				alpha; 未使用
-}							t_obj;
+};
 
 /* ************************************************************************** */
 
 struct						s_hit
 {
-	t_vector				nhit;
-	t_vector				phit;
+	t_bool					is_hit;
+	t_vector normal; // nhit;
+	t_vector pos;    // phit;
 	float					t;
 	t_color					color;
 };
 
+// pov_ray is the "point of view ray"
 typedef struct s_raytracing
 {
-	t_ray samplingray; // prime_ray;
-	t_ray					shadowray;
+	t_ray pov_ray; // prime_ray;
+	t_ray					to_light_src_ray;
 	t_hit					hit;
-	t_hit					shadow_hit;
+	t_hit					blocking_hit;
 	t_obj					*closest_obj;
+	float					refract_index;
 }							t_raytracing;
+
+typedef struct s_lighting
+{
+	t_color					ambient;
+	t_color					diffuse;
+	t_color					specular;
+	t_color					reflect;
+	t_color					refract;
+	// int						is_shadow;
+}							t_lighting;
 
 /* ************************************************************************** */
 
@@ -341,12 +357,12 @@ struct						s_scene
 	// float					aspectratio;
 	// float					cam_matrix[4][4];
 	// t_event			event;
-	// int				display_info; デバッグプリント用
+	// int				display_info; デバッグプリ�������ト���
 	// char			*path;  .rt file path
 	// t_bool			is_processing;
 	// pthread_mutex_t	process_lock;　ブロック単位で書き込むことによって競合しないようにできる
 	// size_t				num_objs; lst_count(objects);を使う
-	// char				*process_text; Linux用のレンダリング表示は表示しない
+	// char				*process_text; Linux用のレンダリング����示は表示しない
 };
 
 /* ************************************************************************** */
@@ -381,8 +397,12 @@ void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
 t_binary_result				run_threaded_render(t_scene_with_mlx *r_scene,
 								t_scene *scene);
-t_color						raytracing(t_scene *scene, t_ray *render_ray,
+t_color						raytracing(t_scene *scene, t_raytracing *rt,
 								int depth);
+t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
+								t_hit *hit);
+void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
+								t_lighting *lighting);
 
 // setup_scene
 void						setup_scene(t_scene *scene);
@@ -397,16 +417,30 @@ t_vector					scale_vector(float scalar, t_vector v);
 t_vector					normalize_vector(t_vector v);
 t_vector					cross_vector(t_vector a, t_vector b);
 float						vector_len(t_vector v);
+float						calc_distance(t_vector a, t_vector b);
+float						vectors_dot(t_vector a, t_vector b);
+t_vector					inverse_vector(t_vector v);
+t_vector					get_ray_pos_at_t(t_ray ray, float t);
+t_vector					calc_reflection_vector(t_vector incident,
+								t_vector normal);
+t_vector					calc_refraction_vector(t_vector incident,
+								t_vector normal, float n1, float n2);
 t_color						add_colors(t_color c1, t_color c2);
 t_color						scale_color(float coefficient, t_color c1);
 t_color						multiply_colors(t_color c1, t_color c2);
 float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
+t_color						mix_colors_by_ratio(t_color c1, t_color c2,
+								float c1_ratio);
+t_color						add_lighting(t_color base, t_color light,
+								float intensity);
 
 // utils
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
 t_binary_result				put_out_failure(char *err_msg);
+t_obj						*get_obj(t_list *obj);
+t_light						*get_light(t_list *light);
 
 #endif
