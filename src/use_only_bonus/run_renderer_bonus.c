@@ -1,28 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_threaded_render.c                              :+:      :+:    :+:   */
+/*   run_renderer_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/21 15:50:06 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/24 22:36:44 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/25 19:34:47 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/25 23:58:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static t_color	raytrace_at_dot(t_scene *scene, t_vector dot_pos)
-{
-	t_color			raytraced_color;
-	t_raytracing	rt;
-
-	rt.pov_ray.pos = scene->camera.pos;
-	rt.pov_ray.dir = normalize_vector(sub_vectors(dot_pos, rt.pov_ray.pos));
-	rt.refract_index = AIR_REFRACT_INDEX;
-	raytraced_color = raytracing(scene, &rt, MAX_RECURSION_DEPTH);
-	return (raytraced_color);
-}
+#include "thread.h"
 
 // i[0] is x, i[1] is y, i[2] is dot index
 static void	*render_thread(void *data)
@@ -53,7 +42,7 @@ static void	*render_thread(void *data)
 	return (NULL);
 }
 
-t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
+static t_binary_result	run_threaded_render(t_thread_data *threads)
 {
 	int				i;
 	t_binary_result	result;
@@ -62,9 +51,8 @@ t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
 	i = 0;
 	while (i < MAX_THREADS)
 	{
-		scene->thread[i].mlx_img = r_scene->mlx_img;
-		if (pthread_create(&(scene->thread[i].id), NULL, render_thread,
-				&(scene->thread[i])) != 0)
+		if (pthread_create(&(threads[i].id), NULL, render_thread,
+				&(threads[i])) != 0)
 		{
 			result = put_out_failure(ERR_CREATE_TH);
 			break ;
@@ -73,9 +61,25 @@ t_binary_result	run_threaded_render(t_scene_with_mlx *r_scene, t_scene *scene)
 	}
 	while (i > 0)
 	{
-		if (pthread_join(scene->thread[i - 1].id, NULL) != 0)
+		if (pthread_join(threads[i - 1].id, NULL) != 0)
 			result = put_out_failure(ERR_JOIN_TH);
 		i--;
 	}
 	return (result);
+}
+
+t_binary_result	run_renderer(t_scene *scene)
+{
+	t_thread_data	threads[MAX_THREADS];
+	int				i;
+
+	i = 0;
+	while (i < MAX_THREADS)
+	{
+		threads[i].id = 0;
+		threads[i].num = i;
+		threads[i].scene = scene;
+		i++;
+	}
+	return (run_threaded_render(threads));
 }

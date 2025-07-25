@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/24 22:36:21 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/25 23:50:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "settings.h"
 # include <float.h>
 # include <math.h>
-# include <pthread.h>
 # include <stdio.h>
 
 // calculation constants
@@ -327,14 +326,6 @@ typedef struct s_ambient
 	// t_obj_id	id;
 }							t_ambient;
 
-typedef struct s_thread_data
-{
-	pthread_t				id;
-	int						num;
-	t_scene					*scene;
-	void					*mlx_img;
-}							t_thread_data;
-
 struct						s_scene
 {
 	t_screen				screen;
@@ -345,7 +336,7 @@ struct						s_scene
 
 	t_list *lights; // t_light	*light;
 	t_list *objs;   // t_obj	*objs;
-	t_thread_data			thread[MAX_THREADS];
+					// t_thread_data			thread[MAX_THREADS];
 
 	// int process; // レンダリング状況　heightで割って算出
 
@@ -357,7 +348,7 @@ struct						s_scene
 	// float					aspectratio;
 	// float					cam_matrix[4][4];
 	// t_event			event;
-	// int				display_info; デバッグプリ�������ト���
+	// int				display_info; デバッグプリ������������������ト���
 	// char			*path;  .rt file path
 	// t_bool			is_processing;
 	// pthread_mutex_t	process_lock;　ブロック単位で書き込むことによって競合しないようにできる
@@ -395,10 +386,9 @@ t_binary_result				create_scene(t_scene *scene, const char *file_path);
 t_binary_result				render_scene_to_mlx(t_scene *scene);
 void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
-t_binary_result				run_threaded_render(t_scene_with_mlx *r_scene,
-								t_scene *scene);
 t_color						raytracing(t_scene *scene, t_raytracing *rt,
 								int depth);
+t_color						raytrace_at_dot(t_scene *scene, t_vector dot_pos);
 t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
 								t_hit *hit);
 void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
@@ -409,6 +399,7 @@ void						setup_scene(t_scene *scene);
 
 // which_use_mandatory_or_bonus
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
+t_binary_result				run_renderer(t_scene *scene);
 
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);

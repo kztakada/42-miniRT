@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:59:23 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 22:04:14 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/25 23:29:49 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	set_default_scene(t_scene *scene)
 {
-	int	i;
-
 	scene->screen.width = WIN_WIDTH;
 	scene->screen.height = WIN_HEIGHT;
 	scene->sampling.count = 0;
@@ -28,13 +26,4 @@ void	set_default_scene(t_scene *scene)
 	scene->ambient.color = (t_color){1.0F, 1.0F, 1.0F};
 	scene->lights = NULL;
 	scene->objs = NULL;
-	i = 0;
-	while (i < MAX_THREADS)
-	{
-		scene->thread[i].id = 0;
-		scene->thread[i].num = i;
-		scene->thread[i].scene = scene;
-		scene->thread[i].mlx_img = NULL;
-		i++;
-	}
 }

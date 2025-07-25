@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt_bonus.h                                     :+:      :+:    :+:   */
+/*   thread.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 20:34:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:53:32 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/25 23:22:26 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/25 23:25:48 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_BONUS_H
-# define MINIRT_BONUS_H
-
+#ifndef THREAD_H
+# define THREAD_H
 # include "minirt.h"
-# include <stdlib.h>
-# include <time.h>
+# include <pthread.h>
 
-# define F_MSG "Bonus mode enabled\n"
-
+typedef struct s_thread_data
+{
+	pthread_t	id;
+	int			num;
+	t_scene		*scene;
+}				t_thread_data;
 #endif

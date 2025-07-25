@@ -6,36 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 00:27:44 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/25 23:45:56 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_obj	*calc_closest_obj(t_list *objs, t_ray *pov_ray, t_hit *hit)
-{
-	t_obj	*closest_obj;
-	float	min_t;
-	t_hit	collision;
-
-	closest_obj = NULL;
-	min_t = FLT_MAX;
-	while (objs)
-	{
-		collision.is_hit = FALSE;
-		collision.t = -1.0F;
-		collision = get_obj(objs)->calc_obj_hit(get_obj(objs), pov_ray);
-		if (collision.is_hit && collision.t > EPSILON && collision.t < min_t)
-		{
-			min_t = collision.t;
-			closest_obj = get_obj(objs);
-			if (hit != NULL)
-				*hit = collision;
-		}
-		objs = objs->next;
-	}
-	return (closest_obj);
-}
 
 static t_color	calc_reflect_color(t_scene *scene, t_raytracing *rt,
 		int max_depth)
@@ -133,4 +108,16 @@ t_color	raytracing(t_scene *scene, t_raytracing *rt, int max_depth)
 		result_color = calc_lighting_color(lighting,
 				&rt->closest_obj->material);
 	return (result_color);
+}
+
+t_color	raytrace_at_dot(t_scene *scene, t_vector dot_pos)
+{
+	t_color			raytraced_color;
+	t_raytracing	rt;
+
+	rt.pov_ray.pos = scene->camera.pos;
+	rt.pov_ray.dir = normalize_vector(sub_vectors(dot_pos, rt.pov_ray.pos));
+	rt.refract_index = AIR_REFRACT_INDEX;
+	raytraced_color = raytracing(scene, &rt, MAX_RECURSION_DEPTH);
+	return (raytraced_color);
 }

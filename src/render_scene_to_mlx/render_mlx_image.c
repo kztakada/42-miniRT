@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 15:49:44 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/25 19:57:07 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	put_mlx_pixel(t_image *mlx_img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	screen_to_mlx_image(t_image *mlx_img, t_scene *scene)
+static void	screen_to_mlx_image(t_image *mlx_img, t_scene *scene)
 {
 	size_t	x;
 	size_t	y;
@@ -59,7 +59,7 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 	scene = r_scene->scene;
 	if (scene->sampling.count == scene->sampling.max_count)
 		return ;
-	if (run_threaded_render(r_scene, scene) == FAILURE)
+	if (run_renderer(scene) == FAILURE)
 	{
 		free_scene_with_mlx(r_scene);
 		exit(EXIT_FAILURE);
