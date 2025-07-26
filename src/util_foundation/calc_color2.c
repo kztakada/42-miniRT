@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/23 21:01:25 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:57:04 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ inline t_color	mix_colors_by_ratio(t_color c1, t_color c2, float c1_ratio)
 	float	inverse_ratio;
 
 	if (c1_ratio < 0.0F || c1_ratio > 1.0F)
-	{
-		ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
-		ft_putstr_fd(ERR_INVALID_COLOR_RATIO, STDERR_FILENO);
-		return ((t_color){0.0F, 0.0F, 0.0F});
-	}
+		return (put_out_error_color(ERR_INVALID_C_RATIO));
 	inverse_ratio = 1.0F - c1_ratio;
 	result.r = c1.r * c1_ratio + c2.r * inverse_ratio;
 	result.g = c1.g * c1_ratio + c2.g * inverse_ratio;

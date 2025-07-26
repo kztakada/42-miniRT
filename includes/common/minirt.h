@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:50:28 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 22:14:48 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ typedef struct s_cylinder
 	t_vector				dir_initial;
 	float					diameter;
 	float					height;
-	float					r2;
+	float radius_pow2; // r2;
 	t_vector				p1;
 	t_vector				p2;
 	t_vector				delta_p;
@@ -145,8 +145,8 @@ typedef struct s_sphere
 	t_vector pos; // coords;
 	t_vector				pos_initial;
 	float					diameter;
-	float					r2;
-	// t_color		color;
+	float radius_pow2; // r2;
+						// t_color		color;
 }							t_sphere;
 
 typedef struct s_triangle
@@ -249,6 +249,15 @@ struct						s_obj
 
 /* ************************************************************************** */
 
+typedef struct s_quadratic_solution
+{
+	float					discriminant;
+	float					t1;
+	float					t2;
+}							t_quadratic_solution;
+
+/* ************************************************************************** */
+
 struct						s_hit
 {
 	t_bool					is_hit;
@@ -256,6 +265,7 @@ struct						s_hit
 	t_vector pos;    // phit;
 	float					t;
 	t_color					color;
+	t_vector				pov_dir;
 };
 
 // pov_ray is the "point of view ray"
@@ -348,7 +358,7 @@ struct						s_scene
 	// float					aspectratio;
 	// float					cam_matrix[4][4];
 	// t_event			event;
-	// int				display_info; デバッグプリ������������������ト���
+	// int				display_info; デバッグプリ�������������������ト���
 	// char			*path;  .rt file path
 	// t_bool			is_processing;
 	// pthread_mutex_t	process_lock;　ブロック単位で書き込むことによって競合しないようにできる
@@ -401,6 +411,37 @@ void						setup_scene(t_scene *scene);
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
 
+// obj_funcs
+t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_sphere_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_plane_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_plane_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cylinder_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cylinder_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cone_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cone_bump_normal(t_obj *obj, t_hit *hit);
+
+t_hit						get_zero_hit(void);
+t_hit						calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_plane_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_cylinder_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_cone_obj_hit(t_obj *obj, t_ray *pov_ray);
+
+t_color						get_color(t_obj *obj, t_hit *hit);
+t_color						get_sphere_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_plane_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_cylinder_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_cone_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_sphere_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_plane_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_cylinder_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_cone_checker_color(t_obj *obj, t_hit *hit);
+
+void						print_focused_obj_sphere(t_obj *obj);
+void						print_focused_obj_plane(t_obj *obj);
+void						print_focused_obj_cylinder(t_obj *obj);
+void						print_focused_obj_cone(t_obj *obj);
+
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
@@ -431,6 +472,9 @@ t_color						add_lighting(t_color base, t_color light,
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
 t_binary_result				put_out_failure(char *err_msg);
+t_vector					put_out_error_vector(char *err_msg);
+t_color						put_out_error_color(char *err_msg);
+t_hit						put_out_error_hit(char *err_msg);
 t_obj						*get_obj(t_list *obj);
 t_light						*get_light(t_list *light);
 

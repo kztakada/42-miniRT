@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/23 17:19:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 21:55:57 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@
 # define ERR_CREATE_TH "Failed to create thread\n"
 # define ERR_JOIN_TH "Failed to join thread\n"
 
+// obj_funcs
+# define ERR_INVALID_CN_ARGS "Invalid arguments for normal calculation\n"
+# define ERR_INVALID_COH_ARGS "Invalid arguments for hit calculation\n"
+# define ERR_INVALID_GC_ARGS "Invalid arguments for color calculation\n"
+
 // util_foundation
-# define ERR_INVALID_COLOR_RATIO "Invalid color ratio (must be between 0.0 and 1.0)\n"
+# define ERR_INVALID_C_RATIO "Invalid color ratio (RANGE 0.0 - 1.0)\n"
 
 #endif

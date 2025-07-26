@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 23:45:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:46:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:44:30 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_obj	*calc_closest_obj(t_list *objs, t_ray *pov_ray, t_hit *hit)
 		collision.is_hit = FALSE;
 		collision.t = -1.0F;
 		collision = get_obj(objs)->calc_obj_hit(get_obj(objs), pov_ray);
+		collision.pov_dir = pov_ray->dir;
 		if (collision.is_hit && collision.t > EPSILON && collision.t < min_t)
 		{
 			min_t = collision.t;
