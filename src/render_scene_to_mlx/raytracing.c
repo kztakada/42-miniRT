@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:45:56 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/27 00:55:11 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_color	calc_refract_color(t_scene *scene, t_raytracing *rt,
 	refract_rt.pov_ray.pos = offset_pos;
 	refract_rt.pov_ray.dir = refract_dir;
 	// 屈折後の媒質の屈折率を設定
-	if (incident_angle < 0.0F)
+	if (rt->closest_obj->has_volume && incident_angle < 0.0F)
 		refract_rt.refract_index = rt->closest_obj->material.refract;
 	// 外側から内側への屈折
 	else

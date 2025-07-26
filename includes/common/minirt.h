@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 22:14:48 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/27 00:51:39 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ struct						s_obj
 {
 	t_material				material;
 	t_obj_shape				shape;
+	t_bool					has_volume;
 	t_f_calc_obj_hit		calc_obj_hit;
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
