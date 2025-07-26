@@ -6,13 +6,13 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 19:57:07 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:58:25 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	print_rendering_progress(t_scene *scene)
+static void	print_rendering_progress(t_scene *scene)
 {
 	printf("\rRendering progress: %d/%d", scene->sampling.count,
 		scene->sampling.max_count);
@@ -24,7 +24,12 @@ static void	put_mlx_pixel(t_image *mlx_img, int x, int y, int color)
 	char	*dst;
 	int		offset;
 
+	if (!mlx_img || !mlx_img->addr || x < 0 || y < 0)
+		return ;
 	offset = y * mlx_img->line_length + x * (mlx_img->bits_per_pixel / 8);
+	if (offset < 0 || offset >= (int)mlx_img->line_length
+		* (int)mlx_img->height)
+		return ;
 	dst = mlx_img->addr + offset;
 	*(unsigned int *)dst = color;
 }
@@ -56,6 +61,8 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 {
 	t_scene	*scene;
 
+	if (!r_scene || !r_scene->scene)
+		return ;
 	scene = r_scene->scene;
 	if (scene->sampling.count == scene->sampling.max_count)
 		return ;
@@ -66,5 +73,7 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 	}
 	scene->sampling.count++;
 	print_rendering_progress(scene);
+	if (!r_scene || !r_scene->mlx_img)
+		return ;
 	screen_to_mlx_image(r_scene->mlx_img, scene);
 }
