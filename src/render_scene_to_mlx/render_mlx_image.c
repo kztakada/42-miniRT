@@ -6,11 +6,29 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 15:58:25 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:07:41 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_vector	convert_xy_pos_to_xyz_vector(float x, float y, t_scene *scene)
+{
+	t_vector	dot_pos;
+	t_vector	diff_x;
+	t_vector	diff_y;
+
+	if (x < 0 || y < 0 || x >= scene->screen.width || y >= scene->screen.height)
+	{
+		dot_pos = (t_vector){0.0F, 0.0F, 0.0F};
+		return (dot_pos);
+	}
+	diff_x = scale_vector(x, scene->screen.x_per_pixel);
+	diff_y = scale_vector(y, scene->screen.y_per_pixel);
+	dot_pos = add_vectors(scene->screen.pos, diff_x);
+	dot_pos = add_vectors(dot_pos, diff_y);
+	return (dot_pos);
+}
 
 static void	print_rendering_progress(t_scene *scene)
 {

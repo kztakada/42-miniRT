@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/22 15:29:10 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/27 20:36:54 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
 					$(wildcard src/set_default_scene/*.c) \
 					$(wildcard src/create_scene/*.c) \
+					$(wildcard src/key_controls/*.c) \
 					$(wildcard src/render_scene_to_mlx/*.c) \
 					$(wildcard src/setup_scene/*.c) \
 					$(wildcard src/util_foundation/*.c) \

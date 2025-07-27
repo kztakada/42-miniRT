@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 00:51:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:34:31 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@
 # define KEY_Y 121
 # define KEY_Z 122
 # define KEY_A 97
+# define KEY_W 119
+# define KEY_S 115
+# define KEY_Q 113
+# define KEY_E 101
+# define KEY_O 111
 
 // mouse code
 # define MOUSE_LEFT 1
@@ -81,7 +86,9 @@ typedef struct s_vector
 typedef struct s_light
 {
 	t_vector pos; // coords;
+	t_vector				pos_initial;
 	float					brightness;
+	float					brightness_initial;
 	t_color					color;
 	// struct s_light	*next;
 	// t_obj_id		id;
@@ -211,6 +218,7 @@ typedef t_hit				(*t_f_calc_obj_hit)(t_obj *obj, t_ray *pov_ray);
 typedef t_vector			(*t_f_calc_normal)(t_obj *obj, t_hit *hit);
 typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
 typedef void				(*t_f_print_focused_obj)(t_obj *obj);
+typedef void				(*t_f_reset_obj)(t_obj *obj);
 
 struct						s_obj
 {
@@ -221,6 +229,7 @@ struct						s_obj
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
 	t_f_print_focused_obj	print_focused_obj;
+	t_f_reset_obj			reset_obj;
 
 	// ローカル座標系
 	t_vector				ex;
@@ -349,9 +358,9 @@ struct						s_scene
 	t_list *objs;   // t_obj	*objs;
 					// t_thread_data			thread[MAX_THREADS];
 
-	// int process; // レンダリング状況　heightで割って算出
+	// int process; // レ��ダリング状況　heightで割って算出
 
-	// int					lnum; データ解析用に別で定義する
+	// int					lnum; データ解析用に別で定義す�������������������������
 	// int					pnum; データ解析用に別で定義する
 
 	// float					width;
@@ -379,12 +388,30 @@ typedef struct s_image
 	int						endian;
 }							t_image;
 
+typedef enum e_mode_select
+{
+	CAMERA_MODE = 0,
+	LIGHT_MODE = 1,
+	OBJECT_MODE = 2,
+}							t_mode_select;
+
+typedef struct s_key_control
+{
+	t_list					*first_index_obj;
+	t_obj					*selected_obj;
+	t_list					*first_index_light;
+	int						selected_light_index;
+	t_list					*selected_light;
+	t_mode_select			mode;
+}							t_key_control;
+
 typedef struct s_scene_with_mlx
 {
 	void					*mlx;
 	void					*mlx_win;
 	t_image					*mlx_img;
 	t_scene					*scene;
+	t_key_control			key;
 }							t_scene_with_mlx;
 
 // set_default_scene
@@ -393,13 +420,26 @@ void						set_default_scene(t_scene *scene);
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
 
-// render_scene_to_mlx
-t_binary_result				render_scene_to_mlx(t_scene *scene);
+// key_controls
 void						set_key_controls(t_scene_with_mlx *r_scene);
+void						press_arrow_key(t_scene_with_mlx *r_scene,
+								int keycode);
+void						press_move_key(t_scene_with_mlx *r_scene,
+								int keycode);
+void						reset_selected_mode_target(t_scene_with_mlx *r_scene);
+void						reset_scene_all(t_scene_with_mlx *r_scene);
+void						select_next_light(t_scene_with_mlx *r_scene);
+void						select_prev_light(t_scene_with_mlx *r_scene);
+
+// render_scene_to_mlx
+void						reset_mlx_scene_rendering(t_scene_with_mlx *r_scene);
+t_binary_result				render_scene_to_mlx(t_scene *scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
 t_color						raytracing(t_scene *scene, t_raytracing *rt,
 								int depth);
 t_color						raytrace_at_dot(t_scene *scene, t_vector dot_pos);
+t_vector					convert_xy_pos_to_xyz_vector(float x, float y,
+								t_scene *scene);
 t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
 								t_hit *hit);
 void						calc_lights_effect(t_scene *scene, t_raytracing *rt,

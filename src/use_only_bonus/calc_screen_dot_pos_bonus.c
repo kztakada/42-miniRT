@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 19:34:33 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 22:01:09 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:57:58 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,31 @@ static float	get_rand_float(void)
 	return (result);
 }
 
+static t_vector	calc_diff_by_random_sampling(void)
+{
+	t_vector	shift_diff;
+	float		rand_f[2];
+
+	rand_f[0] = get_rand_float();
+	rand_f[1] = get_rand_float();
+	shift_diff.x = rand_f[0];
+	shift_diff.y = rand_f[1];
+	shift_diff.z = 0.0F;
+	return (shift_diff);
+}
+
 t_vector	calc_screen_dot_pos(t_scene *scene, int x, int y)
 {
 	t_vector	dot_pos;
-	t_vector	diff_x;
-	t_vector	diff_y;
+	t_vector	shift_diff;
 	int			flipped_y;
-	float		rand_f[2];
+	float		sampling_x;
+	float		sampling_y;
 
 	flipped_y = scene->screen.height - 1 - y;
-	rand_f[0] = get_rand_float();
-	rand_f[1] = get_rand_float();
-	diff_x = scale_vector((float)x + rand_f[0], scene->screen.x_per_pixel);
-	diff_y = scale_vector((float)flipped_y + rand_f[1],
-			scene->screen.y_per_pixel);
-	dot_pos = add_vectors(scene->screen.pos, diff_x);
-	dot_pos = add_vectors(dot_pos, diff_y);
+	shift_diff = calc_diff_by_random_sampling();
+	sampling_x = (float)x + shift_diff.x;
+	sampling_y = (float)flipped_y + shift_diff.y;
+	dot_pos = convert_xy_pos_to_xyz_vector(sampling_x, sampling_y, scene);
 	return (dot_pos);
 }
