@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 20:34:31 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 15:10:52 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ typedef t_vector			(*t_f_calc_normal)(t_obj *obj, t_hit *hit);
 typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
 typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 typedef void				(*t_f_reset_obj)(t_obj *obj);
+typedef t_vector			*(*t_f_get_pos)(t_obj *obj);
 
 struct						s_obj
 {
@@ -230,6 +231,7 @@ struct						s_obj
 	t_f_get_color			get_color;
 	t_f_print_focused_obj	print_focused_obj;
 	t_f_reset_obj			reset_obj;
+	t_f_get_pos				get_pos;
 
 	// ローカル座標系
 	t_vector				ex;
@@ -430,6 +432,13 @@ void						reset_selected_mode_target(t_scene_with_mlx *r_scene);
 void						reset_scene_all(t_scene_with_mlx *r_scene);
 void						select_next_light(t_scene_with_mlx *r_scene);
 void						select_prev_light(t_scene_with_mlx *r_scene);
+void						move_foward(t_vector *pos,
+								t_scene_with_mlx *r_scene);
+void						move_backward(t_vector *pos,
+								t_scene_with_mlx *r_scene);
+void						move_left(t_vector *pos, t_scene_with_mlx *r_scene);
+void						move_right(t_vector *pos,
+								t_scene_with_mlx *r_scene);
 
 // render_scene_to_mlx
 void						reset_mlx_scene_rendering(t_scene_with_mlx *r_scene);
@@ -446,6 +455,8 @@ void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
 								t_lighting *lighting);
 
 // setup_scene
+void						set_screen_pos(t_scene *scene);
+void						setup_camera_screen(t_scene *scene);
 void						setup_scene(t_scene *scene);
 
 // which_use_mandatory_or_bonus
