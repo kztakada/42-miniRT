@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 16:47:16 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:56:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
 typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 typedef void				(*t_f_reset_obj)(t_obj *obj);
 typedef t_vector			*(*t_f_get_pos)(t_obj *obj);
+typedef t_vector			*(*t_f_get_dir)(t_obj *obj);
 
 struct						s_obj
 {
@@ -232,6 +233,7 @@ struct						s_obj
 	t_f_print_focused_obj	print_focused_obj;
 	t_f_reset_obj			reset_obj;
 	t_f_get_pos				get_pos;
+	t_f_get_dir				get_dir;
 
 	// ローカル座標系
 	t_vector				ex;
@@ -432,13 +434,16 @@ void						reset_selected_mode_target(t_scene_with_mlx *r_scene);
 void						reset_scene_all(t_scene_with_mlx *r_scene);
 void						select_next_light(t_scene_with_mlx *r_scene);
 void						select_prev_light(t_scene_with_mlx *r_scene);
-void						move_foward(t_vector *pos,
-								t_scene_with_mlx *r_scene);
-void						move_backward(t_vector *pos,
-								t_scene_with_mlx *r_scene);
-void						move_left(t_vector *pos, t_scene_with_mlx *r_scene);
-void						move_right(t_vector *pos,
-								t_scene_with_mlx *r_scene);
+void						move_foward(t_vector *pos, t_scene *scene);
+void						move_backward(t_vector *pos, t_scene *scene);
+void						move_left(t_vector *pos, t_scene *scene);
+void						move_right(t_vector *pos, t_scene *scene);
+void						rotate_left(t_vector *dir, t_scene *scene);
+void						rotate_right(t_vector *dir, t_scene *scene);
+void						rotate_up(t_vector *dir, t_scene *scene);
+void						rotate_down(t_vector *dir, t_scene *scene);
+void						color_up(t_color *color);
+void						color_down(t_color *color);
 
 // render_scene_to_mlx
 void						reset_rendering_scene(t_scene *scene);

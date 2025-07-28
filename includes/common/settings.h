@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 13:21:52 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:37:56 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@
 
 // key controls
 # define MOVE_SPEED 1.0F
+# define ROTATE_ANGLE 10.0F
+# define BRIGHTNESS_STEP 10
 
 #endif

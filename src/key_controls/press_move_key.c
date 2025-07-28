@@ -6,36 +6,36 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 15:29:32 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 16:41:09 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:40:24 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	move_up(t_vector *pos, t_scene_with_mlx *r_scene)
+static void	move_up(t_vector *pos, t_scene *scene)
 {
 	t_vector	new_pos;
 
-	if (!r_scene || !pos)
+	if (!scene || !pos)
 		return ;
 	new_pos = add_vectors(*pos, scale_vector(MOVE_SPEED,
-				normalize_vector(r_scene->scene->screen.y_per_pixel)));
+				normalize_vector(scene->screen.y_per_pixel)));
 	*pos = new_pos;
 }
 
-static void	move_down(t_vector *pos, t_scene_with_mlx *r_scene)
+static void	move_down(t_vector *pos, t_scene *scene)
 {
 	t_vector	new_pos;
 
-	if (!r_scene || !pos)
+	if (!scene || !pos)
 		return ;
 	new_pos = sub_vectors(*pos, scale_vector(MOVE_SPEED,
-				normalize_vector(r_scene->scene->screen.y_per_pixel)));
+				normalize_vector(scene->screen.y_per_pixel)));
 	*pos = new_pos;
 }
 
 static void	press_move_key_any(t_scene_with_mlx *r_scene,
-		void (*move_func)(t_vector *, t_scene_with_mlx *))
+		void (*move_func)(t_vector *, t_scene *))
 {
 	t_scene	*scene;
 	t_obj	*selected_obj;
@@ -45,7 +45,7 @@ static void	press_move_key_any(t_scene_with_mlx *r_scene,
 	scene = r_scene->scene;
 	if (r_scene->key.mode == CAMERA_MODE)
 	{
-		move_func(&scene->camera.pos, r_scene);
+		move_func(&scene->camera.pos, scene);
 		set_screen_pos(scene);
 	}
 	else if (r_scene->key.mode == OBJECT_MODE)
@@ -53,13 +53,13 @@ static void	press_move_key_any(t_scene_with_mlx *r_scene,
 		if (r_scene->key.selected_obj == NULL)
 			return ;
 		selected_obj = r_scene->key.selected_obj;
-		move_func(selected_obj->get_pos(selected_obj), r_scene);
+		move_func(selected_obj->get_pos(selected_obj), scene);
 	}
 	else if (r_scene->key.mode == LIGHT_MODE)
 	{
 		if (r_scene->key.selected_light == NULL)
 			return ;
-		move_func(&(get_light(r_scene->key.selected_light)->pos), r_scene);
+		move_func(&(get_light(r_scene->key.selected_light)->pos), scene);
 	}
 	reset_rendering_scene(r_scene->scene);
 }
