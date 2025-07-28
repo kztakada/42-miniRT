@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 15:29:32 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 15:10:57 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:41:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	press_move_key_any(t_scene_with_mlx *r_scene,
 			return ;
 		move_func(&(get_light(r_scene->key.selected_light)->pos), r_scene);
 	}
-	reset_mlx_scene_rendering(r_scene);
+	reset_rendering_scene(r_scene->scene);
 }
 
 void	press_move_key(t_scene_with_mlx *r_scene, int keycode)

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 15:10:52 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:47:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,7 +441,7 @@ void						move_right(t_vector *pos,
 								t_scene_with_mlx *r_scene);
 
 // render_scene_to_mlx
-void						reset_mlx_scene_rendering(t_scene_with_mlx *r_scene);
+void						reset_rendering_scene(t_scene *scene);
 t_binary_result				render_scene_to_mlx(t_scene *scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
 t_color						raytracing(t_scene *scene, t_raytracing *rt,

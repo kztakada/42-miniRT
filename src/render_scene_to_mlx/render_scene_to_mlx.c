@@ -6,23 +6,22 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:07:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 20:52:57 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:46:22 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	reset_mlx_scene_rendering(t_scene_with_mlx *r_scene)
+void	reset_rendering_scene(t_scene *scene)
 {
-	ft_bzero(r_scene->mlx_img->addr, r_scene->mlx_img->width
-		* r_scene->mlx_img->height * (r_scene->mlx_img->bits_per_pixel / 8));
-	r_scene->scene->sampling.count = 0;
+	ft_bzero(scene->screen.dots, scene->screen.width * scene->screen.height
+		* sizeof(t_color));
+	scene->sampling.count = 0;
 }
 
 static t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
 		t_scene *scene)
 {
-	r_scene->mlx_img = mlx_img;
 	r_scene->scene = scene;
 	r_scene->mlx = mlx_init();
 	if (r_scene->mlx == NULL)
@@ -41,7 +40,9 @@ static t_binary_result	init_mlx(t_scene_with_mlx *r_scene, t_image *mlx_img,
 		return (free_scene_with_mlx(r_scene), FAILURE);
 	mlx_img->width = scene->screen.width;
 	mlx_img->height = scene->screen.height;
-	reset_mlx_scene_rendering(r_scene);
+	ft_bzero(mlx_img->addr, mlx_img->width * mlx_img->height
+		* (mlx_img->bits_per_pixel / 8));
+	r_scene->mlx_img = mlx_img;
 	return (SUCCESS);
 }
 
