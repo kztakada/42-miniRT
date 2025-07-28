@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 18:56:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:21:04 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,6 +498,16 @@ void						print_focused_obj_sphere(t_obj *obj);
 void						print_focused_obj_plane(t_obj *obj);
 void						print_focused_obj_cylinder(t_obj *obj);
 void						print_focused_obj_cone(t_obj *obj);
+
+t_vector					*get_sphere_pos(t_obj *obj);
+t_vector					*get_plane_pos(t_obj *obj);
+t_vector					*get_cylinder_pos(t_obj *obj);
+t_vector					*get_cone_pos(t_obj *obj);
+
+t_vector					*get_sphere_dir(t_obj *obj);
+t_vector					*get_plane_dir(t_obj *obj);
+t_vector					*get_cylinder_dir(t_obj *obj);
+t_vector					*get_cone_dir(t_obj *obj);
 
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);
