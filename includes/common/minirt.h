@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:27:34 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:33:38 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,10 @@ typedef struct s_cylinder
 	t_vector				dir_initial;
 	float					diameter;
 	float					height;
-	float					r2;
-	t_vector				p1;
-	t_vector				p2;
-	t_vector				delta_p;
+	float					r2; // used in calculations
+	t_vector				p1; // used in calculations
+	t_vector				p2; // used in calculations
+	t_vector				delta_p; // used in calculations
 	// t_color		color;
 }							t_cylinder;
 
@@ -164,7 +164,7 @@ typedef struct s_cone
 	t_vector				pos_initial;
 	t_vector				dir_initial;
 	float					h;
-	float					h2;
+	float					h2; // opposite
 	float					angle;
 	float					cos2;
 	t_vector				c1;
@@ -283,7 +283,7 @@ typedef struct s_screen
 
 typedef struct s_sampling
 {
-	// bool				set;
+	// bool				set;t
 	int count;     // samp;
 	int max_count; // max_samp;
 					// int					recursion_depth;
@@ -401,9 +401,39 @@ float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
 
+// parse
+t_binary_result				parse(t_scene *scene, const char *file_path);
+t_binary_result				recognize_type_identifiers(t_scene *scene, char *line);
+t_binary_result				set_color(t_color *color, char *str_color);
+t_binary_result				set_vector(t_vector *vector, char *str_vector);
+t_binary_result				set_material(t_obj *obj, char **line_element, int start_index);
+t_binary_result				config_objs(t_scene *scene, char **line_element);
+t_binary_result				config_sphere(char **line_element, t_obj *obj);
+t_binary_result				config_plane(char **line_element, t_obj *obj);
+t_binary_result				config_cylinder(char **line_element, t_obj *obj);
+t_binary_result				config_triangle(char **line_element, t_obj *obj);
+t_binary_result				config_torus(char **line_element, t_obj *obj);
+t_binary_result				config_cone(char **line_element, t_obj *obj);
+t_binary_result				set_spec_mirror(t_obj *obj, char *str);
+t_binary_result				set_material_default(t_obj *obj);
+t_binary_result				format_check_ambient(char **line_element);
+t_binary_result				format_check_camera(char **line_element);
+t_binary_result				format_check_light(char **line_element);
+t_binary_result				format_check_sphere(char **line_element);
+t_binary_result				format_check_plane(char **line_element);
+t_binary_result				format_check_cylinder(char **line_element);
+t_binary_result				format_check_triangle(char **line_element);
+t_binary_result				format_check_torus(char **line_element);
+t_binary_result				format_check_cone(char **line_element);
+t_binary_result				is_number_int(char *element);
+t_binary_result				is_number_float(char *element);
+t_binary_result				is_number_float_three_dimensional(char *element);
+int							element_count(char **line_element);
+
 // utils
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
 t_binary_result				put_out_failure(char *err_msg);
+t_binary_result				put_out_format_error(char *type, char *err_msg);
 
 #endif

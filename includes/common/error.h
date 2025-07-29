@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:18:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:04:18 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // error messages *************************************************/
 # define ERR_PREFIX "Error\n"
+# define ERR_FORMAT	"Format error: "
 # define ERR_INVALID_ARG "Invalid argument (Usage: ./miniRT <scene_file.rt>)\n"
 
 // create_scene
@@ -25,4 +26,9 @@
 # define ERR_CREATE_TH "Failed to create thread\n"
 # define ERR_JOIN_TH "Failed to join thread\n"
 
+// parse
+# define ERR_NUM_ARG "The number of arguments is incorrect\n"
+# define ERR_INVALID_VALUE "An invalid value has been entered\n"
+# define ERR_NOT_NUMBER "The value entered is not a number\n"
+# define ERR_BOOL "The value entered is not 1 or 0\n"
 #endif
