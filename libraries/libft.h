@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 21:55:04 by kharuya           #+#    #+#             */
-/*   Updated: 2025/06/06 16:04:43 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/25 07:40:21 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <math.h>
 # include "get_next_line.h"
 
 //part1
+char	**ft_split_with_blank(char const *s);
+float 	ft_atof(char *str);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
