@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
+#    By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/22 15:29:10 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/28 19:08:24 by kharuya          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	miniRT
 
-CC				=	cc -O2 -fopt-info-inline
+CC				=	cc -O2 #-fopt-info-inline
+BONUS_CC		=	cc -DSTB_IMAGE_IMPLEMENTATION
 DEBUG_CC		=	cc -D IS_DEBUG=1 -g -fsanitize=address,undefined
 CFLAGS			=	-Wall -Wextra -Werror
 
@@ -23,6 +24,7 @@ SRCS_PATH		=	src/
 SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
 					$(wildcard src/set_default_scene/*.c) \
+					$(wildcard src/parse/*.c) \
 					$(wildcard src/create_scene/*.c) \
 					$(wildcard src/render_scene_to_mlx/*.c) \
 					$(wildcard src/setup_scene/*.c) \
@@ -60,6 +62,7 @@ endif
 ifdef WITH_BONUS
     INC_MAIN = -I includes/bonus/
     SRCS_MAIN =	$(wildcard src/use_only_bonus/*.c)
+	CFLAGS += -DSTB_IMAGE_IMPLEMENTATION -D IS_DEBUG=1 -g -fsanitize=address,undefined
 endif
 
 all:	$(NAME)
