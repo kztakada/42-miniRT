@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_material.c                                     :+:      :+:    :+:   */
+/*   thread.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 08:03:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 15:46:07 by kharuya          ###   ########.fr       */
+/*   Created: 2025/07/25 23:22:26 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/25 23:25:48 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#ifndef THREAD_H
+# define THREAD_H
+# include "minirt.h"
+# include <pthread.h>
 
-t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
+typedef struct s_thread_data
 {
-	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
-		return (FAILURE);
-	return (SUCCESS);
-}
+	pthread_t	id;
+	int			num;
+	t_scene		*scene;
+}				t_thread_data;
+#endif

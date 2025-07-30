@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/29 21:30:42 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/30 15:42:22 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_binary_result	config_torus(char **line_element, t_obj *obj)
 
 t_binary_result	config_cone(char **line_element, t_obj *obj)
 {
+	int result_status;
+
 	if (format_check_cone(line_element) == FAILURE)
 		return (FAILURE);
 	set_vector(&(obj->shape.cone.pos), line_element[1]);
@@ -46,11 +48,14 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 	obj->shape.cone.c2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.r1 = 0.0f;
 	obj->shape.cone.r2 = 0.0f;
-	obj->calc_cross_distance = NULL;
-	obj->calc_normal = NULL;
-	obj->get_color = NULL;
+	obj->calc_obj_hit = calc_cone_obj_hit;
+	obj->calc_normal = calc_cone_normal;
+	obj->get_color = get_color;
 	obj->print_focused_obj = NULL;
-	return (set_material(obj, line_element, 6));
+	result_status = set_material(obj, line_element, 6);
+	if (obj->material.has_bump == TRUE)
+		obj->calc_normal = calc_cone_bump_normal;
+	return (result_status);
 }
 
 t_binary_result	config_objs(t_scene *scene, char **line_element)

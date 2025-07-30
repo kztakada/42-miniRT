@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_material.c                                     :+:      :+:    :+:   */
+/*   handle_ft_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 08:03:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 15:46:07 by kharuya          ###   ########.fr       */
+/*   Created: 2025/07/23 20:21:04 by katakada          #+#    #+#             */
+/*   Updated: 2025/07/23 21:21:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
+inline t_obj	*get_obj(t_list *obj)
 {
-	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
-		return (FAILURE);
-	return (SUCCESS);
+	return ((t_obj *)obj->content);
+}
+
+inline t_light	*get_light(t_list *light)
+{
+	return ((t_light *)light->content);
 }

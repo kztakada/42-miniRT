@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/19 17:51:57 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:01:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	close_window(void *param)
 	t_scene_with_mlx	*r_scene;
 
 	r_scene = (t_scene_with_mlx *)param;
+	if (!r_scene)
+		return (0);
 	printf("Window closed\n");
 	free_scene_with_mlx(r_scene);
 	exit(EXIT_SUCCESS);
@@ -63,9 +65,7 @@ int	key_press(int keycode, void *param)
 	t_scene_with_mlx	*r_scene;
 
 	r_scene = (t_scene_with_mlx *)param;
-	if (keycode == KEY_ESC)
-		close_window(r_scene);
-	else if (keycode == KEY_LEFT)
+	if (keycode == KEY_LEFT)
 	{
 		printf("Left arrow key pressed\n");
 		// Handle left arrow key event
@@ -75,6 +75,8 @@ int	key_press(int keycode, void *param)
 		printf("Right arrow key pressed\n");
 		// Handle right arrow key event
 	}
+	else if (keycode == KEY_ESC)
+		close_window(r_scene);
 	return (0);
 }
 

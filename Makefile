@@ -6,7 +6,7 @@
 #    By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/28 19:08:24 by kharuya          ###   ########.fr        #
+#    Updated: 2025/07/30 15:21:08 by kharuya          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS			=	$(SRCS_MAIN) \
 					$(wildcard src/render_scene_to_mlx/*.c) \
 					$(wildcard src/setup_scene/*.c) \
 					$(wildcard src/util_foundation/*.c) \
+					$(wildcard src/obj_funcs/*.c) \
 					$(wildcard src/utils/*.c) \
 
 OBJS_PATH		=	objs/

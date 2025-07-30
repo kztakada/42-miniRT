@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:34:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 19:03:17 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/29 21:56:24 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minirt.h"
 # include <stdlib.h>
+# include <time.h>
 
 # define F_MSG "Bonus mode enabled\n"
 

@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 08:02:33 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/29 21:39:11 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/30 15:30:56 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 		return (set_texture(&(obj->material.texture), line_element[0],
 			line_element[start_index + 4]));
 	if (obj->material.has_bump == TRUE)
+	{
 		return (set_texture(&(obj->material.bump), line_element[0],
 			line_element[start_index + 5]));
+	}
 	return (SUCCESS);
 }

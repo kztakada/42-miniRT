@@ -6,9 +6,10 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/29 19:33:38 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/29 22:00:47 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -19,8 +20,10 @@
 # include "settings.h"
 # include <float.h>
 # include <math.h>
-# include <pthread.h>
 # include <stdio.h>
+
+// calculation constants
+# define EPSILON 0.0001F
 
 // key code
 # define KEY_ESC 65307
@@ -87,6 +90,7 @@ typedef struct s_light
 
 /* ************************************************************************** */
 typedef struct s_hit		t_hit;
+typedef struct s_obj		t_obj;
 
 typedef struct s_texture
 {
@@ -129,10 +133,10 @@ typedef struct s_cylinder
 	t_vector				dir_initial;
 	float					diameter;
 	float					height;
-	float					r2; // used in calculations
-	t_vector				p1; // used in calculations
-	t_vector				p2; // used in calculations
-	t_vector				delta_p; // used in calculations
+	float radius_pow2; // r2;
+	t_vector				p1;
+	t_vector				p2;
+	t_vector				delta_p;
 	// t_color		color;
 }							t_cylinder;
 
@@ -142,8 +146,8 @@ typedef struct s_sphere
 	t_vector pos; // coords;
 	t_vector				pos_initial;
 	float					diameter;
-	float					r2;
-	// t_color		color;
+	float radius_pow2; // r2;
+						// t_color		color;
 }							t_sphere;
 
 typedef struct s_triangle
@@ -204,17 +208,17 @@ typedef struct s_ray
 	t_vector				dir;
 }							t_ray;
 
-typedef float				(*t_f_calc_cross_distance)(t_list *obj, t_ray *ray,
-					float min_dist, float max_dist);
-typedef t_vector			(*t_f_calc_normal)(t_list *obj, t_hit *hit);
-typedef t_color				(*t_f_get_color)(t_list *obj, t_hit *hit);
-typedef void				(*t_f_print_focused_obj)(t_list *obj);
+typedef t_hit				(*t_f_calc_obj_hit)(t_obj *obj, t_ray *pov_ray);
+typedef t_vector			(*t_f_calc_normal)(t_obj *obj, t_hit *hit);
+typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
+typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 
-typedef struct s_obj
+struct						s_obj
 {
 	t_material				material;
 	t_obj_shape				shape;
-	t_f_calc_cross_distance	calc_cross_distance;
+	t_bool					has_volume;
+	t_f_calc_obj_hit		calc_obj_hit;
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
 	t_f_print_focused_obj	print_focused_obj;
@@ -243,31 +247,55 @@ typedef struct s_obj
 	// float				refract;
 	// struct s_obj		*next;
 	// float				alpha; 未使用
-}							t_obj;
+};
+
+/* ************************************************************************** */
+
+typedef struct s_quadratic_solution
+{
+	float					discriminant;
+	float					t1;
+	float					t2;
+}							t_quadratic_solution;
 
 /* ************************************************************************** */
 
 struct						s_hit
 {
-	t_vector				nhit;
-	t_vector				phit;
+	t_bool					is_hit;
+	t_vector normal; // nhit;
+	t_vector pos;    // phit;
 	float					t;
 	t_color					color;
+	t_vector				pov_dir;
 };
 
+// pov_ray is the "point of view ray"
 typedef struct s_raytracing
 {
-	t_ray samplingray; // prime_ray;
-	t_ray					shadowray;
+	t_ray pov_ray; // prime_ray;
+	t_ray					to_light_src_ray;
 	t_hit					hit;
-	t_hit					shadow_hit;
+	t_hit					blocking_hit;
 	t_obj					*closest_obj;
+	float					refract_index;
 }							t_raytracing;
+
+typedef struct s_lighting
+{
+	t_color					ambient;
+	t_color					diffuse;
+	t_color					specular;
+	t_color					reflect;
+	t_color					refract;
+	// int						is_shadow;
+}							t_lighting;
 
 /* ************************************************************************** */
 
 typedef struct s_scene		t_scene;
 
+/* screen.pos is screen right up corner */
 typedef struct s_screen
 {
 	// bool				res_set;
@@ -275,10 +303,10 @@ typedef struct s_screen
 	size_t					height;
 	t_color *dots; // *pixel;
 	t_vector				pos;
-	t_vector px; // ピクセル単位の変換用ベクトル
-	t_vector py; // ピクセル単位の変換用ベクトル
-	t_vector qx; // 画面水平方向基底ベクトル
-	t_vector qy; // 画面垂直方向基底ベクトル
+	t_vector x_per_pixel; // ピクセル単位の変換用ベクトル
+	t_vector y_per_pixel; // ピクセル単位の変換用ベクトル
+	t_vector x_half;      // スクリーンの半分の水平方向の３次元的な傾き
+	t_vector y_half;      // スクリーンの半分の垂直方向の３次元的な傾き
 }							t_screen;
 
 typedef struct s_sampling
@@ -310,14 +338,6 @@ typedef struct s_ambient
 	// t_obj_id	id;
 }							t_ambient;
 
-typedef struct s_thread_data
-{
-	pthread_t				id;
-	int						num;
-	t_scene					*scene;
-	void					*mlx_img;
-}							t_thread_data;
-
 struct						s_scene
 {
 	t_screen				screen;
@@ -328,7 +348,7 @@ struct						s_scene
 
 	t_list *lights; // t_light	*light;
 	t_list *objs;   // t_obj	*objs;
-	t_thread_data			thread[MAX_THREADS];
+					// t_thread_data			thread[MAX_THREADS];
 
 	// int process; // レンダリング状況　heightで割って算出
 
@@ -340,12 +360,12 @@ struct						s_scene
 	// float					aspectratio;
 	// float					cam_matrix[4][4];
 	// t_event			event;
-	// int				display_info; デバッグプリント用
+	// int				display_info; デバッグプリ�������������������ト���
 	// char			*path;  .rt file path
 	// t_bool			is_processing;
 	// pthread_mutex_t	process_lock;　ブロック単位で書き込むことによって競合しないようにできる
 	// size_t				num_objs; lst_count(objects);を使う
-	// char				*process_text; Linux用のレンダリング表示は表示しない
+	// char				*process_text; Linux用のレンダリング����示は表示しない
 };
 
 /* ************************************************************************** */
@@ -378,22 +398,67 @@ t_binary_result				create_scene(t_scene *scene, const char *file_path);
 t_binary_result				render_scene_to_mlx(t_scene *scene);
 void						set_key_controls(t_scene_with_mlx *r_scene);
 void						render_mlx_image(t_scene_with_mlx *r_scene);
-t_binary_result				run_threaded_render(t_scene_with_mlx *r_scene,
-								t_scene *scene);
-t_color						raytracing(t_scene *scene, t_ray *render_ray,
+t_color						raytracing(t_scene *scene, t_raytracing *rt,
 								int depth);
+t_color						raytrace_at_dot(t_scene *scene, t_vector dot_pos);
+t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
+								t_hit *hit);
+void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
+								t_lighting *lighting);
 
 // setup_scene
 void						setup_scene(t_scene *scene);
 
 // which_use_mandatory_or_bonus
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
+t_binary_result				run_renderer(t_scene *scene);
+
+// obj_funcs
+t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_sphere_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_plane_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_plane_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cylinder_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cylinder_bump_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cone_normal(t_obj *obj, t_hit *hit);
+t_vector					calc_cone_bump_normal(t_obj *obj, t_hit *hit);
+
+t_hit						get_zero_hit(void);
+t_hit						calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_plane_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_cylinder_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						calc_cone_obj_hit(t_obj *obj, t_ray *pov_ray);
+
+t_color						get_color(t_obj *obj, t_hit *hit);
+t_color						get_sphere_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_plane_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_cylinder_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_cone_texture_color(t_obj *obj, t_hit *hit);
+t_color						get_sphere_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_plane_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_cylinder_checker_color(t_obj *obj, t_hit *hit);
+t_color						get_cone_checker_color(t_obj *obj, t_hit *hit);
+
+void						print_focused_obj_sphere(t_obj *obj);
+void						print_focused_obj_plane(t_obj *obj);
+void						print_focused_obj_cylinder(t_obj *obj);
+void						print_focused_obj_cone(t_obj *obj);
 
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
 t_vector					scale_vector(float scalar, t_vector v);
 t_vector					normalize_vector(t_vector v);
+t_vector					cross_vector(t_vector a, t_vector b);
+float						vector_len(t_vector v);
+float						calc_distance(t_vector a, t_vector b);
+float						vectors_dot(t_vector a, t_vector b);
+t_vector					inverse_vector(t_vector v);
+t_vector					get_ray_pos_at_t(t_ray ray, float t);
+t_vector					calc_reflection_vector(t_vector incident,
+								t_vector normal);
+t_vector					calc_refraction_vector(t_vector incident,
+								t_vector normal, float n1, float n2);
 t_color						add_colors(t_color c1, t_color c2);
 t_color						scale_color(float coefficient, t_color c1);
 t_color						multiply_colors(t_color c1, t_color c2);
@@ -429,11 +494,20 @@ t_binary_result				is_number_int(char *element);
 t_binary_result				is_number_float(char *element);
 t_binary_result				is_number_float_three_dimensional(char *element);
 int							element_count(char **line_element);
+t_color						mix_colors_by_ratio(t_color c1, t_color c2,
+								float c1_ratio);
+t_color						add_lighting(t_color base, t_color light,
+								float intensity);
 
 // utils
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
 t_binary_result				put_out_failure(char *err_msg);
 t_binary_result				put_out_format_error(char *type, char *err_msg);
+t_vector					put_out_error_vector(char *err_msg);
+t_color						put_out_error_color(char *err_msg);
+t_hit						put_out_error_hit(char *err_msg);
+t_obj						*get_obj(t_list *obj);
+t_light						*get_light(t_list *light);
 
 #endif

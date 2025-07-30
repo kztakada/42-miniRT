@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:07:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 16:07:57 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:03:46 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ static int	render_loop(void *data)
 
 	r_scene = (t_scene_with_mlx *)data;
 	render_mlx_image(r_scene);
+	if (!r_scene->mlx || !r_scene->mlx_win || !r_scene->mlx_img
+		|| !r_scene->mlx_img->img)
+		return (0);
 	mlx_put_image_to_window(r_scene->mlx, r_scene->mlx_win,
 		r_scene->mlx_img->img, 0, 0);
 	return (0);
@@ -55,11 +58,7 @@ t_binary_result	render_scene_to_mlx(t_scene *scene)
 
 	printf("Rendering scene...\n");
 	if (init_mlx(&r_scene, &mlx_img, scene) == FAILURE)
-	{
-		ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
-		ft_putstr_fd(ERR_MLX_INIT, STDERR_FILENO);
-		return (FAILURE);
-	}
+		return (put_out_failure(ERR_MLX_INIT));
 	mlx_put_image_to_window(r_scene.mlx, r_scene.mlx_win, mlx_img.img, 0, 0);
 	set_key_controls(&r_scene);
 	mlx_loop_hook(r_scene.mlx, render_loop, &r_scene);
