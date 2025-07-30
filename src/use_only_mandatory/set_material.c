@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_scene.c                                     :+:      :+:    :+:   */
+/*   set_material.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 21:27:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/29 20:36:53 by kharuya          ###   ########.fr       */
+/*   Created: 2025/07/28 08:03:02 by kharuya           #+#    #+#             */
+/*   Updated: 2025/07/30 15:46:07 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_binary_result	create_scene(t_scene *scene, const char *file_path)
+t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 {
-	printf("Creating scene from file: %s\n", file_path);
-	scene->screen.dots = malloc(sizeof(t_color) * scene->screen.width
-			* scene->screen.height);
-	if (scene->screen.dots == NULL)
-		return (put_out_failure(ERR_MALLOC_FAIL));
-	ft_bzero(scene->screen.dots, sizeof(t_color) * scene->screen.width
-		* scene->screen.height);
-	return (parse(scene, file_path));
+	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
 }

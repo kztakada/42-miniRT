@@ -6,13 +6,14 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/27 20:36:54 by katakada         ###   ########.fr        #
+#    Updated: 2025/07/30 16:06:57 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	miniRT
 
-CC				=	cc -O2 -fopt-info-inline
+CC				=	cc -O2 #-fopt-info-inline
+BONUS_CC		=	cc -DSTB_IMAGE_IMPLEMENTATION
 DEBUG_CC		=	cc -D IS_DEBUG=1 -g -fsanitize=address,undefined
 CFLAGS			=	-Wall -Wextra -Werror
 
@@ -23,11 +24,13 @@ SRCS_PATH		=	src/
 SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
 SRCS			=	$(SRCS_MAIN) \
 					$(wildcard src/set_default_scene/*.c) \
+					$(wildcard src/parse/*.c) \
 					$(wildcard src/create_scene/*.c) \
 					$(wildcard src/key_controls/*.c) \
 					$(wildcard src/render_scene_to_mlx/*.c) \
 					$(wildcard src/setup_scene/*.c) \
 					$(wildcard src/util_foundation/*.c) \
+					$(wildcard src/obj_funcs/*.c) \
 					$(wildcard src/utils/*.c) \
 
 OBJS_PATH		=	objs/
@@ -61,6 +64,7 @@ endif
 ifdef WITH_BONUS
     INC_MAIN = -I includes/bonus/
     SRCS_MAIN =	$(wildcard src/use_only_bonus/*.c)
+	CFLAGS += -DSTB_IMAGE_IMPLEMENTATION -D IS_DEBUG=1 -g -fsanitize=address,undefined
 endif
 
 all:	$(NAME)

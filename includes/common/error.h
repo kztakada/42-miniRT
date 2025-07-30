@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 21:55:57 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:56:55 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef ERROR_H
 # define ERROR_H
 
 // error messages *************************************************/
 # define ERR_PREFIX "Error\n"
+# define ERR_FORMAT	"Format error: "
 # define ERR_INVALID_ARG "Invalid argument (Usage: ./miniRT <scene_file.rt>)\n"
 
 // create_scene
@@ -33,4 +35,9 @@
 // util_foundation
 # define ERR_INVALID_C_RATIO "Invalid color ratio (RANGE 0.0 - 1.0)\n"
 
+// parse
+# define ERR_NUM_ARG "The number of arguments is incorrect\n"
+# define ERR_INVALID_VALUE "An invalid value has been entered\n"
+# define ERR_NOT_NUMBER "The value entered is not a number\n"
+# define ERR_BOOL "The value entered is not 1 or 0\n"
 #endif

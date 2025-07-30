@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:41:03 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 21:52:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:21:29 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_hit	calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray)
 	t_vector				oc;
 	t_quadratic_solution	solution;
 
+	(void)oc;
 	hit = get_zero_hit();
 	// 二次方程式の係数を計算
 	solution = calc_sphere_quadratic_discriminant(obj, pov_ray);
