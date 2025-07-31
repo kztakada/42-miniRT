@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 19:55:13 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 22:33:07 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,21 @@ static int	mouse_down(int button, int mouse_x, int mouse_y, void *param)
 	t_scene_with_mlx	*r_scene;
 	t_vector			dot_pos;
 	t_raytracing		rt;
+	int					flipped_y;
 
 	if (button != MOUSE_LEFT)
 		return (0);
 	r_scene = (t_scene_with_mlx *)param;
-	dot_pos = convert_xy_pos_to_xyz_vector((float)mouse_x, (float)mouse_y,
+	flipped_y = r_scene->scene->screen.height - mouse_y - 1;
+	dot_pos = convert_xy_pos_to_xyz_vector((float)mouse_x, (float)flipped_y,
 			r_scene->scene);
 	rt.pov_ray.pos = r_scene->scene->camera.pos;
 	rt.pov_ray.dir = normalize_vector(sub_vectors(dot_pos, rt.pov_ray.pos));
 	rt.closest_obj = calc_closest_obj(r_scene->scene->objs, &rt.pov_ray,
 			&rt.hit);
-	if (rt.closest_obj == NULL)
-		return (0);
 	r_scene->key.selected_obj = rt.closest_obj;
 	r_scene->key.mode = OBJECT_MODE;
+	print_rendering_console(r_scene);
 	return (0);
 }
 
@@ -55,6 +56,7 @@ static void	toggle_selected_mode(t_scene_with_mlx *r_scene)
 		r_scene->key.mode = OBJECT_MODE;
 	else
 		r_scene->key.mode = CAMERA_MODE;
+	print_rendering_console(r_scene);
 }
 
 static int	key_press(int keycode, void *param)

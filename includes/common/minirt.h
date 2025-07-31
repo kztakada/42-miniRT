@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/30 16:07:48 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:09:38 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,6 +458,7 @@ t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
 								t_hit *hit);
 void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
 								t_lighting *lighting);
+void						print_rendering_console(t_scene_with_mlx *r_scene);
 
 // setup_scene
 void						set_screen_pos(t_scene *scene);

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 18:07:41 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:08:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ t_vector	convert_xy_pos_to_xyz_vector(float x, float y, t_scene *scene)
 	dot_pos = add_vectors(scene->screen.pos, diff_x);
 	dot_pos = add_vectors(dot_pos, diff_y);
 	return (dot_pos);
-}
-
-static void	print_rendering_progress(t_scene *scene)
-{
-	printf("\rRendering progress: %d/%d", scene->sampling.count,
-		scene->sampling.max_count);
-	fflush(stdout);
 }
 
 static void	put_mlx_pixel(t_image *mlx_img, int x, int y, int color)
@@ -90,7 +83,7 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 		exit(EXIT_FAILURE);
 	}
 	scene->sampling.count++;
-	print_rendering_progress(scene);
+	print_rendering_console(r_scene);
 	if (!r_scene || !r_scene->mlx_img)
 		return ;
 	screen_to_mlx_image(r_scene->mlx_img, scene);
