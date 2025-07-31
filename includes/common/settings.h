@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 18:37:56 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:00:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # define WIN_HEIGHT 720
 
 // background color
-# define BG_COLOR_R 0.0F
-# define BG_COLOR_G 0.0F
-# define BG_COLOR_B 255.0F
+# define BG_COLOR_R 137
+# define BG_COLOR_G 189
+# define BG_COLOR_B 222
 
 // camera settings
 # define FOCAL_FACTOR 1.0F // 焦点距離係数
