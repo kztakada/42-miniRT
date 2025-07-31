@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/30 15:25:51 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:48:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,9 @@ t_color	raytracing(t_scene *scene, t_raytracing *rt, int max_depth)
 	ft_memset(&lighting, 0, sizeof(t_lighting));
 	rt->closest_obj = calc_closest_obj(scene->objs, &rt->pov_ray, &rt->hit);
 	if (rt->closest_obj == NULL)
-		return ((t_color){BG_COLOR_R, BG_COLOR_G, BG_COLOR_B});
+		return (scene->bg_color);
 	rt->hit.color = rt->closest_obj->get_color(rt->closest_obj, &rt->hit);
 	rt->hit.normal = rt->closest_obj->calc_normal(rt->closest_obj, &rt->hit);
-	// if (rt->closest_obj->material.has_bump) ←ここはいらない（パースの時点で、バンプを持っていたら、calc_normalを差し替える）
-	// 	calc_bump_normal(rt->closest_obj, &rt->hit);
 	calc_lights_effect(scene, rt, &lighting);
 	--max_depth;
 	if (rt->closest_obj->material.mirror > 0.0F && max_depth > 0)
