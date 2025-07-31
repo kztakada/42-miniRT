@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 21:57:04 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:55:46 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ inline t_color	add_lighting(t_color base, t_color light, float intensity)
 	t_color	result;
 
 	intensity = clampf(intensity, 0.0F, 1.0F);
-	result.r = base.r + light.r * intensity;
-	result.g = base.g + light.g * intensity;
-	result.b = base.b + light.b * intensity;
+	result.r = base.r * light.r * intensity;
+	result.g = base.g * light.g * intensity;
+	result.b = base.b * light.b * intensity;
 	result.r = clampf(result.r, 0.0F, 1.0F);
 	result.g = clampf(result.g, 0.0F, 1.0F);
 	result.b = clampf(result.b, 0.0F, 1.0F);

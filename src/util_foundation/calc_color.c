@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:27:55 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/21 22:49:37 by katakada         ###   ########.fr       */
+/*   Updated: 2025/07/31 13:55:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ int	color_to_int_rgb(t_color color)
 	return ((int)(256.0F * clamp_color(color.r, 0.0F,
 				0.999F)) << 16 | (int)(256.0F * clamp_color(color.g, 0.0F,
 				0.999F)) << 8 | (int)(256.0F * clamp_color(color.b, 0.0F,
-				0.999F)) << 0 | (int)(0xFF) << 24);
+				0.999F)) << 0);
 }

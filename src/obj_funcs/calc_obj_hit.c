@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:41:03 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/30 15:21:29 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/31 13:20:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ static t_quadratic_solution	calc_sphere_quadratic_discriminant(t_obj *obj,
 t_hit	calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray)
 {
 	t_hit					hit;
-	t_vector				oc;
 	t_quadratic_solution	solution;
 
-	(void)oc;
 	hit = get_zero_hit();
 	// 二次方程式の係数を計算
 	solution = calc_sphere_quadratic_discriminant(obj, pov_ray);
@@ -98,6 +96,10 @@ t_hit	calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray)
 // 		return (get_zero_hit());
 // 	hit.is_hit = TRUE;
 // 	hit.pos = get_ray_pos_at_t(*pov_ray, hit.t);
+// 	printf("Sphere is hit: %d, pos: (%f, %f, %f)\n", hit.is_hit, hit.pos.x,
+// 		hit.pos.y, hit.pos.z);
+// 	printf("Sphere color: (%f, %f, %f)\n", obj->material.color.r,
+// 		obj->material.color.g, obj->material.color.b);
 // 	return (hit);
 // }
 
