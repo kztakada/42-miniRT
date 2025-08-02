@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 19:09:38 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/02 18:16:53 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ typedef enum e_binary_result
 	FAILURE = -1,
 	SUCCESS = 0,
 }							t_binary_result;
+
+typedef struct s_parse
+{
+	t_bool	ambient;
+	t_bool	camera;
+	t_bool	large_light;
+	int		light_count;
+}							t_parse;
 
 /* ************************************************************************** */
 
@@ -319,7 +327,7 @@ typedef struct s_screen
 	t_vector y_per_pixel; // ピクセル単位の変換用ベクトル
 	t_vector x_half;      // スクリーンの半分の水平方向の３次元的な傾き
 	t_vector y_half;      // スクリーンの半分の垂直方向の３次元的な傾き
-}							t_screen;
+}								t_screen;
 
 typedef struct s_sampling
 {
@@ -468,6 +476,7 @@ void						setup_scene(t_scene *scene);
 // which_use_mandatory_or_bonus
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
+t_binary_result				set_material(t_obj *obj, char **line_element, int start_index);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -535,11 +544,10 @@ int							color_to_int_rgb(t_color color);
 // parse
 t_binary_result				parse(t_scene *scene, const char *file_path);
 t_binary_result				recognize_type_identifiers(t_scene *scene,
-								char *line);
+								char *line, t_parse *format_info);
 t_binary_result				set_color(t_color *color, char *str_color);
 t_binary_result				set_vector(t_vector *vector, char *str_vector);
-t_binary_result				set_material(t_obj *obj, char **line_element,
-								int start_index);
+t_binary_result				set_material_common(t_obj *obj, char **line_element, int start_index);
 t_binary_result				config_objs(t_scene *scene, char **line_element);
 t_binary_result				config_sphere(char **line_element, t_obj *obj);
 t_binary_result				config_plane(char **line_element, t_obj *obj);
@@ -549,9 +557,9 @@ t_binary_result				config_torus(char **line_element, t_obj *obj);
 t_binary_result				config_cone(char **line_element, t_obj *obj);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
 t_binary_result				set_material_default(t_obj *obj);
-t_binary_result				format_check_ambient(char **line_element);
-t_binary_result				format_check_camera(char **line_element);
-t_binary_result				format_check_light(char **line_element);
+t_binary_result				format_check_ambient(char **line_element, t_parse *format_info);
+t_binary_result				format_check_camera(char **line_element, t_parse *format_info);
+t_binary_result				format_check_light(char **line_element, t_parse *format_info);
 t_binary_result				format_check_sphere(char **line_element);
 t_binary_result				format_check_plane(char **line_element);
 t_binary_result				format_check_cylinder(char **line_element);

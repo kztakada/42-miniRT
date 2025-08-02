@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config_objs.c                                      :+:      :+:    :+:   */
+/*   config_objs_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 15:42:22 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 18:02:36 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 	obj->shape.cone.c2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.r1 = 0.0f;
 	obj->shape.cone.r2 = 0.0f;
+	obj->has_volume = FALSE;
 	obj->calc_obj_hit = calc_cone_obj_hit;
 	obj->calc_normal = calc_cone_normal;
 	obj->get_color = get_color;
-	obj->print_focused_obj = NULL;
+	obj->print_focused_obj = print_focused_obj_cone;
+	obj->get_pos = get_cone_pos;
+	obj->get_dir = get_cone_dir;
 	result_status = set_material(obj, line_element, 6);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cone_bump_normal;
@@ -60,8 +63,9 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 
 t_binary_result	config_objs(t_scene *scene, char **line_element)
 {
-	int result_status;
+	int		result_status;
 	t_obj	*obj;
+	t_list	*new;
 
 	obj = malloc(sizeof(t_obj) * 1);
 	if (!obj)
@@ -75,14 +79,15 @@ t_binary_result	config_objs(t_scene *scene, char **line_element)
 		result_status = config_plane(line_element, obj);
 	else if (ft_strcmp(line_element[0], "cy") == 0)
 		result_status = config_cylinder(line_element, obj);
-	else if (ft_strcmp(line_element[0], "tr") == 0)
-		result_status = config_triangle(line_element, obj);
-	else if (ft_strcmp(line_element[0], "to") == 0)
-		result_status = config_torus(line_element, obj);
 	else if (ft_strcmp(line_element[0], "co") == 0)
 		result_status = config_cone(line_element, obj);
 	else
-		return (free(obj), SUCCESS);
-	ft_lstadd_back(&(scene->objs), ft_lstnew(obj));
+		return (put_out_format_error(line_element[0], ERR_NO_IDENT),
+			free(obj), FAILURE);
+	new = ft_lstnew(obj);
+	if (!new)
+		return (put_out_format_error(line_element[0], ERR_MALLOC_FAIL),
+			free(obj), FAILURE);
+	ft_lstadd_back(&(scene->objs), new);
 	return (result_status);
 }

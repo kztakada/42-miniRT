@@ -1,17 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_material.c                                     :+:      :+:    :+:   */
+/*   set_material_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 08:02:33 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 15:30:56 by kharuya          ###   ########.fr       */
+/*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
+/*   Updated: 2025/08/02 18:02:00 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_bonus.h"
 #include "stb_image.h"
+
+static t_binary_result is_file_exist(char *file_path)
+{
+	int fd;
+
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (FAILURE);
+	else
+	{
+		close(fd);
+		return (SUCCESS);
+	}
+}
 
 static t_binary_result	set_texture(t_texture *texture, char *type, char *file_path)
 {
@@ -19,7 +33,8 @@ static t_binary_result	set_texture(t_texture *texture, char *type, char *file_pa
 	int				width;
 	int				height;
 
-	// ここにファイルのexist_checkを入れる
+	if (is_file_exist(file_path) == FAILURE)
+		return (put_out_format_error(type, ERR_NO_FILE));
 	img_data = stbi_load(file_path, &width, &height, NULL, 3);
 	if (!img_data)
 		return (FAILURE);
@@ -64,15 +79,8 @@ static void	set_has_flag(t_obj *obj, char **line_element,
 
 t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 {
-	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
-		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
-	if (!line_element[start_index + 1])
-		return (set_material_default(obj));
-	else if (set_spec_mirror(obj, line_element[start_index + 1]) == FAILURE)
-		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
-	obj->material.refract = ft_atof(line_element[start_index + 2]);
-	if (obj->material.refract < 0.0f)
-		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
+	if (set_material_common(obj, line_element, start_index) == FAILURE)
+		return (FAILURE);
 	set_has_flag(obj, line_element, start_index + 3);
 	if (obj->material.has_texture == TRUE)
 		return (set_texture(&(obj->material.texture), line_element[0],
