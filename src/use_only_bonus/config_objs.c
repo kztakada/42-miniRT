@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 16:13:30 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:04:45 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ t_binary_result	config_objs(t_scene *scene, char **line_element)
 	else if (ft_strcmp(line_element[0], "co") == 0)
 		result_status = config_cone(line_element, obj);
 	else
-		return (free(obj), SUCCESS);
+		return (put_out_format_error(line_element[0], ERR_NO_IDENT),
+			free(obj), FAILURE);
 	ft_lstadd_back(&(scene->objs), ft_lstnew(obj));
 	return (result_status);
 }

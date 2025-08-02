@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:16:32 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/29 21:23:17 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:04:39 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_binary_result	config_objs(t_scene *scene, char **line_element)
 	else if (ft_strcmp(line_element[0], "cy") == 0)
 		result_status = config_cylinder(line_element, obj);
 	else
-		return (free(obj), SUCCESS);
+		return (put_out_format_error(line_element[0], ERR_NO_IDENT),
+			free(obj), FAILURE);
 	new = ft_lstnew(obj);
 	if (!new)
 		put_out_format_error(line_element[0], ERR_MALLOC_FAIL);

@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/01 04:53:04 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:04:09 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@
 # define ERR_NOT_NUMBER "The value entered is not a number\n"
 # define ERR_BOOL "The value entered is not 1 or 0\n"
 # define ERR_NO_FILE "The specified file does not exist\n"
+# define ERR_NO_IDENT "Incorrect identifier\n"
+
 #endif
