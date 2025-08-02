@@ -6,11 +6,11 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 00:30:32 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/29 21:30:14 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:30:13 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt_bonus.h"
+#include "minirt.h"
 
 t_binary_result	format_check_sphere(char **line_element)
 {

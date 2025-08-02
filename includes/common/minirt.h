@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/01 04:56:03 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:59:13 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -475,6 +475,7 @@ void						setup_scene(t_scene *scene);
 // which_use_mandatory_or_bonus
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
+t_binary_result				set_material(t_obj *obj, char **line_element, int start_index);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -545,8 +546,7 @@ t_binary_result				recognize_type_identifiers(t_scene *scene,
 								char *line, t_parse *format_info);
 t_binary_result				set_color(t_color *color, char *str_color);
 t_binary_result				set_vector(t_vector *vector, char *str_vector);
-t_binary_result				set_material(t_obj *obj, char **line_element,
-								int start_index);
+t_binary_result				set_material_common(t_obj *obj, char **line_element, int start_index);
 t_binary_result				config_objs(t_scene *scene, char **line_element);
 t_binary_result				config_sphere(char **line_element, t_obj *obj);
 t_binary_result				config_plane(char **line_element, t_obj *obj);
