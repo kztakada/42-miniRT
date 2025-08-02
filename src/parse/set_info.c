@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 07:52:16 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/28 20:25:48 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/30 17:31:08 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_binary_result	set_material_default(t_obj *obj)
 	obj->material.mirror = 0.5f;
 	obj->material.specn = 50.0f;
 	obj->material.speckv = 0.5f;
-	obj->material.refract =	0.5f;
+	obj->material.refract =	1.5f;
 	obj->material.is_checkerboard = FALSE;
 	obj->material.has_texture = FALSE;
 	obj->material.has_bump = FALSE;

@@ -6,12 +6,26 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 08:02:33 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/30 15:30:56 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/07/31 16:53:45 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_bonus.h"
 #include "stb_image.h"
+
+static t_binary_result is_file_exist(char *file_path)
+{
+	int fd;
+
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (FAILURE);
+	else
+	{
+		close(fd);
+		return (SUCCESS);
+	}
+}
 
 static t_binary_result	set_texture(t_texture *texture, char *type, char *file_path)
 {
@@ -20,6 +34,8 @@ static t_binary_result	set_texture(t_texture *texture, char *type, char *file_pa
 	int				height;
 
 	// ここにファイルのexist_checkを入れる
+	if (is_file_exist(file_path) == FAILURE)
+		return (put_out_format_error(type, ));
 	img_data = stbi_load(file_path, &width, &height, NULL, 3);
 	if (!img_data)
 		return (FAILURE);
