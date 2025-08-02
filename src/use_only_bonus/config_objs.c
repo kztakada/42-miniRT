@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 17:04:45 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/02 17:13:06 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 	obj->calc_obj_hit = calc_cone_obj_hit;
 	obj->calc_normal = calc_cone_normal;
 	obj->get_color = get_color;
-	obj->print_focused_obj = NULL;
+	obj->print_focused_obj = print_focused_obj_cone;
+	obj->pos = get_cone_pos;
+	obj->dir = get_cone_dir;
 	result_status = set_material(obj, line_element, 6);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cone_bump_normal;
