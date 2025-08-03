@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config_objs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:15:00 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 17:20:00 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/03 18:44:03 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_binary_result	config_sphere(char **line_element, t_obj *obj)
 	set_vector(&(obj->shape.sphere.pos), line_element[1]);
 	obj->shape.sphere.pos_initial = obj->shape.sphere.pos;
 	obj->shape.sphere.diameter = ft_atof(line_element[2]);
-	obj->shape.sphere.radius_pow2 = obj->shape.sphere.diameter * obj->shape.sphere.diameter * 0.25f;
+	obj->shape.sphere.radius_pow2 = obj->shape.sphere.diameter
+		* obj->shape.sphere.diameter * 0.25f;
 	obj->has_volume = TRUE;
 	obj->calc_obj_hit = calc_sphere_obj_hit;
 	obj->calc_normal = calc_sphere_normal;
@@ -32,12 +33,16 @@ t_binary_result	config_sphere(char **line_element, t_obj *obj)
 	result_status = set_material(obj, line_element, 3);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_sphere_bump_normal;
+	if (obj->material.is_checkerboard == TRUE)
+		obj->get_color = get_sphere_checker_color;
+	if (obj->material.has_texture == TRUE)
+		obj->get_color = get_sphere_texture_color;
 	return (result_status);
 }
 
 t_binary_result	config_plane(char **line_element, t_obj *obj)
 {
-	int result_status;
+	int	result_status;
 
 	if (format_check_plane(line_element) == FAILURE)
 		return (FAILURE);
@@ -59,6 +64,10 @@ t_binary_result	config_plane(char **line_element, t_obj *obj)
 	result_status = set_material(obj, line_element, 3);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_plane_bump_normal;
+	if (obj->material.is_checkerboard == TRUE)
+		obj->get_color = get_plane_checker_color;
+	if (obj->material.has_texture == TRUE)
+		obj->get_color = get_plane_texture_color;
 	return (result_status);
 }
 
@@ -71,8 +80,9 @@ t_binary_result	config_cylinder(char **line_element, t_obj *obj)
 	set_vector(&(obj->shape.cylinder.pos), line_element[1]);
 	set_vector(&(obj->shape.cylinder.dir), line_element[2]);
 	if ((obj->shape.cylinder.dir.x < -1.0f || obj->shape.cylinder.dir.x > 1.0f)
-		|| (obj->shape.cylinder.dir.y < -1.0f || obj->shape.cylinder.dir.y > 1.0f)
-		|| (obj->shape.cylinder.dir.z < -1.0f || obj->shape.cylinder.dir.z > 1.0f))
+		|| (obj->shape.cylinder.dir.y < -1.0f
+			|| obj->shape.cylinder.dir.y > 1.0f) || (obj->shape.cylinder.dir.z <
+			-1.0f || obj->shape.cylinder.dir.z > 1.0f))
 		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
 	obj->shape.cylinder.pos_initial = obj->shape.cylinder.pos;
 	obj->shape.cylinder.dir_initial = obj->shape.cylinder.dir;
@@ -92,5 +102,9 @@ t_binary_result	config_cylinder(char **line_element, t_obj *obj)
 	result_status = set_material(obj, line_element, 5);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cylinder_bump_normal;
+	if (obj->material.is_checkerboard == TRUE)
+		obj->get_color = get_cylinder_checker_color;
+	if (obj->material.has_texture == TRUE)
+		obj->get_color = get_cylinder_texture_color;
 	return (result_status);
 }
