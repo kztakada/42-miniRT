@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/03 17:14:49 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 23:18:42 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 		obj->get_color = get_cone_checker_color;
 	if (obj->material.has_texture == TRUE)
 		obj->get_color = get_cone_texture_color;
+	obj->set_local_xyz = set_local_xyz_cone;
 	return (result_status);
 }
 
@@ -73,10 +74,7 @@ t_binary_result	config_objs(t_scene *scene, char **line_element)
 
 	obj = malloc(sizeof(t_obj) * 1);
 	if (!obj)
-		return (FAILURE);
-	obj->ex = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->ey = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->ez = (t_vector){0.0f, 0.0f, 0.0f};
+		return (put_out_format_error(line_element[0], ERR_MALLOC_FAIL));
 	if (ft_strcmp(line_element[0], "sp") == 0)
 		result_status = config_sphere(line_element, obj);
 	else if (ft_strcmp(line_element[0], "pl") == 0)

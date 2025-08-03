@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/02 18:16:53 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:58:39 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ typedef enum e_binary_result
 
 typedef struct s_parse
 {
-	t_bool	ambient;
-	t_bool	camera;
-	t_bool	large_light;
-	int		light_count;
+	t_bool					ambient;
+	t_bool					camera;
+	t_bool					large_light;
+	int						light_count;
 }							t_parse;
 
 /* ************************************************************************** */
@@ -229,12 +229,23 @@ typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 typedef void				(*t_f_reset_obj)(t_obj *obj);
 typedef t_vector			*(*t_f_get_pos)(t_obj *obj);
 typedef t_vector			*(*t_f_get_dir)(t_obj *obj);
+typedef void				(*t_f_set_local_axes)(t_obj *obj,
+					t_vector *camera_dir);
+
+// ローカル座標系
+typedef struct s_local_axes
+{
+	t_vector				x;
+	t_vector				y;
+	t_vector				z;
+}							t_local_axes;
 
 struct						s_obj
 {
 	t_material				material;
 	t_obj_shape				shape;
 	t_bool					has_volume;
+	t_local_axes			local;
 	t_f_calc_obj_hit		calc_obj_hit;
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
@@ -242,11 +253,7 @@ struct						s_obj
 	t_f_reset_obj			reset_obj;
 	t_f_get_pos				get_pos;
 	t_f_get_dir				get_dir;
-
-	// ローカル座標系
-	t_vector				ex;
-	t_vector				ey;
-	t_vector				ez;
+	t_f_set_local_axes		set_local_xyz;
 
 	// t_vector			coords; uv作成で使用するが、t_f_get_colorで初期化時に定義する
 	// t_color					color;
@@ -327,7 +334,7 @@ typedef struct s_screen
 	t_vector y_per_pixel; // ピクセル単位の変換用ベクトル
 	t_vector x_half;      // スクリーンの半分の水平方向の３次元的な傾き
 	t_vector y_half;      // スクリーンの半分の垂直方向の３次元的な傾き
-}								t_screen;
+}							t_screen;
 
 typedef struct s_sampling
 {
@@ -472,11 +479,13 @@ void						print_rendering_console(t_scene_with_mlx *r_scene);
 void						set_screen_pos(t_scene *scene);
 void						setup_camera_screen(t_scene *scene);
 void						setup_scene(t_scene *scene);
+void						set_local_axes(t_scene *scene);
 
 // which_use_mandatory_or_bonus
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
-t_binary_result				set_material(t_obj *obj, char **line_element, int start_index);
+t_binary_result				set_material(t_obj *obj, char **line_element,
+								int start_index);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -519,6 +528,24 @@ t_vector					*get_plane_dir(t_obj *obj);
 t_vector					*get_cylinder_dir(t_obj *obj);
 t_vector					*get_cone_dir(t_obj *obj);
 
+void						set_local_xyz_sphere(t_obj *obj,
+								t_vector *camera_dir);
+void						set_local_xyz_plane(t_obj *obj,
+								t_vector *camera_dir);
+void						set_local_xyz_cylinder(t_obj *obj,
+								t_vector *camera_dir);
+void						set_local_xyz_cone(t_obj *obj,
+								t_vector *camera_dir);
+
+void						calc_sphere_uv_map_xy(t_obj *obj,
+								t_vector target_pos, float *uv_map);
+void						calc_plane_uv_map_xy(t_obj *obj,
+								t_vector target_pos, float *uv_map);
+void						calc_cylinder_uv_map_xy(t_obj *obj,
+								t_vector target_pos, float *uv_map);
+void						calc_cone_uv_map_xy(t_obj *obj, t_vector target_pos,
+								float *uv_map);
+
 // util_foundation
 t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
@@ -540,6 +567,7 @@ t_color						multiply_colors(t_color c1, t_color c2);
 float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
+t_color						get_opposite_color(t_color color);
 
 // parse
 t_binary_result				parse(t_scene *scene, const char *file_path);
@@ -547,7 +575,8 @@ t_binary_result				recognize_type_identifiers(t_scene *scene,
 								char *line, t_parse *format_info);
 t_binary_result				set_color(t_color *color, char *str_color);
 t_binary_result				set_vector(t_vector *vector, char *str_vector);
-t_binary_result				set_material_common(t_obj *obj, char **line_element, int start_index);
+t_binary_result				set_material_common(t_obj *obj, char **line_element,
+								int start_index);
 t_binary_result				config_objs(t_scene *scene, char **line_element);
 t_binary_result				config_sphere(char **line_element, t_obj *obj);
 t_binary_result				config_plane(char **line_element, t_obj *obj);
@@ -557,9 +586,12 @@ t_binary_result				config_torus(char **line_element, t_obj *obj);
 t_binary_result				config_cone(char **line_element, t_obj *obj);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
 t_binary_result				set_material_default(t_obj *obj);
-t_binary_result				format_check_ambient(char **line_element, t_parse *format_info);
-t_binary_result				format_check_camera(char **line_element, t_parse *format_info);
-t_binary_result				format_check_light(char **line_element, t_parse *format_info);
+t_binary_result				format_check_ambient(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_camera(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_light(char **line_element,
+								t_parse *format_info);
 t_binary_result				format_check_sphere(char **line_element);
 t_binary_result				format_check_plane(char **line_element);
 t_binary_result				format_check_cylinder(char **line_element);

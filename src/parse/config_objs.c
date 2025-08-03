@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:15:00 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/03 18:44:03 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:01:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_binary_result	config_sphere(char **line_element, t_obj *obj)
 		obj->get_color = get_sphere_checker_color;
 	if (obj->material.has_texture == TRUE)
 		obj->get_color = get_sphere_texture_color;
+	obj->set_local_xyz = set_local_xyz_sphere;
 	return (result_status);
 }
 
@@ -68,6 +69,7 @@ t_binary_result	config_plane(char **line_element, t_obj *obj)
 		obj->get_color = get_plane_checker_color;
 	if (obj->material.has_texture == TRUE)
 		obj->get_color = get_plane_texture_color;
+	obj->set_local_xyz = set_local_xyz_plane;
 	return (result_status);
 }
 
@@ -106,5 +108,6 @@ t_binary_result	config_cylinder(char **line_element, t_obj *obj)
 		obj->get_color = get_cylinder_checker_color;
 	if (obj->material.has_texture == TRUE)
 		obj->get_color = get_cylinder_texture_color;
+	obj->set_local_xyz = set_local_xyz_cylinder;
 	return (result_status);
 }

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 14:55:46 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 22:58:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,14 @@ inline t_color	add_lighting(t_color base, t_color light, float intensity)
 	result.g = clampf(result.g, 0.0F, 1.0F);
 	result.b = clampf(result.b, 0.0F, 1.0F);
 	return (result);
+}
+
+t_color	get_opposite_color(t_color color)
+{
+	t_color	opposite_color;
+
+	opposite_color.r = 1.0F - color.r;
+	opposite_color.g = 1.0F - color.g;
+	opposite_color.b = 1.0F - color.b;
+	return (opposite_color);
 }

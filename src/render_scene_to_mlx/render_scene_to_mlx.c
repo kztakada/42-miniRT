@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:07:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 16:46:22 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 20:06:23 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	reset_rendering_scene(t_scene *scene)
 {
+	set_local_axes(scene);
 	ft_bzero(scene->screen.dots, scene->screen.width * scene->screen.height
 		* sizeof(t_color));
 	scene->sampling.count = 0;
