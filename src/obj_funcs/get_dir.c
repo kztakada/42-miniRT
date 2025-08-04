@@ -6,45 +6,60 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:17:05 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 19:26:38 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:13:53 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vector	*get_sphere_dir(t_obj *obj __attribute__((unused)))
+t_obj_dir	get_sphere_dir(t_obj *obj __attribute__((unused)))
 {
-	ft_putstr_fd(ERR_PREFIX, STDERR_FILENO);
-	ft_putstr_fd("shape sphere does not have a direction.\n", STDERR_FILENO);
-	return (NULL);
-}
+	t_obj_dir	obj_dir;
 
-t_vector	*get_plane_dir(t_obj *obj)
-{
-	t_vector	*obj_dir;
-
+	obj_dir.type = UV_DIR;
+	obj_dir.dir = NULL;
+	obj_dir.rotate_y = NULL;
 	if (!obj)
-		return (NULL);
-	obj_dir = &(obj->shape.plane.dir);
+		return (obj_dir);
+	obj_dir.rotate_y = &(obj->shape.sphere.rotation_y);
 	return (obj_dir);
 }
 
-t_vector	*get_cylinder_dir(t_obj *obj)
+t_obj_dir	get_plane_dir(t_obj *obj)
 {
-	t_vector	*obj_dir;
+	t_obj_dir	obj_dir;
 
+	obj_dir.type = VECTOR_DIR;
+	obj_dir.dir = NULL;
+	obj_dir.rotate_y = NULL;
 	if (!obj)
-		return (NULL);
-	obj_dir = &(obj->shape.cylinder.dir);
+		return (obj_dir);
+	obj_dir.dir = &(obj->shape.plane.dir);
 	return (obj_dir);
 }
 
-t_vector	*get_cone_dir(t_obj *obj)
+t_obj_dir	get_cylinder_dir(t_obj *obj)
 {
-	t_vector	*obj_dir;
+	t_obj_dir	obj_dir;
 
+	obj_dir.type = VECTOR_DIR;
+	obj_dir.dir = NULL;
+	obj_dir.rotate_y = NULL;
 	if (!obj)
-		return (NULL);
-	obj_dir = &(obj->shape.cone.dir);
+		return (obj_dir);
+	obj_dir.dir = &(obj->shape.cylinder.dir);
+	return (obj_dir);
+}
+
+t_obj_dir	get_cone_dir(t_obj *obj)
+{
+	t_obj_dir	obj_dir;
+
+	obj_dir.type = VECTOR_DIR;
+	obj_dir.dir = NULL;
+	obj_dir.rotate_y = NULL;
+	if (!obj)
+		return (obj_dir);
+	obj_dir.dir = &(obj->shape.cone.dir);
 	return (obj_dir);
 }

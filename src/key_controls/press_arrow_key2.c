@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:50:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 18:55:09 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:24:48 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,18 @@ void	rotate_right(t_vector *dir, t_scene *scene __attribute__((unused)))
 		return ;
 	rotated_dir = rotate_horizontally(dir, -ROTATE_ANGLE);
 	*dir = rotated_dir;
+}
+
+void	rotate_uv_right(float *rotate_y)
+{
+	if (!rotate_y)
+		return ;
+	*rotate_y += UV_ROTATE_ANGLE;
+}
+
+void	rotate_uv_left(float *rotate_y)
+{
+	if (!rotate_y)
+		return ;
+	*rotate_y -= UV_ROTATE_ANGLE;
 }

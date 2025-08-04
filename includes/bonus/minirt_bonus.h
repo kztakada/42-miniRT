@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 20:34:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/02 17:39:44 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 14:04:38 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 # define F_MSG "Bonus mode enabled\n"
 
 // prototype
-int	stbi_data_to_color(unsigned char *img_data, int width, int height,
-		t_texture *c_texture);
-t_binary_result	set_material_bonus(t_obj *obj, char **line_element, int start_index);
+t_binary_result	stbi_data_to_color(unsigned char *img_data, int width,
+					int height, t_texture *c_texture);
 
 #endif

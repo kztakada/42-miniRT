@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/03 22:58:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:26:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,19 @@ typedef struct s_light
 typedef struct s_hit		t_hit;
 typedef struct s_obj		t_obj;
 
+typedef enum e_obj_dir_type
+{
+	VECTOR_DIR,
+	UV_DIR,
+}							t_obj_dir_type;
+
+typedef struct s_obj_dir
+{
+	t_obj_dir_type			type;
+	t_vector				*dir;
+	float					*rotate_y;
+}							t_obj_dir;
+
 typedef struct s_texture
 {
 	// char				*name;
@@ -161,7 +174,9 @@ typedef struct s_sphere
 	t_vector				pos_initial;
 	float					diameter;
 	float radius_pow2; // r2;
-						// t_color		color;
+	float					rotation_y;
+	// float					rotation_x;
+	// t_color		color;
 }							t_sphere;
 
 typedef struct s_triangle
@@ -228,7 +243,7 @@ typedef t_color				(*t_f_get_color)(t_obj *obj, t_hit *hit);
 typedef void				(*t_f_print_focused_obj)(t_obj *obj);
 typedef void				(*t_f_reset_obj)(t_obj *obj);
 typedef t_vector			*(*t_f_get_pos)(t_obj *obj);
-typedef t_vector			*(*t_f_get_dir)(t_obj *obj);
+typedef t_obj_dir			(*t_f_get_dir)(t_obj *obj);
 typedef void				(*t_f_set_local_axes)(t_obj *obj,
 					t_vector *camera_dir);
 
@@ -457,6 +472,8 @@ void						rotate_left(t_vector *dir, t_scene *scene);
 void						rotate_right(t_vector *dir, t_scene *scene);
 void						rotate_up(t_vector *dir, t_scene *scene);
 void						rotate_down(t_vector *dir, t_scene *scene);
+void						rotate_uv_right(float *rotate_y);
+void						rotate_uv_left(float *rotate_y);
 void						color_up(t_color *color);
 void						color_down(t_color *color);
 
@@ -523,10 +540,10 @@ t_vector					*get_plane_pos(t_obj *obj);
 t_vector					*get_cylinder_pos(t_obj *obj);
 t_vector					*get_cone_pos(t_obj *obj);
 
-t_vector					*get_sphere_dir(t_obj *obj);
-t_vector					*get_plane_dir(t_obj *obj);
-t_vector					*get_cylinder_dir(t_obj *obj);
-t_vector					*get_cone_dir(t_obj *obj);
+t_obj_dir					get_sphere_dir(t_obj *obj);
+t_obj_dir					get_plane_dir(t_obj *obj);
+t_obj_dir					get_cylinder_dir(t_obj *obj);
+t_obj_dir					get_cone_dir(t_obj *obj);
 
 void						set_local_xyz_sphere(t_obj *obj,
 								t_vector *camera_dir);
@@ -539,6 +556,8 @@ void						set_local_xyz_cone(t_obj *obj,
 
 void						calc_sphere_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);
+void						calc_sphere_uv_map_equirectangular(t_obj *obj,
+								t_vector hit_pos, float *uv, float rotation_y);
 void						calc_plane_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);
 void						calc_cylinder_uv_map_xy(t_obj *obj,
@@ -568,6 +587,7 @@ float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
 t_color						get_opposite_color(t_color color);
+float						clampf(float value, float min, float max);
 
 // parse
 t_binary_result				parse(t_scene *scene, const char *file_path);

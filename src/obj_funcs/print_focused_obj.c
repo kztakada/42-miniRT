@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:13:38 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 22:10:53 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:32:14 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_focused_obj_sphere(t_obj *obj)
 	printf("  Diameter: %f\n", obj->shape.sphere.diameter);
 	printf("  Color: (%f, %f, %f)\n", obj->material.color.r,
 		obj->material.color.g, obj->material.color.b);
+	printf("  Rotation y: %f\n", obj->shape.sphere.rotation_y);
 }
 
 void	print_focused_obj_plane(t_obj *obj)

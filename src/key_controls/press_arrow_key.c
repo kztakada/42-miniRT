@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:29:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 18:59:29 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:30:03 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static void	press_up_down_key(t_scene_with_mlx *r_scene,
 		if (r_scene->key.selected_obj == NULL)
 			return ;
 		selected_obj = r_scene->key.selected_obj;
-		rotate_func(selected_obj->get_dir(selected_obj), scene);
+		if (selected_obj->get_dir(selected_obj).type != VECTOR_DIR)
+			return ;
+		rotate_func(selected_obj->get_dir(selected_obj).dir, scene);
 	}
 	else if (r_scene->key.mode == LIGHT_MODE)
 	{
@@ -67,7 +69,7 @@ static void	press_up_down_key(t_scene_with_mlx *r_scene,
 
 static void	press_left_right_key(t_scene_with_mlx *r_scene,
 		void (*rotate_func)(t_vector *, t_scene *),
-		void (*color_func)(t_color *))
+		void (*rotate_uv_func)(float *), void (*color_func)(t_color *))
 {
 	t_scene	*scene;
 	t_obj	*selected_obj;
@@ -85,7 +87,10 @@ static void	press_left_right_key(t_scene_with_mlx *r_scene,
 		if (r_scene->key.selected_obj == NULL)
 			return ;
 		selected_obj = r_scene->key.selected_obj;
-		rotate_func(selected_obj->get_dir(selected_obj), scene);
+		if (selected_obj->get_dir(selected_obj).type == VECTOR_DIR)
+			rotate_func(selected_obj->get_dir(selected_obj).dir, scene);
+		else if (selected_obj->get_dir(selected_obj).type == UV_DIR)
+			rotate_uv_func(selected_obj->get_dir(selected_obj).rotate_y);
 	}
 	else if (r_scene->key.mode == LIGHT_MODE)
 	{
@@ -99,9 +104,10 @@ static void	press_left_right_key(t_scene_with_mlx *r_scene,
 void	press_arrow_key(t_scene_with_mlx *r_scene, int keycode)
 {
 	if (keycode == KEY_LEFT)
-		press_left_right_key(r_scene, rotate_left, color_up);
+		press_left_right_key(r_scene, rotate_left, rotate_uv_left, color_up);
 	else if (keycode == KEY_RIGHT)
-		press_left_right_key(r_scene, rotate_right, color_down);
+		press_left_right_key(r_scene, rotate_right, rotate_uv_right,
+			color_down);
 	else if (keycode == KEY_UP)
 		press_up_down_key(r_scene, rotate_up, grighten_up);
 	else if (keycode == KEY_DOWN)

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:15:00 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/03 20:01:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 18:54:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_binary_result	config_sphere(char **line_element, t_obj *obj)
 	obj->shape.sphere.diameter = ft_atof(line_element[2]);
 	obj->shape.sphere.radius_pow2 = obj->shape.sphere.diameter
 		* obj->shape.sphere.diameter * 0.25f;
+	obj->shape.sphere.rotation_y = 0.0f;
 	obj->has_volume = TRUE;
 	obj->calc_obj_hit = calc_sphere_obj_hit;
 	obj->calc_normal = calc_sphere_normal;

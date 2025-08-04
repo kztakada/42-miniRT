@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 00:30:32 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/03 18:16:36 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 13:49:13 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ t_binary_result	format_check_sphere(char **line_element)
 	int	num_element;
 
 	num_element = element_count(line_element);
-	if ((num_element != 4 && num_element != 6 && num_element != 7
-			&& num_element != 9))
+	if (!(num_element == 4 || (num_element >= 6 && num_element <= 9)))
 		return (put_out_format_error(line_element[0], ERR_NUM_ARG));
 	if (is_number_float_three_dimensional(line_element[1]) == FAILURE
 		|| is_number_float(line_element[2]) == FAILURE
@@ -41,8 +40,7 @@ t_binary_result	format_check_plane(char **line_element)
 	int	num_element;
 
 	num_element = element_count(line_element);
-	if ((num_element != 4 && num_element != 6 && num_element != 7
-			&& num_element != 9))
+	if (!(num_element == 4 || (num_element >= 6 && num_element <= 9)))
 		return (put_out_format_error(line_element[0], ERR_NUM_ARG));
 	if (is_number_float_three_dimensional(line_element[1]) == FAILURE
 		|| is_number_float_three_dimensional(line_element[2]) == FAILURE
@@ -65,8 +63,7 @@ t_binary_result	format_check_cylinder(char **line_element)
 	int	num_element;
 
 	num_element = element_count(line_element);
-	if (num_element != 6 && num_element != 8 && num_element != 9
-		&& num_element != 11)
+	if (!(num_element == 6 || (num_element >= 8 && num_element <= 11)))
 		return (put_out_format_error(line_element[0], ERR_NUM_ARG));
 	if (is_number_float_three_dimensional(line_element[1]) == FAILURE
 		|| is_number_float_three_dimensional(line_element[2]) == FAILURE
@@ -103,8 +100,7 @@ t_binary_result	format_check_cone(char **line_element)
 	int	num_element;
 
 	num_element = element_count(line_element);
-	if (num_element != 7 && num_element != 9 && num_element != 10
-		&& num_element != 12)
+	if (!(num_element == 7 || (num_element >= 9 && num_element <= 12)))
 		put_out_format_error(line_element[0], ERR_NUM_ARG);
 	if (is_number_float_three_dimensional(line_element[1]) == FAILURE
 		|| is_number_float_three_dimensional(line_element[2]) == FAILURE

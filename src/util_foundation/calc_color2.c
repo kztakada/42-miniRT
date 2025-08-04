@@ -6,13 +6,13 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/03 22:58:16 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:35:32 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static float	clampf(float value, float min, float max)
+float	clampf(float value, float min, float max)
 {
 	return (fmaxf(min, fminf(value, max)));
 }

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   set_material_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 18:02:00 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 14:05:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_bonus.h"
 #include "stb_image.h"
 
-static t_binary_result is_file_exist(char *file_path)
+static t_binary_result	is_file_exist(char *file_path)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
@@ -27,7 +27,8 @@ static t_binary_result is_file_exist(char *file_path)
 	}
 }
 
-static t_binary_result	set_texture(t_texture *texture, char *type, char *file_path)
+static t_binary_result	set_texture(t_texture *texture, char *type,
+		char *file_path)
 {
 	unsigned char	*img_data;
 	int				width;
@@ -40,7 +41,7 @@ static t_binary_result	set_texture(t_texture *texture, char *type, char *file_pa
 		return (FAILURE);
 	texture->width = width;
 	texture->height = height;
-	if (stbi_data_to_color(img_data, width, height, texture) == -1)
+	if (stbi_data_to_color(img_data, width, height, texture) == FAILURE)
 	{
 		free(img_data);
 		return (put_out_format_error(type, ERR_MALLOC_FAIL));
@@ -49,8 +50,7 @@ static t_binary_result	set_texture(t_texture *texture, char *type, char *file_pa
 	return (SUCCESS);
 }
 
-static void	set_has_flag(t_obj *obj, char **line_element,
-	int index)
+static void	set_has_flag(t_obj *obj, char **line_element, int index)
 {
 	if (line_element[index])
 	{
@@ -84,11 +84,11 @@ t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 	set_has_flag(obj, line_element, start_index + 3);
 	if (obj->material.has_texture == TRUE)
 		return (set_texture(&(obj->material.texture), line_element[0],
-			line_element[start_index + 4]));
+				line_element[start_index + 4]));
 	if (obj->material.has_bump == TRUE)
 	{
 		return (set_texture(&(obj->material.bump), line_element[0],
-			line_element[start_index + 5]));
+				line_element[start_index + 5]));
 	}
 	return (SUCCESS);
 }
