@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:26:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 21:38:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 22:47:06 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	calc_plane_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
 	uv_map[1] = vectors_dot(relative_pos, obj->local.z);
 }
 
-void	generate_orthogonal_axes(t_vector normal, t_vector *u_axis,
-		t_vector *v_axis)
+void	generate_orthogonal_axes(t_vector normal, t_vector *axis_x,
+		t_vector *axis_y)
 {
 	t_vector	up;
 	t_vector	right;
@@ -87,25 +87,26 @@ void	generate_orthogonal_axes(t_vector normal, t_vector *u_axis,
 	right = (t_vector){1, 0, 0};
 	// 法線がY軸に近い場合はX軸を基準にする
 	if (fabsf(vectors_dot(normal, up)) > 0.9f)
-		*u_axis = normalize_vector(cross_vector(normal, right));
+		*axis_x = normalize_vector(cross_vector(normal, right));
 	else
-		*u_axis = normalize_vector(cross_vector(normal, up));
-	*v_axis = normalize_vector(cross_vector(normal, *u_axis));
+		*axis_x = normalize_vector(cross_vector(normal, up));
+	*axis_y = normalize_vector(cross_vector(normal, *axis_x));
 }
 
 void	calc_plane_uv_map_tiling(t_obj *obj, t_vector target_pos, float *uv)
 {
-	t_vector u_axis, v_axis;
-	t_vector local_pos;
+	t_vector	local_pos;
+	t_vector	axis_x;
+	t_vector	axis_y;
 
 	// 平面の法線から直交する2つの軸を生成
-	generate_orthogonal_axes(obj->shape.plane.dir, &u_axis, &v_axis);
+	generate_orthogonal_axes(obj->shape.plane.dir, &axis_x, &axis_y);
 	// 交点から平面の中心への相対位置を計算
 	local_pos = sub_vectors(target_pos, obj->shape.plane.pos);
 	// テクスチャの繰り返し頻度（調整可能）
-	uv[0] = vectors_dot(local_pos, u_axis) * TEXTURE_TILE_SCALE + 0.5f;
+	uv[0] = vectors_dot(local_pos, axis_x) * TEXTURE_TILE_SCALE + 0.5f;
 	// [0,1]範囲に正規化
-	uv[1] = vectors_dot(local_pos, v_axis) * TEXTURE_TILE_SCALE + 0.5f;
+	uv[1] = vectors_dot(local_pos, axis_y) * TEXTURE_TILE_SCALE + 0.5f;
 	// [0,1]範囲に正規化
 	// UV座標を[0,1]の範囲に正規化（繰り返しパターンのため）
 	uv[0] = uv[0] - floorf(uv[0]); // 小数部分のみ取得

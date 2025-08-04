@@ -6,86 +6,123 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 22:07:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 00:11:03 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 22:45:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_bool	is_checkerboard_fill_color(float *uv, float magnification)
+static t_color	get_texture_color(t_texture *texture, float *uv)
 {
-	int		x_grid;
-	int		y_grid;
-	float	scaled_x;
-	float	scaled_y;
+	size_t	tex_x;
+	size_t	tex_y;
+	size_t	i;
 
-	if (!uv)
-		return (FALSE);
-	if (magnification <= 0.0F)
-		return (FALSE);
-	scaled_x = uv[0] * CHECKERBOARD_SIZE * magnification;
-	scaled_y = uv[1] * CHECKERBOARD_SIZE * magnification;
-	x_grid = (int)floorf(scaled_x);
-	y_grid = (int)floorf(scaled_y);
-	return (((x_grid + y_grid) % 2) == 0);
+	if (!texture || !texture->color || !uv)
+		return (put_out_error_color(ERR_INVALID_GC_ARGS));
+	// UV座標をテクスチャ座標に変換（境界処理付き）
+	tex_x = (size_t)(uv[0] * (texture->width - 1) + 0.5f);
+	tex_y = (size_t)(uv[1] * (texture->height - 1) + 0.5f);
+	// 境界クランプ処理
+	if (tex_x >= texture->width)
+		tex_x = texture->width - 1;
+	if (tex_y >= texture->height)
+		tex_y = texture->height - 1;
+	i = tex_x + tex_y * texture->width;
+	if (i >= texture->width * texture->height)
+		return (put_out_error_color(ERR_INVALID_GC_ARGS));
+	return (texture->color[i]);
 }
 
-t_color	get_sphere_checker_color(t_obj *obj, t_hit *hit)
+t_color	get_sphere_texture_color(t_obj *obj, t_hit *hit)
 {
 	t_color	color;
 	float	uv[2];
 
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
-	color = obj->material.color;
+	// テクスチャがない場合は基本色を返す
+	if (!obj->material.texture.color)
+		return (obj->material.color);
 	ft_bzero(uv, sizeof(float) * 2);
-	calc_sphere_uv_map_xy(obj, hit->pos, uv);
-	if (is_checkerboard_fill_color(uv, 1.0F))
-		color = get_opposite_color(color);
+	calc_sphere_uv_map_equirectangular(obj, hit->pos, uv,
+		obj->shape.sphere.rotation_y);
+	color = get_texture_color(&obj->material.texture, uv);
 	return (color);
 }
 
-t_color	get_plane_checker_color(t_obj *obj, t_hit *hit)
+t_color	get_plane_texture_color(t_obj *obj, t_hit *hit)
 {
 	t_color	color;
 	float	uv[2];
 
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
-	color = obj->material.color;
+	// テクスチャがない場合は基本色を返す
+	if (!obj->material.texture.color)
+		return (obj->material.color);
 	ft_bzero(uv, sizeof(float) * 2);
-	calc_plane_uv_map_xy(obj, hit->pos, uv);
-	if (is_checkerboard_fill_color(uv, 0.001F))
-		color = get_opposite_color(color);
+	calc_plane_uv_map_tiling(obj, hit->pos, uv);
+	color = get_texture_color(&obj->material.texture, uv);
 	return (color);
 }
 
-t_color	get_cylinder_checker_color(t_obj *obj, t_hit *hit)
+// 未確認
+t_color	get_cylinder_texture_color(t_obj *obj, t_hit *hit)
 {
-	t_color	color;
-	float	uv[2];
+	t_color		color;
+	float		uv[2];
+	t_vector	local_pos;
+	float		axis_projection;
+	float		half_height;
 
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
-	color = obj->material.color;
-	ft_bzero(uv, sizeof(float) * 2);
-	calc_cylinder_uv_map_xy(obj, hit->pos, uv);
-	if (is_checkerboard_fill_color(uv, 1.0F))
-		color = get_opposite_color(color);
-	return (color);
+	// テクスチャがない場合は基本色を返す
+	if (!obj->material.texture.color)
+		return (obj->material.color);
+	// ワールド座標をローカル座標に変換
+	local_pos = sub_vectors(hit->pos, obj->shape.cylinder.pos);
+	// 軸方向の投影を計算
+	axis_projection = vectors_dot(local_pos, obj->shape.cylinder.dir);
+	// 底面との交点かどうかを判定 (上底面または下底面の場合はデフォルトカラーを返す)
+	half_height = obj->shape.cylinder.height / 2.0f;
+	if (fabs(axis_projection - half_height) < EPSILON || fabs(axis_projection
+			+ half_height) < EPSILON)
+		return (obj->material.color);
+	else
+	{
+		// 側面の場合はテクスチャマッピング
+		ft_bzero(uv, sizeof(float) * 2);
+		calc_cylinder_side_uv(local_pos, obj->shape.cylinder.dir,
+			obj->shape.cylinder.height, uv);
+		color = get_texture_color(&obj->material.texture, uv);
+		return (color);
+	}
 }
 
-t_color	get_cone_checker_color(t_obj *obj, t_hit *hit)
+// 未確認
+t_color	get_cone_texture_color(t_obj *obj, t_hit *hit)
 {
-	t_color	color;
-	float	uv[2];
+	t_color		color;
+	float		uv[2];
+	t_vector	local_pos;
+	float		height_offset;
 
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
-	color = obj->material.color;
-	ft_bzero(uv, sizeof(float) * 2);
-	calc_cone_uv_map_xy(obj, hit->pos, uv);
-	if (is_checkerboard_fill_color(uv, 1.0F))
-		color = get_opposite_color(color);
+	// ローカル座標に変換
+	local_pos = sub_vectors(hit->pos, obj->shape.cone.pos);
+	// 双円錐の全高さ
+	// calc_cylinder_side_uvが期待する座標系に調整
+	// cylinder_side_uvは-height/2からheight/2の範囲を想定
+	// 双円錐では-h2からhの範囲なので、中心をずらす
+	// 双円錐の中心を円筒の中心に合わせるための調整
+	height_offset = (obj->shape.cone.h - obj->shape.cone.h2) / 2.0f;
+	local_pos = add_vectors(local_pos, scale_vector(-height_offset,
+				obj->shape.cone.dir));
+	calc_cylinder_side_uv(local_pos, obj->shape.cone.dir, obj->shape.cone.h
+		+ obj->shape.cone.h2, uv);
+	color = get_texture_color(&obj->material.texture, uv);
 	return (color);
 }

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 21:39:15 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 22:42:08 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -564,6 +564,8 @@ void						calc_plane_uv_map_tiling(t_obj *obj,
 								t_vector target_pos, float *uv);
 void						calc_cylinder_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);
+void						calc_cylinder_side_uv(t_vector local_pos,
+								t_vector axis, float height, float *uv);
 void						calc_cone_uv_map_xy(t_obj *obj, t_vector target_pos,
 								float *uv_map);
 
