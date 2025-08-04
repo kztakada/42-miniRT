@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/02 18:16:53 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 06:53:56 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -552,9 +552,6 @@ t_binary_result				config_objs(t_scene *scene, char **line_element);
 t_binary_result				config_sphere(char **line_element, t_obj *obj);
 t_binary_result				config_plane(char **line_element, t_obj *obj);
 t_binary_result				config_cylinder(char **line_element, t_obj *obj);
-t_binary_result				config_triangle(char **line_element, t_obj *obj);
-t_binary_result				config_torus(char **line_element, t_obj *obj);
-t_binary_result				config_cone(char **line_element, t_obj *obj);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
 t_binary_result				set_material_default(t_obj *obj);
 t_binary_result				format_check_ambient(char **line_element, t_parse *format_info);
@@ -563,9 +560,6 @@ t_binary_result				format_check_light(char **line_element, t_parse *format_info)
 t_binary_result				format_check_sphere(char **line_element);
 t_binary_result				format_check_plane(char **line_element);
 t_binary_result				format_check_cylinder(char **line_element);
-t_binary_result				format_check_triangle(char **line_element);
-t_binary_result				format_check_torus(char **line_element);
-t_binary_result				format_check_cone(char **line_element);
 t_binary_result				is_number_int(char *element);
 t_binary_result				is_number_float(char *element);
 t_binary_result				is_number_float_three_dimensional(char *element);

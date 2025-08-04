@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:15:00 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 17:20:00 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 04:15:29 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_binary_result	config_cylinder(char **line_element, t_obj *obj)
 	obj->shape.cylinder.dir_initial = obj->shape.cylinder.dir;
 	obj->shape.cylinder.diameter = ft_atof(line_element[3]);
 	obj->shape.cylinder.height = ft_atof(line_element[4]);
-	obj->shape.cylinder.radius_pow2 = 0.0f;
+	obj->shape.cylinder.radius_pow2 = obj->shape.cylinder.diameter * obj->shape.cylinder.diameter * 0.25f;
 	obj->shape.cylinder.p1 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cylinder.p2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cylinder.delta_p = (t_vector){0.0f, 0.0f, 0.0f};

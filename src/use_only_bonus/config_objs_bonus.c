@@ -6,11 +6,19 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 18:02:36 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 07:27:18 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "minirt_bonus.h"
+
+static float	calc_cone_cos2(float angle)
+{
+	float	cos_val;
+
+	cos_val = cosf(angle);
+	return (cos_val * cos_val);
+}
 
 t_binary_result	config_triangle(char **line_element, t_obj *obj)
 {
@@ -43,7 +51,7 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 	obj->shape.cone.h = ft_atof(line_element[3]);
 	obj->shape.cone.h2 = ft_atof(line_element[4]);
 	obj->shape.cone.angle = ft_atof(line_element[5]);
-	obj->shape.cone.cos2 = 0.0f;
+	obj->shape.cone.cos2 = calc_cone_cos2(obj->shape.cone.angle);
 	obj->shape.cone.c1 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.c2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.r1 = 0.0f;
