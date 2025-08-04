@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:59:23 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 18:45:06 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:26:39 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	set_default_scene(t_scene *scene)
 {
+	ft_bzero(scene, sizeof(t_scene));
 	scene->screen.width = WIN_WIDTH;
 	scene->screen.height = WIN_HEIGHT;
 	scene->sampling.count = 0;

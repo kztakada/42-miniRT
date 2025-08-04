@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   recognize_type_identifiers.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 18:55:50 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/02 16:58:29 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 20:29:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 static t_binary_result	config_ambient(t_scene *scene, char **line_element,
-	t_parse *format_info)
+		t_parse *format_info)
 {
 	if (format_check_ambient(line_element, format_info) == FAILURE)
 		return (FAILURE);
@@ -26,7 +26,7 @@ static t_binary_result	config_ambient(t_scene *scene, char **line_element,
 }
 
 static t_binary_result	config_camera(t_scene *scene, char **line_element,
-	t_parse *format_info)
+		t_parse *format_info)
 {
 	if (format_check_camera(line_element, format_info) == FAILURE)
 		return (FAILURE);
@@ -45,7 +45,7 @@ static t_binary_result	config_camera(t_scene *scene, char **line_element,
 }
 
 static t_binary_result	config_light(t_scene *scene, char **line_element,
-	t_parse *format_info)
+		t_parse *format_info)
 {
 	t_light	*light;
 	t_list	*new;
@@ -55,6 +55,7 @@ static t_binary_result	config_light(t_scene *scene, char **line_element,
 	light = malloc(sizeof(t_light) * 1);
 	if (!light)
 		return (put_out_format_error(line_element[0], ERR_MALLOC_FAIL));
+	ft_bzero(light, sizeof(t_light));
 	set_vector(&(light->pos), line_element[1]);
 	light->brightness = ft_atof(line_element[2]);
 	if (light->brightness < 0.0f && light->brightness > 1.0f)
@@ -69,10 +70,10 @@ static t_binary_result	config_light(t_scene *scene, char **line_element,
 }
 
 t_binary_result	recognize_type_identifiers(t_scene *scene, char *line,
-	t_parse *format_info)
+		t_parse *format_info)
 {
-	char	**line_element;
-	int		result_status;
+	char			**line_element;
+	t_binary_result	result_status;
 
 	line_element = ft_split_with_blank(line);
 	if (!line_element)
@@ -80,13 +81,13 @@ t_binary_result	recognize_type_identifiers(t_scene *scene, char *line,
 	if (!line_element[0])
 		return (ft_free_char2(line_element), SUCCESS);
 	if (ft_strcmp(line_element[0], "#") == 0)
-		return (SUCCESS);
+		return (ft_free_char2(line_element), SUCCESS);
 	if (ft_strcmp(line_element[0], "A") == 0)
 		result_status = config_ambient(scene, line_element, format_info);
 	else if (ft_strcmp(line_element[0], "C") == 0)
 		result_status = config_camera(scene, line_element, format_info);
-	else if (ft_strcmp(line_element[0], "L") == 0
-		|| ft_strcmp(line_element[0], "l") == 0)
+	else if (ft_strcmp(line_element[0], "L") == 0 || ft_strcmp(line_element[0],
+			"l") == 0)
 		result_status = config_light(scene, line_element, format_info);
 	else
 		result_status = config_objs(scene, line_element);

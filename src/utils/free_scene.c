@@ -3,17 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   free_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:40:14 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 19:57:52 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/04 20:24:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+void	free_object_content(t_obj *obj)
+{
+	if (!obj)
+		return ;
+	if (obj->material.texture.color)
+		free(obj->material.texture.color);
+	if (obj->material.bump.color)
+		free(obj->material.bump.color);
+}
+
 void	free_scene(t_scene *scene)
 {
+	t_list	*current;
+	t_obj	*obj;
+
 	if (!scene)
 		return ;
 	if (scene->screen.dots)
@@ -21,6 +34,13 @@ void	free_scene(t_scene *scene)
 	// Free lights
 	ft_lstclear(&scene->lights, free);
 	// Free objects
+	current = scene->objs;
+	while (current)
+	{
+		obj = (t_obj *)current->content;
+		free_object_content(obj);
+		current = current->next;
+	}
 	ft_lstclear(&scene->objs, free);
 }
 

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/03 23:18:42 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:29:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_binary_result	config_objs(t_scene *scene, char **line_element)
 	obj = malloc(sizeof(t_obj) * 1);
 	if (!obj)
 		return (put_out_format_error(line_element[0], ERR_MALLOC_FAIL));
+	ft_bzero(obj, sizeof(t_obj));
 	if (ft_strcmp(line_element[0], "sp") == 0)
 		result_status = config_sphere(line_element, obj);
 	else if (ft_strcmp(line_element[0], "pl") == 0)
