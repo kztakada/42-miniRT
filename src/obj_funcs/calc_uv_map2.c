@@ -6,22 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 18:19:29 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 18:19:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 21:25:52 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	calc_plane_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
-{
-	t_vector	relative_pos;
-
-	if (!obj || !uv_map)
-		return ;
-	relative_pos = sub_vectors(target_pos, obj->shape.plane.pos);
-	uv_map[0] = vectors_dot(relative_pos, obj->local.x);
-	uv_map[1] = vectors_dot(relative_pos, obj->local.z);
-}
 
 static void	calc_solid_of_revolution_uv_map_xy(t_local_axes obj_local,
 		t_vector to_target, float *uv_map, float obj_height)

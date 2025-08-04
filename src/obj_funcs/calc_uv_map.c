@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:26:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 18:52:06 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/04 21:38:39 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,55 @@ void	calc_sphere_uv_map_equirectangular(t_obj *obj, t_vector hit_pos,
 	// UV座標のクランプ
 	uv[0] = clampf(uv[0], 0.0f, 1.0f);
 	uv[1] = clampf(uv[1], 0.0f, 1.0f);
+}
+
+void	calc_plane_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
+{
+	t_vector	relative_pos;
+
+	if (!obj || !uv_map)
+		return ;
+	relative_pos = sub_vectors(target_pos, obj->shape.plane.pos);
+	uv_map[0] = vectors_dot(relative_pos, obj->local.x);
+	uv_map[1] = vectors_dot(relative_pos, obj->local.z);
+}
+
+void	generate_orthogonal_axes(t_vector normal, t_vector *u_axis,
+		t_vector *v_axis)
+{
+	t_vector	up;
+	t_vector	right;
+
+	up = (t_vector){0, 1, 0};
+	right = (t_vector){1, 0, 0};
+	// 法線がY軸に近い場合はX軸を基準にする
+	if (fabsf(vectors_dot(normal, up)) > 0.9f)
+		*u_axis = normalize_vector(cross_vector(normal, right));
+	else
+		*u_axis = normalize_vector(cross_vector(normal, up));
+	*v_axis = normalize_vector(cross_vector(normal, *u_axis));
+}
+
+void	calc_plane_uv_map_tiling(t_obj *obj, t_vector target_pos, float *uv)
+{
+	t_vector u_axis, v_axis;
+	t_vector local_pos;
+
+	// 平面の法線から直交する2つの軸を生成
+	generate_orthogonal_axes(obj->shape.plane.dir, &u_axis, &v_axis);
+	// 交点から平面の中心への相対位置を計算
+	local_pos = sub_vectors(target_pos, obj->shape.plane.pos);
+	// テクスチャの繰り返し頻度（調整可能）
+	uv[0] = vectors_dot(local_pos, u_axis) * TEXTURE_TILE_SCALE + 0.5f;
+	// [0,1]範囲に正規化
+	uv[1] = vectors_dot(local_pos, v_axis) * TEXTURE_TILE_SCALE + 0.5f;
+	// [0,1]範囲に正規化
+	// UV座標を[0,1]の範囲に正規化（繰り返しパターンのため）
+	uv[0] = uv[0] - floorf(uv[0]); // 小数部分のみ取得
+	uv[1] = uv[1] - floorf(uv[1]);
+	// 負の値の処理
+	if (uv[0] < 0)
+		uv[0] += 1.0f;
+	if (uv[1] < 0)
+		uv[1] += 1.0f;
 }
