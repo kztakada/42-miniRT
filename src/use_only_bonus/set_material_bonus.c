@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/04 14:05:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/05 00:50:27 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,15 @@ static void	set_has_flag(t_obj *obj, char **line_element, int index)
 
 t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 {
-	if (set_material_common(obj, line_element, start_index) == FAILURE)
-		return (FAILURE);
+	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
+		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
+	if (!line_element[start_index + 1])
+		return (set_material_default(obj));
+	else
+	{
+		if (set_material_common(obj, line_element, start_index) == FAILURE)
+			return (FAILURE);
+	}
 	set_has_flag(obj, line_element, start_index + 3);
 	if (obj->material.has_texture == TRUE)
 		return (set_texture(&(obj->material.texture), line_element[0],

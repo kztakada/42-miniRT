@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/07/30 16:06:57 by katakada         ###   ########.fr        #
+#    Updated: 2025/08/03 18:15:53 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ endif
 ifdef WITH_BONUS
     INC_MAIN = -I includes/bonus/
     SRCS_MAIN =	$(wildcard src/use_only_bonus/*.c)
-	CFLAGS += -DSTB_IMAGE_IMPLEMENTATION -D IS_DEBUG=1 -g -fsanitize=address,undefined
+	CC = $(BONUS_CC)
 endif
 
 all:	$(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:41:03 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 13:20:29 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:36:29 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,30 @@ t_hit	calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray)
 // 	return (hit);
 // }
 
-// 未確認
 t_hit	calc_plane_obj_hit(t_obj *obj, t_ray *pov_ray)
 {
-	t_hit	hit;
-	float	denominator;
-	float	t;
+	t_hit		hit;
+	float		denominator;
+	float		t;
+	t_vector	plane_pos;
+	t_vector	plane_normal;
 
 	hit = get_zero_hit();
-	denominator = vectors_dot(pov_ray->dir, obj->shape.plane.dir);
+	plane_pos = obj->shape.plane.pos;
+	plane_normal = obj->shape.plane.dir;
+	denominator = vectors_dot(pov_ray->dir, plane_normal);
 	if (fabs(denominator) < EPSILON)
-		return (get_zero_hit());
-	t = vectors_dot(sub_vectors(obj->shape.plane.pos, pov_ray->pos),
-			obj->shape.plane.dir) / denominator;
+		return (hit);
+	t = vectors_dot(sub_vectors(plane_pos, pov_ray->pos), plane_normal)
+		/ denominator;
 	if (t < EPSILON)
 		return (get_zero_hit());
 	hit.is_hit = TRUE;
 	hit.t = t;
 	hit.pos = get_ray_pos_at_t(*pov_ray, hit.t);
-	hit.normal = obj->shape.plane.dir;
+	if (denominator > 0)
+		hit.normal = scale_vector(-1.0f, plane_normal);
+	else
+		hit.normal = plane_normal;
 	return (hit);
 }
