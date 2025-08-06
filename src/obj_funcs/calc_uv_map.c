@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:26:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 22:47:06 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:41:19 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,29 @@ void	calc_sphere_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
 	t_vector	target_dir;
 	t_vector	local_pos;
 
+	float phi;   // 方位角（経度）
+	float theta; // 極角（緯度の補角）
 	if (!obj || !uv_map)
 		return ;
-	target_dir = normalize_vector(sub_vectors(obj->shape.sphere.pos,
-				target_pos));
+	target_dir = normalize_vector(sub_vectors(target_pos,
+				obj->shape.sphere.pos));
 	local_pos.x = vectors_dot(target_dir, obj->local.x);
 	local_pos.y = vectors_dot(target_dir, obj->local.y);
 	local_pos.z = vectors_dot(target_dir, obj->local.z);
-	uv_map[0] = atan2f(local_pos.z, local_pos.x) / (2.0F * (float)M_PI) + 0.5F;
-	uv_map[1] = local_pos.y * 0.5F + 0.5F;
+	// 極角（theta）: 0から πまで
+	theta = acosf(clampf(local_pos.y, -1.0f, 1.0f));
+	// 方位角（phi）: -πから πまで
+	phi = atan2f(local_pos.z, local_pos.x);
+	// UV座標への変換（均等マッピング）
+	uv_map[0] = (phi + M_PI) / (2.0f * M_PI); // 0.0 - 1.0
+	uv_map[1] = theta / M_PI;                 // 0.0 - 1.0
+	// 境界値の正規化
+	if (uv_map[0] < 0.0f)
+		uv_map[0] += 1.0f;
+	if (uv_map[0] > 1.0f)
+		uv_map[0] -= 1.0f;
+	uv_map[0] = clampf(uv_map[0], 0.0f, 1.0f);
+	uv_map[1] = clampf(uv_map[1], 0.0f, 1.0f);
 }
 
 void	calc_sphere_uv_map_equirectangular(t_obj *obj, t_vector hit_pos,
