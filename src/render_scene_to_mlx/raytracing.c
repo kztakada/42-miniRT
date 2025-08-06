@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 18:48:29 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:03:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ static t_color	calc_refract_color(t_scene *scene, t_raytracing *rt,
 	t_vector		offset_pos;
 	float			incident_angle;
 
-	// 媒質の屈折率を決定　　←パース時に実装する
-	// 	obj_refract = rt->closest_obj->material.refract;
-	// if (obj_refract < MIN_OBJ_REFRACT_INDEX)
-	// 	obj_refract = MIN_OBJ_REFRACT_INDEX;
 	// 入射角を計算して内側・外側を判定
 	incident_angle = vectors_dot(rt->pov_ray.dir, rt->hit.normal);
 	// 屈折ベクトルを計算

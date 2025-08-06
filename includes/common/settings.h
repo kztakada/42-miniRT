@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 21:35:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/06 03:44:49 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 // material
 # define CHECKERBOARD_SIZE 10.0F
 # define TEXTURE_TILE_SCALE 0.001F
+# define BUMP_HEIGHT_SCALE 100.0F
+# define BUMP_MAX_RANGE 0.5F
 
 // raytracing
 # define MAX_RECURSION_DEPTH 5

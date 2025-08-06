@@ -6,16 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 14:35:32 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/05 22:00:20 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-float	clampf(float value, float min, float max)
-{
-	return (fmaxf(min, fminf(value, max)));
-}
 
 inline t_color	mix_colors_by_ratio(t_color c1, t_color c2, float c1_ratio)
 {

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/05 00:50:27 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:58:41 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,14 @@ t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
 	}
 	set_has_flag(obj, line_element, start_index + 3);
 	if (obj->material.has_texture == TRUE)
-		return (set_texture(&(obj->material.texture), line_element[0],
-				line_element[start_index + 4]));
+		if (set_texture(&(obj->material.texture), line_element[0],
+				line_element[start_index + 4]) == FAILURE)
+			return (FAILURE);
 	if (obj->material.has_bump == TRUE)
 	{
-		return (set_texture(&(obj->material.bump), line_element[0],
-				line_element[start_index + 5]));
+		if (set_texture(&(obj->material.bump), line_element[0],
+				line_element[start_index + 5]) == FAILURE)
+			return (FAILURE);
 	}
 	return (SUCCESS);
 }

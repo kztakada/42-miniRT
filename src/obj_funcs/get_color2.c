@@ -6,13 +6,13 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 22:07:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 22:45:16 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/06 05:44:42 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_color	get_texture_color(t_texture *texture, float *uv)
+static t_color	get_texture_color_by_uv(t_texture *texture, float *uv)
 {
 	size_t	tex_x;
 	size_t	tex_y;
@@ -47,7 +47,7 @@ t_color	get_sphere_texture_color(t_obj *obj, t_hit *hit)
 	ft_bzero(uv, sizeof(float) * 2);
 	calc_sphere_uv_map_equirectangular(obj, hit->pos, uv,
 		obj->shape.sphere.rotation_y);
-	color = get_texture_color(&obj->material.texture, uv);
+	color = get_texture_color_by_uv(&obj->material.texture, uv);
 	return (color);
 }
 
@@ -63,18 +63,15 @@ t_color	get_plane_texture_color(t_obj *obj, t_hit *hit)
 		return (obj->material.color);
 	ft_bzero(uv, sizeof(float) * 2);
 	calc_plane_uv_map_tiling(obj, hit->pos, uv);
-	color = get_texture_color(&obj->material.texture, uv);
+	color = get_texture_color_by_uv(&obj->material.texture, uv);
 	return (color);
 }
 
-// 未確認
 t_color	get_cylinder_texture_color(t_obj *obj, t_hit *hit)
 {
 	t_color		color;
 	float		uv[2];
 	t_vector	local_pos;
-	float		axis_projection;
-	float		half_height;
 
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
@@ -83,25 +80,13 @@ t_color	get_cylinder_texture_color(t_obj *obj, t_hit *hit)
 		return (obj->material.color);
 	// ワールド座標をローカル座標に変換
 	local_pos = sub_vectors(hit->pos, obj->shape.cylinder.pos);
-	// 軸方向の投影を計算
-	axis_projection = vectors_dot(local_pos, obj->shape.cylinder.dir);
-	// 底面との交点かどうかを判定 (上底面または下底面の場合はデフォルトカラーを返す)
-	half_height = obj->shape.cylinder.height / 2.0f;
-	if (fabs(axis_projection - half_height) < EPSILON || fabs(axis_projection
-			+ half_height) < EPSILON)
-		return (obj->material.color);
-	else
-	{
-		// 側面の場合はテクスチャマッピング
-		ft_bzero(uv, sizeof(float) * 2);
-		calc_cylinder_side_uv(local_pos, obj->shape.cylinder.dir,
-			obj->shape.cylinder.height, uv);
-		color = get_texture_color(&obj->material.texture, uv);
-		return (color);
-	}
+	ft_bzero(uv, sizeof(float) * 2);
+	calc_stretch_mapping_uv(local_pos, obj->shape.cylinder.dir,
+		obj->shape.cylinder.height, uv);
+	color = get_texture_color_by_uv(&obj->material.texture, uv);
+	return (color);
 }
 
-// 未確認
 t_color	get_cone_texture_color(t_obj *obj, t_hit *hit)
 {
 	t_color		color;
@@ -121,8 +106,8 @@ t_color	get_cone_texture_color(t_obj *obj, t_hit *hit)
 	height_offset = (obj->shape.cone.h - obj->shape.cone.h2) / 2.0f;
 	local_pos = add_vectors(local_pos, scale_vector(-height_offset,
 				obj->shape.cone.dir));
-	calc_cylinder_side_uv(local_pos, obj->shape.cone.dir, obj->shape.cone.h
+	calc_stretch_mapping_uv(local_pos, obj->shape.cone.dir, obj->shape.cone.h
 		+ obj->shape.cone.h2, uv);
-	color = get_texture_color(&obj->material.texture, uv);
+	color = get_texture_color_by_uv(&obj->material.texture, uv);
 	return (color);
 }

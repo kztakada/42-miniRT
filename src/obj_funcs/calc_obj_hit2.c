@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:47:51 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 23:35:05 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/06 05:01:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	set_hit_info(t_hit *hit, float t, t_ray *ray, t_vector normal)
 }
 
 /* 円盤との交差判定 */
-static t_hit	calc_disk_obj_hit(t_vector center, t_vector normal, float radius2, t_ray *ray)
+static t_hit	calc_disk_obj_hit(t_vector center, t_vector normal,
+		float radius2, t_ray *ray)
 {
 	t_hit		hit;
 	float		denom;
@@ -63,21 +64,22 @@ static t_hit	calc_disk_obj_hit(t_vector center, t_vector normal, float radius2, 
 
 	hit = get_zero_hit();
 	denom = vectors_dot(ray->dir, normal);
-	if (fabs(denom) < EPSILON)
+	if (fabsf(denom) < EPSILON)
 		return (hit);
 	t = vectors_dot(sub_vectors(center, ray->pos), normal) / denom;
 	if (t < EPSILON)
 		return (hit);
 	hit_point = get_ray_pos_at_t(*ray, t);
-	if (vectors_dot(sub_vectors(hit_point, center), sub_vectors(hit_point, center)) > radius2)
+	if (vectors_dot(sub_vectors(hit_point, center), sub_vectors(hit_point,
+				center)) - radius2 > EPSILON)
 		return (hit);
 	set_hit_info(&hit, t, ray, normal);
 	return (hit);
 }
 
 /* 円筒側面との交差判定 */
-static t_hit	calc_cylinder_side_hit(t_ray *ray, t_vector pos, t_vector dir, 
-				float radius2, float height)
+static t_hit	calc_cylinder_side_hit(t_ray *ray, t_vector pos, t_vector dir,
+		float radius2, float height)
 {
 	t_hit		hit;
 	t_vector	oc;
@@ -98,12 +100,13 @@ static t_hit	calc_cylinder_side_hit(t_ray *ray, t_vector pos, t_vector dir,
 	if ((d[1] = vectors_dot(sub_vectors(oc, pos), dir)) < 0 || d[1] > height)
 	{
 		t = (-q[1] + sqrtf(q[1] * q[1] - 4 * q[0] * q[2])) / (2 * q[0]);
-		if (t < EPSILON || (d[1] = vectors_dot(sub_vectors(
-			(oc = get_ray_pos_at_t(*ray, t)), pos), dir)) < 0 || d[1] > height)
+		if (t < EPSILON
+			|| (d[1] = vectors_dot(sub_vectors((oc = get_ray_pos_at_t(*ray, t)),
+						pos), dir)) < 0 || d[1] > height)
 			return (hit);
 	}
-	set_hit_info(&hit, t, ray, normalize_vector(sub_vectors(oc, 
-		add_vectors(pos, scale_vector(d[1], dir)))));
+	set_hit_info(&hit, t, ray, normalize_vector(sub_vectors(oc, add_vectors(pos,
+					scale_vector(d[1], dir)))));
 	return (hit);
 }
 
@@ -118,10 +121,12 @@ t_hit	calc_cylinder_obj_hit(t_obj *obj, t_ray *ray)
 
 	cyl = &obj->shape.cylinder;
 	dir = normalize_vector(cyl->dir);
-	hits[0] = calc_cylinder_side_hit(ray, cyl->pos, dir, cyl->radius_pow2, cyl->height);
-	hits[1] = calc_disk_obj_hit(cyl->pos, scale_vector(-1.0f, dir), cyl->radius_pow2, ray);
-	hits[2] = calc_disk_obj_hit(add_vectors(cyl->pos, scale_vector(cyl->height, dir)), 
-		dir, cyl->radius_pow2, ray);
+	hits[0] = calc_cylinder_side_hit(ray, cyl->pos, dir, cyl->radius_pow2,
+			cyl->height);
+	hits[1] = calc_disk_obj_hit(cyl->pos, scale_vector(-1.0f, dir),
+			cyl->radius_pow2, ray);
+	hits[2] = calc_disk_obj_hit(add_vectors(cyl->pos, scale_vector(cyl->height,
+					dir)), dir, cyl->radius_pow2, ray);
 	nearest = get_zero_hit();
 	i = 0;
 	while (i < 3)
@@ -139,46 +144,42 @@ static t_hit	calc_cone_side_hit(t_obj *obj, t_ray *ray)
 	t_hit		hit;
 	t_cone		*cone;
 	t_vector	oc;
-	float		a, b, c;
 	float		t;
 	float		m;
 	t_vector	p;
 	t_vector	normal;
+	t_vector	dir;
+	float		cos2;
+	float		dot_v_d;
+	float		dot_oc_d;
 
+	float a, b, c;
 	hit = get_zero_hit();
 	cone = &obj->shape.cone;
 	oc = sub_vectors(ray->pos, cone->pos);
-
 	// 円錐の方向ベクトルを正規化
-	t_vector dir = normalize_vector(cone->dir);
-
+	dir = normalize_vector(cone->dir);
 	// cos²(θ)の値を取得（θは円錐の開き角）
-	float cos2 = cone->cos2;
-
+	cos2 = cone->cos2;
 	// 二次方程式の係数を計算
-	float dot_v_d = vectors_dot(ray->dir, dir);
-	float dot_oc_d = vectors_dot(oc, dir);
-
+	dot_v_d = vectors_dot(ray->dir, dir);
+	dot_oc_d = vectors_dot(oc, dir);
 	a = dot_v_d * dot_v_d - cos2 * vectors_dot(ray->dir, ray->dir);
 	b = 2.0f * (dot_v_d * dot_oc_d - cos2 * vectors_dot(ray->dir, oc));
 	c = dot_oc_d * dot_oc_d - cos2 * vectors_dot(oc, oc);
-
 	// 二次方程式を解く
 	t = solve_quadratic(a, b, c);
 	if (t < EPSILON)
 		return (hit);
-
 	// 交点が円錐の高さ内にあるか確認
 	p = get_ray_pos_at_t(*ray, t);
 	m = vectors_dot(sub_vectors(p, cone->pos), dir);
 	if (m < 0 || m > cone->h)
 		return (hit);
-
 	// 法線ベクトルを計算
-	normal = sub_vectors(sub_vectors(p, cone->pos),
-			scale_vector((1 + cos2) * m / cos2, dir));
+	normal = sub_vectors(sub_vectors(p, cone->pos), scale_vector((1 + cos2) * m
+				/ cos2, dir));
 	normal = normalize_vector(normal);
-
 	// 交点情報を設定
 	set_hit_info(&hit, t, ray, normal);
 	return (hit);
@@ -195,17 +196,12 @@ t_hit	calc_cone_obj_hit(t_obj *obj, t_ray *ray)
 
 	cone = &obj->shape.cone;
 	dir = normalize_vector(cone->dir);
-
 	// 円錐側面との交差判定
 	hits[0] = calc_cone_side_hit(obj, ray);
-
 	// 円錐底面（大きい方の円）との交差判定
-	hits[1] = calc_disk_obj_hit(
-		add_vectors(cone->pos, scale_vector(cone->h, dir)),
-		dir,
-		cone->h * cone->h * tanf(cone->angle) * tanf(cone->angle),
-		ray);
-
+	hits[1] = calc_disk_obj_hit(add_vectors(cone->pos, scale_vector(cone->h,
+					dir)), dir, cone->h * cone->h * tanf(cone->angle)
+			* tanf(cone->angle), ray);
 	// 最も近い交点を見つける
 	nearest = get_zero_hit();
 	i = 0;

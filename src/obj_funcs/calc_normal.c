@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:12:46 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/26 18:48:54 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/06 00:28:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ t_vector	calc_sphere_normal(t_obj *obj, t_hit *hit)
 	return (normalize_vector(normal));
 }
 
-// 未実装
-t_vector	calc_sphere_bump_normal(t_obj *obj, t_hit *hit)
-{
-	if (!obj || !hit)
-		return (put_out_error_vector(ERR_INVALID_CN_ARGS));
-	return (calc_sphere_normal(obj, hit));
-}
-
 t_vector	calc_plane_normal(t_obj *obj, t_hit *hit)
 {
 	float	incident_angle;
@@ -43,10 +35,4 @@ t_vector	calc_plane_normal(t_obj *obj, t_hit *hit)
 		return (inverse_vector(obj->shape.plane.dir));
 }
 
-// 未実装
-t_vector	calc_plane_bump_normal(t_obj *obj, t_hit *hit)
-{
-	if (!obj || !hit)
-		return (put_out_error_vector(ERR_INVALID_CN_ARGS));
-	return (calc_plane_normal(obj, hit));
-}
+

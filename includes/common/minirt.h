@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/05 00:48:46 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:53:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 // calculation constants
 # define EPSILON 0.0001F
+# define GIMBAL_LOCK_THRESHOLD 0.001f
 
 // key code
 # define KEY_ESC 65307
@@ -88,6 +89,44 @@ typedef struct s_vector
 	float					y;
 	float					z;
 }							t_vector;
+
+/* ************************************************************************** */
+
+typedef struct s_pos2d
+{
+	int						x;
+	int						y;
+}							t_pos2d;
+
+typedef struct s_uv
+{
+	float					u;
+	float					v;
+}							t_uv;
+
+typedef struct s_dir4
+{
+	int						left;
+	int						right;
+	int						up;
+	int						down;
+}							t_dir4;
+
+typedef struct s_dir4_f
+{
+	float					left;
+	float					right;
+	float					up;
+	float					down;
+}							t_dir4_f;
+
+typedef struct s_dir4_pos
+{
+	t_pos2d					left;
+	t_pos2d					right;
+	t_pos2d					up;
+	t_pos2d					down;
+}							t_dir4_pos;
 
 /* ************************************************************************** */
 
@@ -564,12 +603,20 @@ void						calc_plane_uv_map_tiling(t_obj *obj,
 								t_vector target_pos, float *uv);
 void						calc_cylinder_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);
-void						calc_cylinder_side_uv(t_vector local_pos,
+void						calc_stretch_mapping_uv(t_vector local_pos,
 								t_vector axis, float height, float *uv);
 void						calc_cone_uv_map_xy(t_obj *obj, t_vector target_pos,
 								float *uv_map);
+t_uv						calc_bump_effects(t_obj *obj, t_pos2d bump_dot,
+								t_uv ref_scale);
+t_vector					calc_bumped_normal(t_obj *obj,
+								t_vector default_normal, t_uv bump_delta);
+t_bool						handle_gimbal_lock_uv_axes(t_vector default_normal,
+								t_vector *axis_u, t_vector *axis_v);
 
 // util_foundation
+t_vector					up_dir(void);
+t_vector					right_dir(void);
 t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
 t_vector					scale_vector(float scalar, t_vector v);
@@ -591,6 +638,7 @@ float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
 t_color						get_opposite_color(t_color color);
+int							clamp_int(int value, int min, int max);
 float						clampf(float value, float min, float max);
 
 // parse
