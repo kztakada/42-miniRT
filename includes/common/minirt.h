@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 19:08:04 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:29:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -507,14 +507,20 @@ void						move_foward(t_vector *pos, t_scene *scene);
 void						move_backward(t_vector *pos, t_scene *scene);
 void						move_left(t_vector *pos, t_scene *scene);
 void						move_right(t_vector *pos, t_scene *scene);
-void						rotate_left(t_vector *dir, t_scene *scene);
-void						rotate_right(t_vector *dir, t_scene *scene);
-void						rotate_up(t_vector *dir, t_scene *scene);
-void						rotate_down(t_vector *dir, t_scene *scene);
+void						rotate_left(t_mode_select mode, t_vector *dir,
+								t_scene *scene);
+void						rotate_right(t_mode_select mode, t_vector *dir,
+								t_scene *scene);
+void						rotate_up(t_mode_select mode, t_vector *dir,
+								t_scene *scene);
+void						rotate_down(t_mode_select mode, t_vector *dir,
+								t_scene *scene);
 void						rotate_uv_right(float *rotate_y);
 void						rotate_uv_left(float *rotate_y);
 void						color_up(t_color *color);
 void						color_down(t_color *color);
+void						grighten_up(float *brightness);
+void						grighten_down(float *brightness);
 
 // render_scene_to_mlx
 void						reset_rendering_scene(t_scene *scene);
@@ -627,6 +633,8 @@ t_vector					calc_reflection_vector(t_vector incident,
 								t_vector normal);
 t_vector					calc_refraction_vector(t_vector incident,
 								t_vector normal, float n1, float n2);
+t_vector					calc_rodrigues_rotation(t_vector current_dir,
+								t_vector rotation_axis, float angle);
 t_color						add_colors(t_color c1, t_color c2);
 t_color						scale_color(float coefficient, t_color c1);
 t_color						multiply_colors(t_color c1, t_color c2);
@@ -634,6 +642,8 @@ float						clamp_color(float color_value, float limit_min,
 								float limit_max);
 int							color_to_int_rgb(t_color color);
 t_color						get_opposite_color(t_color color);
+int							get_24bit_color(t_color *color);
+t_color						get_rgb_color(int color);
 int							clamp_int(int value, int min, int max);
 float						clampf(float value, float min, float max);
 

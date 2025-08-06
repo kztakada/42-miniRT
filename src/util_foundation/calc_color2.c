@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:11:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/05 22:00:20 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:29:25 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,22 @@ t_color	get_opposite_color(t_color color)
 	opposite_color.g = 1.0F - color.g;
 	opposite_color.b = 1.0F - color.b;
 	return (opposite_color);
+}
+
+int	get_24bit_color(t_color *color)
+{
+	if (!color)
+		return (0);
+	return (((int)(color->r * 255) << 16) | ((int)(color->g
+				* 255) << 8) | (int)(color->b * 255));
+}
+
+t_color	get_rgb_color(int color)
+{
+	t_color	rgb_color;
+
+	rgb_color.r = ((color >> 16) & 0xFF) / 255.0F;
+	rgb_color.g = ((color >> 8) & 0xFF) / 255.0F;
+	rgb_color.b = (color & 0xFF) / 255.0F;
+	return (rgb_color);
 }

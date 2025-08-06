@@ -6,49 +6,36 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:29:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 19:30:03 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:43:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	grighten_up(float *brightness)
+void	rotate_uv_right(float *rotate_y)
 {
-	if (!brightness)
+	if (!rotate_y)
 		return ;
-	*brightness += BRIGHTNESS_STEP;
-	if (*brightness > 1.0F)
-		*brightness = 1.0F;
-	if (*brightness < 0.0F)
-		*brightness = 0.0F;
+	*rotate_y += UV_ROTATE_ANGLE;
 }
 
-static void	grighten_down(float *brightness)
+void	rotate_uv_left(float *rotate_y)
 {
-	if (!brightness)
+	if (!rotate_y)
 		return ;
-	*brightness -= BRIGHTNESS_STEP;
-	if (*brightness > 1.0F)
-		*brightness = 1.0F;
-	if (*brightness < 0.0F)
-		*brightness = 0.0F;
+	*rotate_y -= UV_ROTATE_ANGLE;
 }
 
 static void	press_up_down_key(t_scene_with_mlx *r_scene,
-		void (*rotate_func)(t_vector *, t_scene *),
+		void (*rotate_func)(t_mode_select, t_vector *, t_scene *),
 		void (*brighten_func)(float *))
 {
 	t_scene	*scene;
 	t_obj	*selected_obj;
 
-	if (!r_scene)
-		return ;
 	scene = r_scene->scene;
 	if (r_scene->key.mode == CAMERA_MODE)
-	{
-		rotate_func(&scene->camera.dir, scene);
-		setup_camera_screen(scene);
-	}
+		rotate_func(CAMERA_MODE, &scene->camera.dir, scene);
 	else if (r_scene->key.mode == OBJECT_MODE)
 	{
 		if (r_scene->key.selected_obj == NULL)
@@ -56,7 +43,8 @@ static void	press_up_down_key(t_scene_with_mlx *r_scene,
 		selected_obj = r_scene->key.selected_obj;
 		if (selected_obj->get_dir(selected_obj).type != VECTOR_DIR)
 			return ;
-		rotate_func(selected_obj->get_dir(selected_obj).dir, scene);
+		rotate_func(OBJECT_MODE, selected_obj->get_dir(selected_obj).dir,
+			scene);
 	}
 	else if (r_scene->key.mode == LIGHT_MODE)
 	{
@@ -68,27 +56,23 @@ static void	press_up_down_key(t_scene_with_mlx *r_scene,
 }
 
 static void	press_left_right_key(t_scene_with_mlx *r_scene,
-		void (*rotate_func)(t_vector *, t_scene *),
+		void (*rotate_func)(t_mode_select, t_vector *, t_scene *),
 		void (*rotate_uv_func)(float *), void (*color_func)(t_color *))
 {
 	t_scene	*scene;
 	t_obj	*selected_obj;
 
-	if (!r_scene)
-		return ;
 	scene = r_scene->scene;
 	if (r_scene->key.mode == CAMERA_MODE)
-	{
-		rotate_func(&scene->camera.dir, scene);
-		setup_camera_screen(scene);
-	}
+		rotate_func(CAMERA_MODE, &scene->camera.dir, scene);
 	else if (r_scene->key.mode == OBJECT_MODE)
 	{
 		if (r_scene->key.selected_obj == NULL)
 			return ;
 		selected_obj = r_scene->key.selected_obj;
 		if (selected_obj->get_dir(selected_obj).type == VECTOR_DIR)
-			rotate_func(selected_obj->get_dir(selected_obj).dir, scene);
+			rotate_func(OBJECT_MODE, selected_obj->get_dir(selected_obj).dir,
+				scene);
 		else if (selected_obj->get_dir(selected_obj).type == UV_DIR)
 			rotate_uv_func(selected_obj->get_dir(selected_obj).rotate_y);
 	}
@@ -103,6 +87,8 @@ static void	press_left_right_key(t_scene_with_mlx *r_scene,
 
 void	press_arrow_key(t_scene_with_mlx *r_scene, int keycode)
 {
+	if (!r_scene)
+		return ;
 	if (keycode == KEY_LEFT)
 		press_left_right_key(r_scene, rotate_left, rotate_uv_left, color_up);
 	else if (keycode == KEY_RIGHT)

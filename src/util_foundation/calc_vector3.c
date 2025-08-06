@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 20:25:17 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 00:17:46 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 01:18:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,27 @@ t_vector	calc_refraction_vector(t_vector incident, t_vector normal,
 	refracted = add_vectors(scale_vector(eta, incident), scale_vector(eta
 				* cos_i - cos_t, normal));
 	return (refracted);
+}
+
+// Rodrigues rotation formula
+t_vector	calc_rodrigues_rotation(t_vector current_dir,
+		t_vector rotation_axis, float angle)
+{
+	t_vector	rotated_dir;
+	float		cos_angle;
+	float		sin_angle;
+	float		dot_product;
+	t_vector	cross_product;
+
+	cos_angle = cosf(angle * (float)M_PI / 180.0F);
+	sin_angle = sinf(angle * (float)M_PI / 180.0F);
+	dot_product = vectors_dot(current_dir, rotation_axis);
+	cross_product = cross_vector(rotation_axis, current_dir);
+	rotated_dir.x = current_dir.x * cos_angle + cross_product.x * sin_angle
+		+ rotation_axis.x * dot_product * (1.0F - cos_angle);
+	rotated_dir.y = current_dir.y * cos_angle + cross_product.y * sin_angle
+		+ rotation_axis.y * dot_product * (1.0F - cos_angle);
+	rotated_dir.z = current_dir.z * cos_angle + cross_product.z * sin_angle
+		+ rotation_axis.z * dot_product * (1.0F - cos_angle);
+	return (normalize_vector(rotated_dir));
 }
