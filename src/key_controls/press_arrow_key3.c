@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:50:16 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 01:41:23 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 02:00:31 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ static t_vector	rotate_obj_vertically(t_vector *dir, float angle,
 		t_scene *scene)
 {
 	t_vector	rotated_dir;
-	float		dot_product;
-	t_vector	cross_product;
+	t_vector	axis_u;
+	t_vector	axis_v;
 	t_vector	vertical_axis;
+	float		sin_angle;
 
-	t_vector axis_u, axis_v;
-	float cos_angle, sin_angle;
 	if (!dir || !scene)
 		return ((t_vector){0.0F, 0.0F, 0.0F});
 	// handle_gimbal_lock_uv_axesと同じ方法で安定した軸を取得
@@ -56,20 +55,8 @@ static t_vector	rotate_obj_vertically(t_vector *dir, float angle,
 		rotated_dir = add_vectors(*dir, scale_vector(sin_angle, vertical_axis));
 		return (normalize_vector(rotated_dir));
 	}
-	cos_angle = cosf(angle * (float)M_PI / 180.0F);
-	sin_angle = sinf(angle * (float)M_PI / 180.0F);
-	// axis_vを回転軸として使用（垂直方向）
-	// *dir を axis_v 軸周りに回転
-	dot_product = vectors_dot(*dir, axis_v);
-	cross_product = cross_vector(axis_v, *dir);
-	// Rodriguesの回転公式
-	rotated_dir.x = dir->x * cos_angle + cross_product.x * sin_angle + axis_v.x
-		* dot_product * (1.0f - cos_angle);
-	rotated_dir.y = dir->y * cos_angle + cross_product.y * sin_angle + axis_v.y
-		* dot_product * (1.0f - cos_angle);
-	rotated_dir.z = dir->z * cos_angle + cross_product.z * sin_angle + axis_v.z
-		* dot_product * (1.0f - cos_angle);
-	return (normalize_vector(rotated_dir));
+	rotated_dir = calc_rodrigues_rotation(*dir, axis_v, angle);
+	return (rotated_dir);
 }
 
 void	rotate_up(t_mode_select mode, t_vector *dir, t_scene *scene)
