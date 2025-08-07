@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 18:55:50 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/04 20:29:28 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:13:32 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_binary_result	recognize_type_identifiers(t_scene *scene, char *line,
 	else if (ft_strcmp(line_element[0], "C") == 0)
 		result_status = config_camera(scene, line_element, format_info);
 	else if (ft_strcmp(line_element[0], "L") == 0 || ft_strcmp(line_element[0],
-			"l") == 0)
+			"lt") == 0)
 		result_status = config_light(scene, line_element, format_info);
 	else
 		result_status = config_objs(scene, line_element);

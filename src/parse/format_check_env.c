@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   format_check_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:23:56 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/01 04:58:47 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/07 04:15:58 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_binary_result	format_check_light(char **line_element, t_parse *format_info)
 {
 	int	num_element;
 
-	if ((format_info->large_light == TRUE && !ft_strcmp(line_element[0], "l"))
+	if ((format_info->large_light == TRUE && !ft_strcmp(line_element[0], "lt"))
 		|| (format_info->light_count != 0 && !ft_strcmp(line_element[0], "L")))
 		return (put_out_format_error(line_element[0], ERR_L_TYPE_MIXED));
 	if (format_info->large_light == TRUE)
@@ -63,7 +63,7 @@ t_binary_result	format_check_light(char **line_element, t_parse *format_info)
 		if (is_number_float_three_dimensional(line_element[3]) == FAILURE)
 			return (put_out_format_error(line_element[0], ERR_NOT_NUMBER));
 	}
-	if (!ft_strcmp(line_element[0], "l"))
+	if (!ft_strcmp(line_element[0], "lt"))
 		format_info->light_count++;
 	if (!ft_strcmp(line_element[0], "L"))
 		format_info->large_light = TRUE;

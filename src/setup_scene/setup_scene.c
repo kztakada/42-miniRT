@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:11 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/03 19:48:43 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:28:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void	setup_scene(t_scene *scene)
 	printf("Setting up scene...\n");
 	setup_camera_screen(scene);
 	set_local_axes(scene);
+	scene->bg_color = scale_color(scene->ambient.brightness, scene->bg_color);
 }
