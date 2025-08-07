@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 13:46:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:22:58 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -590,6 +590,11 @@ t_obj_dir					get_sphere_dir(t_obj *obj);
 t_obj_dir					get_plane_dir(t_obj *obj);
 t_obj_dir					get_cylinder_dir(t_obj *obj);
 t_obj_dir					get_cone_dir(t_obj *obj);
+
+void						reset_object_sphere(t_obj *obj);
+void						reset_object_plane(t_obj *obj);
+void						reset_object_cylinder(t_obj *obj);
+void						reset_object_cone(t_obj *obj);
 
 void						set_local_xyz_sphere(t_obj *obj,
 								t_vector *camera_dir);

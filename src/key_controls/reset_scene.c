@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 15:38:36 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 13:56:24 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:40:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	reset_camera(t_scene_with_mlx *r_scene)
 	scene = r_scene->scene;
 	scene->camera.pos = scene->camera.pos_initial;
 	scene->camera.dir = scene->camera.dir_initial;
+	setup_camera_screen(scene);
 }
 
 static void	reset_selected_obj(t_scene_with_mlx *r_scene)
@@ -73,6 +74,7 @@ void	reset_scene_all(t_scene_with_mlx *r_scene)
 		lights = lights->next;
 	}
 	reset_camera(r_scene);
+	r_scene->key.mode = CAMERA_MODE;
 	r_scene->key.is_modified = TRUE;
 	reset_rendering_scene(r_scene->scene);
 }

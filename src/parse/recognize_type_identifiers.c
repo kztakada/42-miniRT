@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 18:55:50 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/07 04:13:32 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:27:47 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static t_binary_result	config_light(t_scene *scene, char **line_element,
 		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
 	if (set_color(&(light->color), line_element[3]) == FAILURE)
 		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
+	light->pos_initial = light->pos;
+	light->brightness_initial = light->brightness;
 	new = ft_lstnew(light);
 	if (!new)
 		return (put_out_format_error(line_element[0], ERR_MALLOC_FAIL));
