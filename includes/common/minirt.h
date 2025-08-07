@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 14:54:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:33:19 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 # define KEY_Q 113
 # define KEY_E 101
 # define KEY_O 111
+# define KEY_M 109
+# define KEY_B 98
 
 // mouse code
 # define MOUSE_LEFT 1
@@ -179,6 +181,7 @@ typedef struct s_material
 	t_bool					has_bump;
 	t_bool					has_texture;
 	t_bool					is_checkerboard;
+	t_bool					is_bonus;
 }							t_material;
 
 typedef struct s_plane
@@ -286,6 +289,7 @@ typedef t_vector			*(*t_f_get_pos)(t_obj *obj);
 typedef t_obj_dir			(*t_f_get_dir)(t_obj *obj);
 typedef void				(*t_f_set_local_axes)(t_obj *obj,
 					t_vector *camera_dir);
+typedef void				(*t_f_print_rt)(t_obj *obj);
 
 // ローカル座標系
 typedef struct s_local_axes
@@ -309,6 +313,7 @@ struct						s_obj
 	t_f_get_pos				get_pos;
 	t_f_get_dir				get_dir;
 	t_f_set_local_axes		set_local_xyz;
+	t_f_print_rt			print_rt;
 
 	// t_vector			coords; uv作成で使用するが、t_f_get_colorで初期化時に定義する
 	// t_color					color;
@@ -430,7 +435,8 @@ struct						s_scene
 
 	t_list *lights; // t_light	*light;
 	t_list *objs;   // t_obj	*objs;
-					// t_thread_data			thread[MAX_THREADS];
+	t_bool					is_bonus;
+	// t_thread_data			thread[MAX_THREADS];
 
 	// int process; // レ��ダリング状況　heightで割って算出
 
@@ -523,6 +529,8 @@ void						color_up(t_color *color);
 void						color_down(t_color *color);
 void						grighten_up(float *brightness);
 void						grighten_down(float *brightness);
+void						print_rgb_color(t_color color);
+void						print_scene_rt_format(t_scene_with_mlx *r_scene);
 
 // render_scene_to_mlx
 void						reset_rendering_scene(t_scene *scene);
@@ -605,6 +613,11 @@ void						set_local_xyz_cylinder(t_obj *obj,
 								t_vector *camera_dir);
 void						set_local_xyz_cone(t_obj *obj,
 								t_vector *camera_dir);
+
+void						print_rt_sphere(t_obj *obj);
+void						print_rt_plane(t_obj *obj);
+void						print_rt_cylinder(t_obj *obj);
+void						print_rt_cone(t_obj *obj);
 
 void						calc_sphere_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);

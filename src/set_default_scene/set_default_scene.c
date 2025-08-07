@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:59:23 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 20:26:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:02:19 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void	set_default_scene(t_scene *scene)
 	scene->ambient.color = (t_color){1.0F, 1.0F, 1.0F};
 	scene->lights = NULL;
 	scene->objs = NULL;
+	scene->is_bonus = FALSE;
 }

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 08:28:02 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/07 14:23:42 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:54:38 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_binary_result	config_cone(char **line_element, t_obj *obj)
 	obj->get_pos = get_cone_pos;
 	obj->get_dir = get_cone_dir;
 	obj->reset_obj = reset_object_cone;
+	obj->print_rt = print_rt_cone;
 	result_status = set_material(obj, line_element, 6);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cone_bump_normal;

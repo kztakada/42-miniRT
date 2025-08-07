@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:15:00 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/07 14:23:20 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:54:21 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_binary_result	config_sphere(char **line_element, t_obj *obj)
 	obj->get_pos = get_sphere_pos;
 	obj->get_dir = get_sphere_dir;
 	obj->reset_obj = reset_object_sphere;
+	obj->print_rt = print_rt_sphere;
 	result_status = set_material(obj, line_element, 3);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_sphere_bump_normal;
@@ -65,6 +66,7 @@ t_binary_result	config_plane(char **line_element, t_obj *obj)
 	obj->get_pos = get_plane_pos;
 	obj->get_dir = get_plane_dir;
 	obj->reset_obj = reset_object_plane;
+	obj->print_rt = print_rt_plane;
 	result_status = set_material(obj, line_element, 3);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_plane_bump_normal;
@@ -106,6 +108,7 @@ t_binary_result	config_cylinder(char **line_element, t_obj *obj)
 	obj->get_pos = get_cylinder_pos;
 	obj->get_dir = get_cylinder_dir;
 	obj->reset_obj = reset_object_cylinder;
+	obj->print_rt = print_rt_cylinder;
 	result_status = set_material(obj, line_element, 5);
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cylinder_bump_normal;

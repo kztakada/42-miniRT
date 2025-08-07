@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:22:11 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 04:28:16 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:40:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,18 @@ void	set_local_axes(t_scene *scene)
 
 void	setup_scene(t_scene *scene)
 {
+	t_list	*objs;
+
 	printf("Setting up scene...\n");
 	setup_camera_screen(scene);
 	set_local_axes(scene);
 	scene->bg_color = scale_color(scene->ambient.brightness, scene->bg_color);
+	objs = scene->objs;
+	if (!objs)
+		return ;
+	while (objs)
+	{
+		get_obj(objs)->material.is_bonus = scene->is_bonus;
+		objs = objs->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:21:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:34:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv)
 	set_default_scene(&scene);
 	srand(time(NULL));
 	scene.sampling.max_count = MAX_RAND_SAMPLING;
+	scene.is_bonus = TRUE;
 	// 引数のrtファイルからシーンデータを作成
 	if (create_scene(&scene, argv[1]) == FAILURE)
 	{
