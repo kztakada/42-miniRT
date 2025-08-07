@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 13:19:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:46:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,6 +476,7 @@ typedef struct s_key_control
 	int						selected_light_index;
 	t_list					*selected_light;
 	t_mode_select			mode;
+	t_bool					is_modified;
 }							t_key_control;
 
 typedef struct s_scene_with_mlx

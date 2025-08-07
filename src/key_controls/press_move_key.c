@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 15:29:32 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/28 17:40:24 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:53:56 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	press_move_key_any(t_scene_with_mlx *r_scene,
 	t_scene	*scene;
 	t_obj	*selected_obj;
 
-	if (!r_scene)
-		return ;
 	scene = r_scene->scene;
 	if (r_scene->key.mode == CAMERA_MODE)
 	{
@@ -61,11 +59,14 @@ static void	press_move_key_any(t_scene_with_mlx *r_scene,
 			return ;
 		move_func(&(get_light(r_scene->key.selected_light)->pos), scene);
 	}
+	r_scene->key.is_modified = TRUE;
 	reset_rendering_scene(r_scene->scene);
 }
 
 void	press_move_key(t_scene_with_mlx *r_scene, int keycode)
 {
+	if (!r_scene)
+		return ;
 	if (keycode == KEY_W)
 		press_move_key_any(r_scene, move_foward);
 	else if (keycode == KEY_S)

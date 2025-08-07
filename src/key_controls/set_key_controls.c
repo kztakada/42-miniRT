@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 22:33:07 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:58:36 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	toggle_selected_mode(t_scene_with_mlx *r_scene)
 		r_scene->key.mode = OBJECT_MODE;
 	else
 		r_scene->key.mode = CAMERA_MODE;
+	r_scene->key.is_modified = TRUE;
 	print_rendering_console(r_scene);
 }
 

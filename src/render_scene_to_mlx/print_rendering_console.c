@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:19:00 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/31 23:57:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:04:15 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	print_light_mode(t_scene_with_mlx *r_scene)
 	if (light)
 	{
 		printf("Selected Light:\n");
+		printf("  Index: %d\n", r_scene->key.selected_light_index);
 		printf("  Position: (%.2f, %.2f, %.2f)\n", light->pos.x, light->pos.y,
 			light->pos.z);
 		printf("  Brightness: %.2f\n", light->brightness);
@@ -102,19 +103,15 @@ static void	print_minirt_header(void)
 
 void	print_rendering_console(t_scene_with_mlx *r_scene)
 {
-	t_scene			*scene;
-	static int		completion_displayed = 0;
-	static int		mode = -1;
-	static t_obj	*selected_obj = NULL;
+	t_scene		*scene;
+	static int	completion_displayed = 0;
 
 	scene = r_scene->scene;
 	// 完了していて、既に表示済みなら何もしない
 	if (scene->sampling.count >= scene->sampling.max_count
-		&& mode == (int)r_scene->key.mode
-		&& selected_obj == r_scene->key.selected_obj && completion_displayed)
+		&& r_scene->key.is_modified == FALSE && completion_displayed)
 		return ;
-	mode = (int)r_scene->key.mode;
-	selected_obj = r_scene->key.selected_obj;
+	r_scene->key.is_modified = FALSE;
 	printf("\033[2J\033[H"); // 画面をクリア
 	print_minirt_header();
 	print_rendering_progress(scene);

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 19:56:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 21:09:59 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:10:47 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	set_first_light(t_scene_with_mlx *r_scene)
 		return ;
 	r_scene->key.selected_light = r_scene->key.first_index_light;
 	r_scene->key.selected_light_index = 0;
+	r_scene->key.is_modified = TRUE;
+	print_rendering_console(r_scene);
 }
 
 static void	set_last_light(t_scene_with_mlx *r_scene)
@@ -29,6 +31,8 @@ static void	set_last_light(t_scene_with_mlx *r_scene)
 	last_index = ft_lstsize(r_scene->key.first_index_light) - 1;
 	r_scene->key.selected_light = ft_lstlast(r_scene->key.first_index_light);
 	r_scene->key.selected_light_index = last_index;
+	r_scene->key.is_modified = TRUE;
+	print_rendering_console(r_scene);
 }
 
 void	select_next_light(t_scene_with_mlx *r_scene)
@@ -45,6 +49,8 @@ void	select_next_light(t_scene_with_mlx *r_scene)
 	if (next_light == NULL)
 		return (set_first_light(r_scene));
 	r_scene->key.selected_light = next_light;
+	r_scene->key.is_modified = TRUE;
+	print_rendering_console(r_scene);
 }
 
 void	select_prev_light(t_scene_with_mlx *r_scene)
@@ -61,7 +67,7 @@ void	select_prev_light(t_scene_with_mlx *r_scene)
 		return (set_last_light(r_scene));
 	i = 0;
 	prev_light = r_scene->key.first_index_light;
-	while (prev_light && i < r_scene->key.selected_light_index)
+	while (prev_light && i < r_scene->key.selected_light_index - 1)
 	{
 		prev_light = prev_light->next;
 		i++;
@@ -70,4 +76,6 @@ void	select_prev_light(t_scene_with_mlx *r_scene)
 	if (prev_light == NULL)
 		return (set_first_light(r_scene));
 	r_scene->key.selected_light = prev_light;
+	r_scene->key.is_modified = TRUE;
+	print_rendering_console(r_scene);
 }

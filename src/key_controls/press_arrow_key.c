@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:29:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 01:43:28 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:53:17 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	press_up_down_key(t_scene_with_mlx *r_scene,
 			return ;
 		brighten_func(&(get_light(r_scene->key.selected_light)->brightness));
 	}
+	r_scene->key.is_modified = TRUE;
 	reset_rendering_scene(r_scene->scene);
 }
 
@@ -82,6 +83,7 @@ static void	press_left_right_key(t_scene_with_mlx *r_scene,
 			return ;
 		color_func(&(get_light(r_scene->key.selected_light)->color));
 	}
+	r_scene->key.is_modified = TRUE;
 	reset_rendering_scene(r_scene->scene);
 }
 

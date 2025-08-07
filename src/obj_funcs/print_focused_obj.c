@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:13:38 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 19:32:14 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:52:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	print_focused_obj_cylinder(t_obj *obj)
 	printf("Cylinder Object:\n");
 	printf("  Position: (%f, %f, %f)\n", obj->shape.cylinder.pos.x,
 		obj->shape.cylinder.pos.y, obj->shape.cylinder.pos.z);
+	printf("  Direction: (%f, %f, %f)\n", obj->shape.cylinder.dir.x,
+		obj->shape.cylinder.dir.y, obj->shape.cylinder.dir.z);
+	printf("  Height: %f\n", obj->shape.cylinder.height);
 	printf("  Diameter: %f\n", obj->shape.cylinder.diameter);
 	printf("  Color: (%f, %f, %f)\n", obj->material.color.r,
 		obj->material.color.g, obj->material.color.b);
