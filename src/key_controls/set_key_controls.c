@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 13:58:36 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:11:21 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	mouse_down(int button, int mouse_x, int mouse_y, void *param)
 			&rt.hit);
 	r_scene->key.selected_obj = rt.closest_obj;
 	r_scene->key.mode = OBJECT_MODE;
+	r_scene->key.is_modified = TRUE;
 	print_rendering_console(r_scene);
 	return (0);
 }

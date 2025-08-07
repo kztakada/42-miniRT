@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 14:22:58 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:54:01 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_texture
 	size_t					width;
 	size_t					height;
 	t_color					*color;
+	char					*file_path;
 }							t_texture;
 
 typedef struct s_material

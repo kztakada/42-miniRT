@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:46:12 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 22:35:49 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:06:32 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ void	render_mlx_image(t_scene_with_mlx *r_scene)
 		free_scene_with_mlx(r_scene);
 		exit(EXIT_FAILURE);
 	}
-	print_rendering_console(r_scene);
+	
 	scene->sampling.count++;
+	print_rendering_console(r_scene);
 	if (!r_scene || !r_scene->mlx_img)
 		return ;
 	screen_to_mlx_image(r_scene->mlx_img, scene);

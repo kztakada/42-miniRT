@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/05 18:58:41 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:59:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ static t_binary_result	set_texture(t_texture *texture, char *type,
 		return (FAILURE);
 	texture->width = width;
 	texture->height = height;
+	texture->file_path = ft_strdup(file_path);
+	if (!texture->file_path)
+	{
+		free(img_data);
+		return (put_out_format_error(type, ERR_MALLOC_FAIL));
+	}
 	if (stbi_data_to_color(img_data, width, height, texture) == FAILURE)
 	{
 		free(img_data);

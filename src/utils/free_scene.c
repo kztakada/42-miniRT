@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:40:14 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/04 20:24:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:59:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	free_object_content(t_obj *obj)
 		return ;
 	if (obj->material.texture.color)
 		free(obj->material.texture.color);
+	if (obj->material.texture.file_path)
+		free(obj->material.texture.file_path);
 	if (obj->material.bump.color)
 		free(obj->material.bump.color);
+	if (obj->material.bump.file_path)
+		free(obj->material.bump.file_path);
 }
 
 void	free_scene(t_scene *scene)
