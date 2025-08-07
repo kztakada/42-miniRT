@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:50:16 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 02:00:31 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:23:03 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,10 @@ static t_vector	rotate_obj_vertically(t_vector *dir, float angle,
 		t_scene *scene)
 {
 	t_vector	rotated_dir;
-	t_vector	axis_u;
-	t_vector	axis_v;
-	t_vector	vertical_axis;
-	float		sin_angle;
 
 	if (!dir || !scene)
 		return ((t_vector){0.0F, 0.0F, 0.0F});
-	// handle_gimbal_lock_uv_axesと同じ方法で安定した軸を取得
-	if (!handle_gimbal_lock_uv_axes(*dir, &axis_u, &axis_v))
-	{
-		// フォールバック: 簡単な垂直回転
-		vertical_axis = normalize_vector(scene->screen.y_per_pixel);
-		sin_angle = sinf(angle * (float)M_PI / 180.0F);
-		rotated_dir = add_vectors(*dir, scale_vector(sin_angle, vertical_axis));
-		return (normalize_vector(rotated_dir));
-	}
-	rotated_dir = calc_rodrigues_rotation(*dir, axis_v, angle);
+	rotated_dir = calc_rodrigues_rotation(*dir, right_dir(), angle);
 	return (rotated_dir);
 }
 

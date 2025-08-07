@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 01:29:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:19:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -619,6 +619,7 @@ t_bool						handle_gimbal_lock_uv_axes(t_vector default_normal,
 // util_foundation
 t_vector					up_dir(void);
 t_vector					right_dir(void);
+t_vector					forward_dir(void);
 t_vector					add_vectors(t_vector a, t_vector b);
 t_vector					sub_vectors(t_vector a, t_vector b);
 t_vector					scale_vector(float scalar, t_vector v);
