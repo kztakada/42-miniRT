@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:50:16 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 13:23:03 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:10:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,24 @@ static t_vector	rotate_camera_vertically(t_vector *current_dir, float angle)
 	t_vector	rotated_dir;
 	float		vertical_limit;
 	float		y_dot;
+	float		y_delta;
 
 	if (!current_dir)
 		return ((t_vector){0.0F, 0.0F, 0.0F});
 	// Y軸との平行度をチェック
 	y_dot = fabsf(vectors_dot(*current_dir, up_dir()));
-	vertical_limit = 1.0f - fabsf(sinf(ROTATE_ANGLE * (float)M_PI / 180.0F));
+	y_delta = sinf(angle * (float)M_PI / 180.0F);
+	vertical_limit = 1.0f - fabsf(y_delta);
 	// ジンバルロック回避
 	if (y_dot > vertical_limit)
 	{
 		if (current_dir->y < 0 && angle > 0)
-			return (*current_dir); // 下向きで下回転は無効
+			return ((t_vector){current_dir->x, -1.0F + 1e-6f, current_dir->z});
 		if (current_dir->y > 0 && angle < 0)
-			return (*current_dir); // 上向きで上回転は無効
+			return ((t_vector){current_dir->x, 1.F - 1e-6f, current_dir->z});
 	}
-	rotated_dir = calc_rodrigues_rotation(*current_dir, right_dir(), angle);
+	rotated_dir = (t_vector){current_dir->x, current_dir->y - y_delta,
+		current_dir->z};
 	return (rotated_dir);
 }
 
