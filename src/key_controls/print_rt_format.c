@@ -6,11 +6,18 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:16:48 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:46:44 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 01:17:07 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+void	print_rgb_color_info(t_color color)
+{
+	printf("  Color: (%d, %d, %d)\n", (int)(256.0F * clamp_color(color.r, 0.0F,
+				0.999F)), (int)(256.0F * clamp_color(color.g, 0.0F, 0.999F)),
+		(int)(256.0F * clamp_color(color.b, 0.0F, 0.999F)));
+}
 
 void	print_rgb_color(t_color color)
 {
@@ -42,12 +49,17 @@ static void	print_light_rt_format(t_light *light, char *type, t_bool is_bonus)
 	printf("\n");
 }
 
-void	print_scene_rt_format(t_scene_with_mlx *r_scene)
+void	print_scene_rt_format(t_scene_with_mlx *r_scene, t_bool set_print)
 {
-	t_list	*objs;
-	t_list	*lights;
-	t_bool	is_bonus;
+	t_list			*objs;
+	t_list			*lights;
+	t_bool			is_bonus;
+	static t_bool	first_call = FALSE;
 
+	if (set_print)
+		first_call = !first_call;
+	if (first_call == FALSE)
+		return ;
 	objs = r_scene->key.first_index_obj;
 	lights = r_scene->key.first_index_light;
 	is_bonus = r_scene->scene->is_bonus;

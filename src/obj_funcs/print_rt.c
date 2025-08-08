@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:39:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:43:17 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 00:56:13 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ static void	print_rt_material(t_material *material)
 		material->speckv, material->refract, material->is_checkerboard);
 	if (material->has_texture && material->texture.file_path != NULL)
 		printf(" %s", material->texture.file_path);
+	else
+		printf(" NULL");
 	if (material->has_bump && material->bump.file_path != NULL)
 		printf(" %s", material->bump.file_path);
+	else
+		printf(" NULL");
 }
 
 void	print_rt_sphere(t_obj *obj)

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:33:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 01:18:51 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 // calculation constants
 # define EPSILON 0.0001F
-# define GIMBAL_LOCK_THRESHOLD 0.001f
+# define GIMBAL_LOCK_THRESHOLD 0.001F
 
 // key code
 # define KEY_ESC 65307
@@ -500,6 +500,62 @@ void						set_default_scene(t_scene *scene);
 
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
+t_binary_result				parse_scene(t_scene *scene, const char *file_path);
+t_binary_result				parse_one_line_on_scene(t_scene *scene, char *line,
+								t_parse *format_info);
+t_binary_result				parse_ambient(t_scene *scene, char **line_element,
+								t_parse *format_info);
+t_binary_result				parse_camera(t_scene *scene, char **line_element,
+								t_parse *format_info);
+t_binary_result				parse_light(t_scene *scene, char **line_element,
+								t_parse *format_info, t_bool is_bonus);
+
+t_binary_result				set_color(t_color *color, char *str_color);
+void						set_vector(t_vector *vector, char *str_vector);
+t_binary_result				set_material_common(t_obj *obj, char **line_element,
+								char *type);
+t_binary_result				parse_obj(t_scene *scene, char **line_element);
+t_binary_result				parse_obj_sphere(char **line_element, t_obj *obj,
+								t_bool is_bonus);
+t_binary_result				parse_obj_plane(char **line_element, t_obj *obj,
+								t_bool is_bonus);
+t_binary_result				parse_obj_cylinder(char **line_element, t_obj *obj,
+								t_bool is_bonus);
+t_binary_result				parse_obj_cone(char **line_element, t_obj *obj,
+								t_bool is_bonus);
+t_binary_result				set_spec_mirror(t_obj *obj, char *str);
+void						set_material_default(t_obj *obj);
+t_binary_result				format_check_ambient(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_camera(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_light(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_lights_bonus(char **line_element,
+								t_parse *format_info);
+t_binary_result				format_check_sphere(char **line_element,
+								t_bool is_bonus);
+t_binary_result				format_check_plane(char **line_element,
+								t_bool is_bonus);
+t_binary_result				format_check_cylinder(char **line_element,
+								t_bool is_bonus);
+t_binary_result				format_check_cone(char **line_element,
+								t_bool is_bonus);
+
+t_binary_result				is_number_int(char *element);
+t_binary_result				is_positive_int(char *element);
+t_binary_result				is_number_float(char *element);
+t_binary_result				is_positive_float(char *element);
+t_binary_result				is_number_float_three_dimensional(char *element);
+t_binary_result				is_positive_float_three_dimensional(char *element);
+t_binary_result				is_positive_int_three_dimensional(char *element);
+int							element_count(char **line_element);
+t_bool						is_valid_num_of_element(int num_element,
+								int required, t_bool is_bonus);
+t_color						mix_colors_by_ratio(t_color c1, t_color c2,
+								float c1_ratio);
+t_color						add_lighting(t_color base, t_color light,
+								float intensity);
 
 // key_controls
 void						set_key_controls(t_scene_with_mlx *r_scene);
@@ -530,7 +586,9 @@ void						color_down(t_color *color);
 void						grighten_up(float *brightness);
 void						grighten_down(float *brightness);
 void						print_rgb_color(t_color color);
-void						print_scene_rt_format(t_scene_with_mlx *r_scene);
+void						print_rgb_color_info(t_color color);
+void						print_scene_rt_format(t_scene_with_mlx *r_scene,
+								t_bool set_print);
 
 // render_scene_to_mlx
 void						reset_rendering_scene(t_scene *scene);
@@ -557,7 +615,7 @@ void						set_local_axes(t_scene *scene);
 t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
 t_binary_result				set_material(t_obj *obj, char **line_element,
-								int start_index);
+								char *type);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -668,38 +726,6 @@ t_color						get_rgb_color(int color);
 int							clamp_int(int value, int min, int max);
 float						clampf(float value, float min, float max);
 
-// parse
-t_binary_result				parse(t_scene *scene, const char *file_path);
-t_binary_result				recognize_type_identifiers(t_scene *scene,
-								char *line, t_parse *format_info);
-t_binary_result				set_color(t_color *color, char *str_color);
-t_binary_result				set_vector(t_vector *vector, char *str_vector);
-t_binary_result				set_material_common(t_obj *obj, char **line_element,
-								int start_index);
-t_binary_result				config_objs(t_scene *scene, char **line_element);
-t_binary_result				config_sphere(char **line_element, t_obj *obj);
-t_binary_result				config_plane(char **line_element, t_obj *obj);
-t_binary_result				config_cylinder(char **line_element, t_obj *obj);
-t_binary_result				set_spec_mirror(t_obj *obj, char *str);
-t_binary_result				set_material_default(t_obj *obj);
-t_binary_result				format_check_ambient(char **line_element,
-								t_parse *format_info);
-t_binary_result				format_check_camera(char **line_element,
-								t_parse *format_info);
-t_binary_result				format_check_light(char **line_element,
-								t_parse *format_info);
-t_binary_result				format_check_sphere(char **line_element);
-t_binary_result				format_check_plane(char **line_element);
-t_binary_result				format_check_cylinder(char **line_element);
-t_binary_result				is_number_int(char *element);
-t_binary_result				is_number_float(char *element);
-t_binary_result				is_number_float_three_dimensional(char *element);
-int							element_count(char **line_element);
-t_color						mix_colors_by_ratio(t_color c1, t_color c2,
-								float c1_ratio);
-t_color						add_lighting(t_color base, t_color light,
-								float intensity);
-
 // utils
 void						free_scene(t_scene *scene);
 void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
@@ -710,5 +736,6 @@ t_color						put_out_error_color(char *err_msg);
 t_hit						put_out_error_hit(char *err_msg);
 t_obj						*get_obj(t_list *obj);
 t_light						*get_light(t_list *light);
+t_bool						is_normal_range(t_vector normal);
 
 #endif
