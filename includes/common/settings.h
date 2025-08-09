@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 00:45:05 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:57:26 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define MAX_THREADS 8
 
 // sampling
-# define MAX_FIX_SAMPLING 4
+# define MAX_FIX_SAMPLING 9
 /* MAX_FIX_SAMPLING requires perfect square */
 # define MAX_RAND_SAMPLING 100
 
