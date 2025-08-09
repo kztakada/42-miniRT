@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/09 15:09:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:57:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,13 @@ static t_binary_result	set_textures(t_obj *obj, char **line_element,
 
 t_binary_result	set_material(t_obj *obj, char **line_element, char *type)
 {
+	int	num_element;
+
+	num_element = element_count(line_element);
 	if (set_material_common(obj, line_element, type) == FAILURE)
 		return (FAILURE);
+	if (num_element < 4)
+		return (SUCCESS);
 	if (line_element[3] != NULL)
 	{
 		if (ft_strcmp(line_element[3], "1") == 0)
