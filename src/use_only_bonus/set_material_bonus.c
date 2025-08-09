@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/09 00:31:18 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:09:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ static t_binary_result	is_file_exist(char *file_path)
 		close(fd);
 		return (SUCCESS);
 	}
+}
+
+static t_binary_result	stbi_data_to_color(unsigned char *img_data, int width,
+		int height, t_texture *c_texture)
+{
+	int		i;
+	size_t	pixel;
+
+	c_texture->color = malloc(width * height * sizeof(t_color));
+	if (c_texture->color == NULL)
+		return (FAILURE);
+	i = 0;
+	while (i < width * height)
+	{
+		pixel = i * 3; // RGB = 3 bytes per pixel
+		c_texture->color[i].r = img_data[pixel] / 255.0F;
+		c_texture->color[i].g = img_data[pixel + 1] / 255.0F;
+		c_texture->color[i].b = img_data[pixel + 2] / 255.0F;
+		i++;
+	}
+	return (SUCCESS);
 }
 
 static t_binary_result	load_png_to_texture(t_texture *texture, char *type,

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:40:14 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 14:59:45 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:16:08 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void	free_scene(t_scene *scene)
 		return ;
 	if (scene->screen.dots)
 		free(scene->screen.dots);
-	// Free lights
 	ft_lstclear(&scene->lights, free);
-	// Free objects
 	current = scene->objs;
 	while (current)
 	{

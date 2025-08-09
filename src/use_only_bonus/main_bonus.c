@@ -6,11 +6,19 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:34:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:46:01 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_bonus.h"
+
+static void	set_default_scene(t_scene *scene)
+{
+	set_default_scene_common(scene);
+	srand(time(NULL));
+	scene->sampling.max_count = MAX_RAND_SAMPLING;
+	scene->is_bonus = TRUE;
+}
 
 int	main(int argc, char **argv)
 {
@@ -26,9 +34,6 @@ int	main(int argc, char **argv)
 	}
 	// デフォルトシーンを設定
 	set_default_scene(&scene);
-	srand(time(NULL));
-	scene.sampling.max_count = MAX_RAND_SAMPLING;
-	scene.is_bonus = TRUE;
 	// 引数のrtファイルからシーンデータを作成
 	if (create_scene(&scene, argv[1]) == FAILURE)
 	{

@@ -6,11 +6,18 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:52:58 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/22 15:21:40 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:45:19 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_mandatory.h"
+
+static void	set_default_scene(t_scene *scene)
+{
+	set_default_scene_common(scene);
+	scene->sampling.max_count = MAX_FIX_SAMPLING;
+	scene->is_bonus = FALSE;
+}
 
 int	main(int argc, char **argv)
 {

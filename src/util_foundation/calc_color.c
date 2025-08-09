@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:27:55 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/02 18:18:36 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:15:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ int	color_to_int_rgb(t_color color)
 		color = scale_color(1.0F / color.g, color);
 	if (color.r > 1.0F && color.r >= color.g && color.r >= color.b)
 		color = scale_color(1.0F / color.r, color);
-	// if (gamma_correction)
-	// 	color = color_gamma_encode(color);
 	return ((int)(256.0F * clamp_color(color.r, 0.0F,
-				0.999F)) << 16 | (int)(256.0F * clamp_color(color.g, 0.0F,
-				0.999F)) << 8 | (int)(256.0F * clamp_color(color.b, 0.0F,
-				0.999F)) << 0);
+			0.999F)) << 16 | (int)(256.0F * clamp_color(color.g, 0.0F,
+			0.999F)) << 8 | (int)(256.0F * clamp_color(color.b, 0.0F,
+			0.999F)) << 0);
 }

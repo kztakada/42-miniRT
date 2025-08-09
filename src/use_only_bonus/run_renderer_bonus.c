@@ -6,11 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:34:47 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:58:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:29:38 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "minirt_bonus.h"
 #include "thread.h"
 
 // i[0] is x, i[1] is y, i[2] is dot index

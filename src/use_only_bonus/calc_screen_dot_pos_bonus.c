@@ -6,11 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 19:34:33 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/27 20:57:58 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:29:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "minirt_bonus.h"
 
 static float	get_rand_float(void)
 {

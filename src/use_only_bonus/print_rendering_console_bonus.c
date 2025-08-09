@@ -6,11 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 23:22:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 01:20:12 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:29:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "minirt_bonus.h"
 
 static void	print_rendering_progress(t_scene *scene)
 {

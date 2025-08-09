@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 01:18:51 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:41:54 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,12 @@
 # define KEY_R 114
 # define KEY_C 99
 # define KEY_D 100
-# define KEY_X 120
-# define KEY_Y 121
 # define KEY_Z 122
 # define KEY_A 97
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_Q 113
 # define KEY_E 101
-# define KEY_O 111
-# define KEY_M 109
-# define KEY_B 98
 
 // mouse code
 # define MOUSE_LEFT 1
@@ -134,13 +129,11 @@ typedef struct s_dir4_pos
 
 typedef struct s_light
 {
-	t_vector pos; // coords;
+	t_vector				pos;
 	t_vector				pos_initial;
 	float					brightness;
 	float					brightness_initial;
 	t_color					color;
-	// struct s_light	*next;
-	// t_obj_id		id;
 }							t_light;
 
 /* ************************************************************************** */
@@ -162,7 +155,6 @@ typedef struct s_obj_dir
 
 typedef struct s_texture
 {
-	// char				*name;
 	size_t					width;
 	size_t					height;
 	t_color					*color;
@@ -186,83 +178,50 @@ typedef struct s_material
 
 typedef struct s_plane
 {
-	// t_obj_id	id;
-	t_vector pos; // coords;
-	t_vector dir; // orient;
+	t_vector				pos;
+	t_vector				dir;
 	t_vector				pos_initial;
 	t_vector				dir_initial;
-	// t_color		color;
 }							t_plane;
 
 typedef struct s_cylinder
 {
-	// t_obj_id	id;
-	t_vector pos; // coords;
-	t_vector dir; // orient;
+	t_vector				pos;
+	t_vector				dir;
 	t_vector				pos_initial;
 	t_vector				dir_initial;
 	float					diameter;
 	float					height;
-	float radius_pow2; // r2;
+	float					radius_pow2;
 	t_vector				p1;
 	t_vector				p2;
 	t_vector				delta_p;
-	// t_color		color;
 }							t_cylinder;
 
 typedef struct s_sphere
 {
-	// t_obj_id	id;
-	t_vector pos; // coords;
+	t_vector				pos;
 	t_vector				pos_initial;
 	float					diameter;
-	float radius_pow2; // r2;
+	float					radius_pow2;
 	float					rotation_y;
-	// float					rotation_x;
-	// t_color		color;
 }							t_sphere;
-
-typedef struct s_triangle
-{
-	// t_obj_id	id;
-	t_vector c[3]; // triangleはinitial定義なし;
-	t_vector				edge[3];
-	t_vector				n;
-	// t_color		color;
-	float					area2;
-}							t_triangle;
 
 typedef struct s_cone
 {
-	// t_obj_id	id;
-	t_vector pos; // coords;
-	t_vector dir; // orient;
+	t_vector				pos;
+	t_vector				dir;
 	t_vector				pos_initial;
 	t_vector				dir_initial;
 	float					h;
-	float h2; // opposite
+	float					h2;
 	float					angle;
 	float					cos2;
 	t_vector				c1;
 	t_vector				c2;
 	float					r1;
 	float					r2;
-	// t_color		color;
 }							t_cone;
-
-typedef struct s_torus
-{
-	// t_obj_id	id;
-	t_vector pos; // coords;
-	t_vector dir; // orient;
-	t_vector				pos_initial;
-	t_vector				dir_initial;
-	float					sml_r;
-	float					sml_r2;
-	float					big_r;
-	float					big_r2;
-	// t_color		color;
-}							t_torus;
 
 typedef union u_obj_shape
 {
@@ -270,13 +229,11 @@ typedef union u_obj_shape
 	t_plane					plane;
 	t_cylinder				cylinder;
 	t_cone					cone;
-	t_triangle				triangle;
-	t_torus					torus;
 }							t_obj_shape;
 
 typedef struct s_ray
 {
-	t_vector pos; // or;
+	t_vector				pos;
 	t_vector				dir;
 }							t_ray;
 
@@ -291,7 +248,7 @@ typedef void				(*t_f_set_local_axes)(t_obj *obj,
 					t_vector *camera_dir);
 typedef void				(*t_f_print_rt)(t_obj *obj);
 
-// ローカル座標系
+// local coordinate system
 typedef struct s_local_axes
 {
 	t_vector				x;
@@ -314,26 +271,6 @@ struct						s_obj
 	t_f_get_dir				get_dir;
 	t_f_set_local_axes		set_local_xyz;
 	t_f_print_rt			print_rt;
-
-	// t_vector			coords; uv作成で使用するが、t_f_get_colorで初期化時に定義する
-	// t_color					color;
-	// t_color					color2;
-	// float			h; uv作成で使用するが、t_f_get_colorで初期化時に定義する
-	// float					pattern_len;
-	// int						pattern_num;
-	// float bump_f;     バリデーション用のtmp値
-	// float texture_f;  バリデーション用のtmp値
-	// t_obj_id			id;
-	// t_bool				has_bump;
-	// t_bool				has_texture;
-	// t_texture			bump;
-	// t_texture			texture;
-	// float				speckv;
-	// float				specn;
-	// float				mirror;
-	// float				refract;
-	// struct s_obj		*next;
-	// float				alpha; 未使用
 };
 
 /* ************************************************************************** */
@@ -350,8 +287,8 @@ typedef struct s_quadratic_solution
 struct						s_hit
 {
 	t_bool					is_hit;
-	t_vector normal; // nhit;
-	t_vector pos;    // phit;
+	t_vector				normal;
+	t_vector				pos;
 	float					t;
 	t_color					color;
 	t_vector				pov_dir;
@@ -360,7 +297,7 @@ struct						s_hit
 // pov_ray is the "point of view ray"
 typedef struct s_raytracing
 {
-	t_ray pov_ray; // prime_ray;
+	t_ray					pov_ray;
 	t_ray					to_light_src_ray;
 	t_hit					hit;
 	t_hit					blocking_hit;
@@ -375,7 +312,6 @@ typedef struct s_lighting
 	t_color					specular;
 	t_color					reflect;
 	t_color					refract;
-	// int						is_shadow;
 }							t_lighting;
 
 /* ************************************************************************** */
@@ -383,46 +319,41 @@ typedef struct s_lighting
 typedef struct s_scene		t_scene;
 
 /* screen.pos is screen right up corner */
+// x_per_pixel: the vector to move one pixel right
+// x_half: the half of the screen width from the center to the right up
+// y_per_pixel: the vector to move one pixel down
+// y_half: the half of the screen height from the center to the right up
 typedef struct s_screen
 {
-	// bool				res_set;
 	size_t					width;
 	size_t					height;
-	t_color *dots; // *pixel;
+	t_color					*dots;
 	t_vector				pos;
-	t_vector x_per_pixel; // ピクセル単位の変換用ベクトル
-	t_vector y_per_pixel; // ピクセル単位の変換用ベクトル
-	t_vector x_half;      // スクリーンの半分の水平方向の３次元的な傾き
-	t_vector y_half;      // スクリーンの半分の垂直方向の３次元的な傾き
+	t_vector				x_per_pixel;
+	t_vector				y_per_pixel;
+	t_vector				x_half;
+	t_vector				y_half;
 }							t_screen;
 
 typedef struct s_sampling
 {
-	// bool				set;t
-	int count;     // samp;
-	int max_count; // max_samp;
-					// int					recursion_depth;
-					// double				cosine;
-					// double				light;
-					// bool				gamma_correction;
+	int						count;
+	int						max_count;
 }							t_sampling;
 
 typedef struct s_camera
 {
-	t_vector pos; // coords;
-	t_vector dir; // orient;
+	t_vector				pos;
+	t_vector				dir;
 	t_vector				pos_initial;
 	t_vector				dir_initial;
 	size_t					fov;
-	// float			scale;
-	// t_obj_id	id;
 }							t_camera;
 
 typedef struct s_ambient
 {
-	float brightness; // lighting;
+	float					brightness;
 	t_color					color;
-	// t_obj_id	id;
 }							t_ambient;
 
 struct						s_scene
@@ -433,27 +364,9 @@ struct						s_scene
 	t_color					bg_color;
 	t_ambient				ambient;
 
-	t_list *lights; // t_light	*light;
-	t_list *objs;   // t_obj	*objs;
+	t_list					*lights;
+	t_list					*objs;
 	t_bool					is_bonus;
-	// t_thread_data			thread[MAX_THREADS];
-
-	// int process; // レ��ダリング状況　heightで割って算出
-
-	// int					lnum; データ解析用に別で定義す�������������������������
-	// int					pnum; データ解析用に別で定義する
-
-	// float					width;
-	// float					height;
-	// float					aspectratio;
-	// float					cam_matrix[4][4];
-	// t_event			event;
-	// int				display_info; デバッグプリ�������������������ト���
-	// char			*path;  .rt file path
-	// t_bool			is_processing;
-	// pthread_mutex_t	process_lock;　ブロック単位で書き込むことによって競合しないようにできる
-	// size_t				num_objs; lst_count(objects);を使う
-	// char				*process_text; Linux用のレンダリング����示は表示しない
 };
 
 /* ************************************************************************** */
@@ -495,9 +408,6 @@ typedef struct s_scene_with_mlx
 	t_key_control			key;
 }							t_scene_with_mlx;
 
-// set_default_scene
-void						set_default_scene(t_scene *scene);
-
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
 t_binary_result				parse_scene(t_scene *scene, const char *file_path);
@@ -524,7 +434,6 @@ t_binary_result				parse_obj_cylinder(char **line_element, t_obj *obj,
 t_binary_result				parse_obj_cone(char **line_element, t_obj *obj,
 								t_bool is_bonus);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
-void						set_material_default(t_obj *obj);
 t_binary_result				format_check_ambient(char **line_element,
 								t_parse *format_info);
 t_binary_result				format_check_camera(char **line_element,
@@ -589,33 +498,6 @@ void						print_rgb_color(t_color color);
 void						print_rgb_color_info(t_color color);
 void						print_scene_rt_format(t_scene_with_mlx *r_scene,
 								t_bool set_print);
-
-// render_scene_to_mlx
-void						reset_rendering_scene(t_scene *scene);
-t_binary_result				render_scene_to_mlx(t_scene *scene);
-void						render_mlx_image(t_scene_with_mlx *r_scene);
-t_color						raytracing(t_scene *scene, t_raytracing *rt,
-								int depth);
-t_color						raytrace_at_dot(t_scene *scene, t_vector dot_pos);
-t_vector					convert_xy_pos_to_xyz_vector(float x, float y,
-								t_scene *scene);
-t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
-								t_hit *hit);
-void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
-								t_lighting *lighting);
-void						print_rendering_console(t_scene_with_mlx *r_scene);
-
-// setup_scene
-void						set_screen_pos(t_scene *scene);
-void						setup_camera_screen(t_scene *scene);
-void						setup_scene(t_scene *scene);
-void						set_local_axes(t_scene *scene);
-
-// which_use_mandatory_or_bonus
-t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
-t_binary_result				run_renderer(t_scene *scene);
-t_binary_result				set_material(t_obj *obj, char **line_element,
-								char *type);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -693,6 +575,34 @@ t_vector					calc_bumped_normal(t_obj *obj,
 								t_vector default_normal, t_uv bump_delta);
 t_bool						handle_gimbal_lock_uv_axes(t_vector default_normal,
 								t_vector *axis_u, t_vector *axis_v);
+
+// render_scene_to_mlx
+void						reset_rendering_scene(t_scene *scene);
+t_binary_result				render_scene_to_mlx(t_scene *scene);
+void						render_mlx_image(t_scene_with_mlx *r_scene);
+t_color						raytracing(t_scene *scene, t_raytracing *rt,
+								int depth);
+t_color						raytrace_at_dot(t_scene *scene, t_vector dot_pos);
+t_vector					convert_xy_pos_to_xyz_vector(float x, float y,
+								t_scene *scene);
+t_obj						*calc_closest_obj(t_list *objs, t_ray *pov_ray,
+								t_hit *hit);
+void						calc_lights_effect(t_scene *scene, t_raytracing *rt,
+								t_lighting *lighting);
+void						print_rendering_console(t_scene_with_mlx *r_scene);
+
+// setup_scene
+void						set_default_scene_common(t_scene *scene);
+void						set_screen_pos(t_scene *scene);
+void						setup_camera_screen(t_scene *scene);
+void						setup_scene(t_scene *scene);
+void						set_local_axes(t_scene *scene);
+
+// which_use_mandatory_or_bonus
+t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
+t_binary_result				run_renderer(t_scene *scene);
+t_binary_result				set_material(t_obj *obj, char **line_element,
+								char *type);
 
 // util_foundation
 t_vector					up_dir(void);

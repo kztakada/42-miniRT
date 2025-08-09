@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 21:05:20 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:33:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define ERR_MLX_INIT "Failed to initialize minilibX\n"
 # define ERR_CREATE_TH "Failed to create thread\n"
 # define ERR_JOIN_TH "Failed to join thread\n"
+# define ERR_INVALID_SCREEN_SIZE "Invalid screen size 0\n"
 
 // obj_funcs
 # define ERR_INVALID_CN_ARGS "Invalid arguments for normal calculation\n"

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 01:13:24 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:54:37 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	close_window(void *param)
 	r_scene = (t_scene_with_mlx *)param;
 	if (!r_scene)
 		return (0);
-	printf("Window closed\n");
 	free_scene_with_mlx(r_scene);
 	exit(EXIT_SUCCESS);
 	return (0);
@@ -93,6 +92,5 @@ void	set_key_controls(t_scene_with_mlx *r_scene)
 {
 	mlx_hook(r_scene->mlx_win, 17, 0, close_window, r_scene);
 	mlx_hook(r_scene->mlx_win, 4, 1L << 2, mouse_down, r_scene);
-	// mlx_hook(r_scene->mlx_win, 5, 1L << 3, mouse_up, r_scene);
 	mlx_key_hook(r_scene->mlx_win, key_press, r_scene);
 }
