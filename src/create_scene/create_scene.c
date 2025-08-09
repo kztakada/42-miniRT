@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:27:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 17:08:22 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 22:44:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_binary_result	parse_scene(t_scene *scene, const char *file_path)
 
 	parse_init(&format_info);
 	rt_fd = open(file_path, O_RDONLY);
+	if (rt_fd < 0)
+		return (put_out_failure(ERR_NO_RT));
 	while (TRUE)
 	{
 		line = get_next_line(rt_fd);
