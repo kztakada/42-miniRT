@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_rt_format.c                                  :+:      :+:    :+:   */
+/*   print_scene_rt_format.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 17:16:48 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 01:17:07 by katakada         ###   ########.fr       */
+/*   Created: 2025/08/09 16:13:59 by katakada          #+#    #+#             */
+/*   Updated: 2025/08/09 16:26:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	print_rgb_color_info(t_color color)
-{
-	printf("  Color: (%d, %d, %d)\n", (int)(256.0F * clamp_color(color.r, 0.0F,
-				0.999F)), (int)(256.0F * clamp_color(color.g, 0.0F, 0.999F)),
-		(int)(256.0F * clamp_color(color.b, 0.0F, 0.999F)));
-}
-
-void	print_rgb_color(t_color color)
-{
-	printf(" %d,%d,%d", (int)(256.0F * clamp_color(color.r, 0.0F, 0.999F)),
-		(int)(256.0F * clamp_color(color.g, 0.0F, 0.999F)), (int)(256.0F
-			* clamp_color(color.b, 0.0F, 0.999F)));
-}
 
 static void	print_a_c_rt_format(t_scene *scene)
 {
@@ -49,17 +35,12 @@ static void	print_light_rt_format(t_light *light, char *type, t_bool is_bonus)
 	printf("\n");
 }
 
-void	print_scene_rt_format(t_scene_with_mlx *r_scene, t_bool set_print)
+static void	print_scene_rt_format(t_scene_with_mlx *r_scene)
 {
-	t_list			*objs;
-	t_list			*lights;
-	t_bool			is_bonus;
-	static t_bool	first_call = FALSE;
+	t_list	*objs;
+	t_list	*lights;
+	t_bool	is_bonus;
 
-	if (set_print)
-		first_call = !first_call;
-	if (first_call == FALSE)
-		return ;
 	objs = r_scene->key.first_index_obj;
 	lights = r_scene->key.first_index_light;
 	is_bonus = r_scene->scene->is_bonus;
@@ -79,5 +60,27 @@ void	print_scene_rt_format(t_scene_with_mlx *r_scene, t_bool set_print)
 		if (get_obj(objs)->print_rt)
 			get_obj(objs)->print_rt(get_obj(objs));
 		objs = objs->next;
+	}
+}
+
+void	toggle_console(t_scene_with_mlx *r_scene)
+{
+	if (r_scene == NULL)
+		return ;
+	if (r_scene->key.is_console == TRUE)
+	{
+		r_scene->key.is_console = FALSE;
+		printf("\033[2J\033[H");
+		printf("\033[0m");
+		if (r_scene->scene == NULL)
+			return ;
+		print_scene_rt_format(r_scene);
+	}
+	else
+	{
+		r_scene->key.is_console = TRUE;
+		r_scene->key.is_modified = TRUE;
+		printf("\033[2J\033[H");
+		print_console(r_scene);
 	}
 }

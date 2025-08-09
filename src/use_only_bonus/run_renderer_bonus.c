@@ -6,12 +6,20 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:34:47 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 15:29:38 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:36:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt_bonus.h"
 #include "thread.h"
+
+void	print_console(t_scene_with_mlx *r_scene)
+{
+	if (!r_scene)
+		return ;
+	print_rendering_console(r_scene);
+	fflush(stdout);
+}
 
 // i[0] is x, i[1] is y, i[2] is dot index
 static void	*render_thread(void *data)

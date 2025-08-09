@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 15:41:54 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:26:08 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,6 +396,7 @@ typedef struct s_key_control
 	int						selected_light_index;
 	t_list					*selected_light;
 	t_mode_select			mode;
+	t_bool					is_console;
 	t_bool					is_modified;
 }							t_key_control;
 
@@ -494,10 +495,7 @@ void						color_up(t_color *color);
 void						color_down(t_color *color);
 void						grighten_up(float *brightness);
 void						grighten_down(float *brightness);
-void						print_rgb_color(t_color color);
-void						print_rgb_color_info(t_color color);
-void						print_scene_rt_format(t_scene_with_mlx *r_scene,
-								t_bool set_print);
+void						toggle_console(t_scene_with_mlx *r_scene);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -603,6 +601,7 @@ t_vector					calc_screen_dot_pos(t_scene *scene, int x, int y);
 t_binary_result				run_renderer(t_scene *scene);
 t_binary_result				set_material(t_obj *obj, char **line_element,
 								char *type);
+void						print_console(t_scene_with_mlx *r_scene);
 
 // util_foundation
 t_vector					up_dir(void);
@@ -633,6 +632,8 @@ int							color_to_int_rgb(t_color color);
 t_color						get_opposite_color(t_color color);
 int							get_24bit_color(t_color *color);
 t_color						get_rgb_color(int color);
+void						print_rgb_color(t_color color);
+void						print_rgb_color_info(t_color color);
 int							clamp_int(int value, int min, int max);
 float						clampf(float value, float min, float max);
 

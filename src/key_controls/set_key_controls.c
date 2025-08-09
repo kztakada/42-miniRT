@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 14:54:37 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:29:12 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	mouse_down(int button, int mouse_x, int mouse_y, void *param)
 	r_scene->key.selected_obj = rt.closest_obj;
 	r_scene->key.mode = OBJECT_MODE;
 	r_scene->key.is_modified = TRUE;
-	print_rendering_console(r_scene);
+	print_console(r_scene);
 	return (0);
 }
 
@@ -57,7 +57,7 @@ static void	toggle_selected_mode(t_scene_with_mlx *r_scene)
 	else
 		r_scene->key.mode = CAMERA_MODE;
 	r_scene->key.is_modified = TRUE;
-	print_rendering_console(r_scene);
+	print_console(r_scene);
 }
 
 static int	key_press(int keycode, void *param)
@@ -82,7 +82,7 @@ static int	key_press(int keycode, void *param)
 	else if (keycode == KEY_R)
 		reset_selected_mode_target(r_scene);
 	else if (keycode == KEY_Z)
-		print_scene_rt_format(r_scene, TRUE);
+		toggle_console(r_scene);
 	else if (keycode == KEY_ESC)
 		close_window(r_scene);
 	return (0);

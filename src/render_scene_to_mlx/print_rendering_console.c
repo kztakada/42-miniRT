@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_rendering_console_bonus.c                    :+:      :+:    :+:   */
+/*   print_rendering_console.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/08 23:22:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 15:29:28 by katakada         ###   ########.fr       */
+/*   Created: 2025/07/31 20:19:00 by katakada          #+#    #+#             */
+/*   Updated: 2025/08/09 15:57:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt_bonus.h"
+#include "minirt.h"
 
 static void	print_rendering_progress(t_scene *scene)
 {
@@ -122,6 +122,4 @@ void	print_rendering_console(t_scene_with_mlx *r_scene)
 	}
 	else
 		completion_displayed = 0;
-	print_scene_rt_format(r_scene, FALSE);
-	fflush(stdout);
 }
