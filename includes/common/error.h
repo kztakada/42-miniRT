@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 20:01:07 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 22:44:55 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 # define ERR_NOT_NUMBER "The value entered is not a number\n"
 # define ERR_BOOL "The value entered is not 1 or 0\n"
 # define ERR_NO_FILE "The texture or bumpmap file does not exist\n"
+# define ERR_NO_RT "The .rt file is not found\n"
 # define ERR_NO_IDENT "Incorrect identifier\n"
 
 #endif

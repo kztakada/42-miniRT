@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:26:57 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 23:44:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:20:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	set_cylinder_obj_funcs(t_obj *obj)
 	obj->get_dir = get_cylinder_dir;
 	obj->reset_obj = reset_object_cylinder;
 	obj->print_rt = print_rt_cylinder;
+	obj->change_size = change_cylinder_size;
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cylinder_bump_normal;
 	if (obj->material.is_checkerboard == TRUE)
@@ -57,8 +58,11 @@ t_binary_result	parse_obj_cylinder(char **line_element, t_obj *obj,
 		return (FAILURE);
 	obj->shape.cylinder.pos_initial = obj->shape.cylinder.pos;
 	obj->shape.cylinder.dir_initial = obj->shape.cylinder.dir;
+	obj->shape.cylinder.diameter_initial = obj->shape.cylinder.diameter;
+	obj->shape.cylinder.height_initial = obj->shape.cylinder.height;
 	obj->shape.cylinder.radius_pow2 = obj->shape.cylinder.diameter
 		* obj->shape.cylinder.diameter * 0.25f;
+	// 使っていない？
 	obj->shape.cylinder.p1 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cylinder.p2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cylinder.delta_p = (t_vector){0.0f, 0.0f, 0.0f};

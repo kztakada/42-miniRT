@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 16:26:08 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:57:38 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@
 # define KEY_S 115
 # define KEY_Q 113
 # define KEY_E 101
+# define KEY_H 104
+# define KEY_G 103
+# define KEY_B 98
+# define KEY_V 118
 
 // mouse code
 # define MOUSE_LEFT 1
@@ -146,6 +150,14 @@ typedef enum e_obj_dir_type
 	UV_DIR,
 }							t_obj_dir_type;
 
+typedef enum e_obj_size_type
+{
+	SIZE_HEIGHT_UP,
+	SIZE_HEIGHT_DOWN,
+	SIZE_DIAMETER_UP,
+	SIZE_DIAMETER_DOWN,
+}							t_obj_size_type;
+
 typedef struct s_obj_dir
 {
 	t_obj_dir_type			type;
@@ -191,7 +203,9 @@ typedef struct s_cylinder
 	t_vector				pos_initial;
 	t_vector				dir_initial;
 	float					diameter;
+	float					diameter_initial;
 	float					height;
+	float					height_initial;
 	float					radius_pow2;
 	t_vector				p1;
 	t_vector				p2;
@@ -203,6 +217,7 @@ typedef struct s_sphere
 	t_vector				pos;
 	t_vector				pos_initial;
 	float					diameter;
+	float					diameter_initial;
 	float					radius_pow2;
 	float					rotation_y;
 }							t_sphere;
@@ -215,7 +230,10 @@ typedef struct s_cone
 	t_vector				dir_initial;
 	float					h;
 	float					h2;
+	float					h_initial;
+	float					h2_initial;
 	float					angle;
+	float					angle_initial;
 	float					cos2;
 	t_vector				c1;
 	t_vector				c2;
@@ -247,6 +265,8 @@ typedef t_obj_dir			(*t_f_get_dir)(t_obj *obj);
 typedef void				(*t_f_set_local_axes)(t_obj *obj,
 					t_vector *camera_dir);
 typedef void				(*t_f_print_rt)(t_obj *obj);
+typedef t_bool				(*t_f_change_size)(t_obj *obj,
+					t_obj_size_type size_type);
 
 // local coordinate system
 typedef struct s_local_axes
@@ -266,6 +286,7 @@ struct						s_obj
 	t_f_calc_normal			calc_normal;
 	t_f_get_color			get_color;
 	t_f_print_focused_obj	print_focused_obj;
+	t_f_change_size			change_size;
 	t_f_reset_obj			reset_obj;
 	t_f_get_pos				get_pos;
 	t_f_get_dir				get_dir;
@@ -434,6 +455,8 @@ t_binary_result				parse_obj_cylinder(char **line_element, t_obj *obj,
 								t_bool is_bonus);
 t_binary_result				parse_obj_cone(char **line_element, t_obj *obj,
 								t_bool is_bonus);
+
+float						calc_cone_cos2(float angle);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
 t_binary_result				format_check_ambient(char **line_element,
 								t_parse *format_info);
@@ -496,6 +519,8 @@ void						color_down(t_color *color);
 void						grighten_up(float *brightness);
 void						grighten_down(float *brightness);
 void						toggle_console(t_scene_with_mlx *r_scene);
+void						press_utils_key(t_scene_with_mlx *r_scene,
+								int keycode);
 
 // obj_funcs
 t_vector					calc_sphere_normal(t_obj *obj, t_hit *hit);
@@ -556,6 +581,13 @@ void						print_rt_sphere(t_obj *obj);
 void						print_rt_plane(t_obj *obj);
 void						print_rt_cylinder(t_obj *obj);
 void						print_rt_cone(t_obj *obj);
+
+t_bool						change_sphere_size(t_obj *obj,
+								t_obj_size_type type);
+t_bool						change_plane_size(t_obj *obj, t_obj_size_type type);
+t_bool						change_cylinder_size(t_obj *obj,
+								t_obj_size_type type);
+t_bool						change_cone_size(t_obj *obj, t_obj_size_type type);
 
 void						calc_sphere_uv_map_xy(t_obj *obj,
 								t_vector target_pos, float *uv_map);

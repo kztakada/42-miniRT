@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:27:14 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 23:45:13 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:19:43 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	set_sphere_obj_funcs(t_obj *obj)
 	obj->get_dir = get_sphere_dir;
 	obj->reset_obj = reset_object_sphere;
 	obj->print_rt = print_rt_sphere;
+	obj->change_size = change_sphere_size;
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_sphere_bump_normal;
 	if (obj->material.is_checkerboard == TRUE)
@@ -50,6 +51,7 @@ t_binary_result	parse_obj_sphere(char **line_element, t_obj *obj,
 	if (parse_sphere_config(line_element, obj) == FAILURE)
 		return (FAILURE);
 	obj->shape.sphere.pos_initial = obj->shape.sphere.pos;
+	obj->shape.sphere.diameter_initial = obj->shape.sphere.diameter;
 	obj->shape.sphere.radius_pow2 = obj->shape.sphere.diameter
 		* obj->shape.sphere.diameter * 0.25f;
 	obj->shape.sphere.rotation_y = 0.0f;

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:26:45 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 23:44:32 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:20:52 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_binary_result	parse_cone_config(char **line_element, t_obj *obj)
 	return (SUCCESS);
 }
 
-static float	calc_cone_cos2(float angle)
+float	calc_cone_cos2(float angle)
 {
 	float	cos_val;
 
@@ -46,6 +46,7 @@ static void	set_cone_obj_funcs(t_obj *obj)
 	obj->get_dir = get_cone_dir;
 	obj->reset_obj = reset_object_cone;
 	obj->print_rt = print_rt_cone;
+	obj->change_size = change_cone_size;
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_cone_bump_normal;
 	if (obj->material.is_checkerboard == TRUE)
@@ -63,7 +64,11 @@ t_binary_result	parse_obj_cone(char **line_element, t_obj *obj, t_bool is_bonus)
 		return (FAILURE);
 	obj->shape.cone.pos_initial = obj->shape.cone.pos;
 	obj->shape.cone.dir_initial = obj->shape.cone.dir;
+	obj->shape.cone.h_initial = obj->shape.cone.h;
+	obj->shape.cone.h2_initial = obj->shape.cone.h2;
+	obj->shape.cone.angle_initial = obj->shape.cone.angle;
 	obj->shape.cone.cos2 = calc_cone_cos2(obj->shape.cone.angle);
+	//使っていない？
 	obj->shape.cone.c1 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.c2 = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->shape.cone.r1 = 0.0f;

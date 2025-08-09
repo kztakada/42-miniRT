@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:27:28 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 23:45:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:20:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	set_plane_obj_funcs(t_obj *obj)
 	obj->get_dir = get_plane_dir;
 	obj->reset_obj = reset_object_plane;
 	obj->print_rt = print_rt_plane;
+	obj->change_size = change_plane_size;
 	if (obj->material.has_bump == TRUE)
 		obj->calc_normal = calc_plane_bump_normal;
 	if (obj->material.is_checkerboard == TRUE)
