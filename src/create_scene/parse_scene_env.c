@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:29:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 22:45:44 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:13:14 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static t_binary_result	parse_common_light(char **line_element, t_light *light)
 		light->color = (t_color){1.0f, 1.0f, 1.0f};
 	light->pos_initial = light->pos;
 	light->brightness_initial = light->brightness;
+	light->color_initial = light->color;
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 15:38:36 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 14:40:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:14:17 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	reset_selected_light(t_scene_with_mlx *r_scene)
 	selected_light = get_light(r_scene->key.selected_light);
 	selected_light->pos = selected_light->pos_initial;
 	selected_light->brightness = selected_light->brightness_initial;
+	selected_light->color = selected_light->color_initial;
 }
 
 void	reset_selected_mode_target(t_scene_with_mlx *r_scene)
@@ -71,6 +72,7 @@ void	reset_scene_all(t_scene_with_mlx *r_scene)
 	{
 		get_light(lights)->pos = get_light(lights)->pos_initial;
 		get_light(lights)->brightness = get_light(lights)->brightness_initial;
+		get_light(lights)->color = get_light(lights)->color_initial;
 		lights = lights->next;
 	}
 	reset_camera(r_scene);

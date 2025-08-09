@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:57:38 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:12:29 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_light
 	float					brightness;
 	float					brightness_initial;
 	t_color					color;
+	t_color					color_initial;
 }							t_light;
 
 /* ************************************************************************** */

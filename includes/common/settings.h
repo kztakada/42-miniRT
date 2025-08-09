@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:17:48 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:16:39 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define ROTATE_ANGLE 5.0F
 # define UV_ROTATE_ANGLE 0.05F
 # define BRIGHTNESS_STEP 0.1F
+# define LIGHT_COLOR_STEP 10
 # define HEIGHT_STEP 1.0F
 # define DIAMETER_STEP 1.0F
 # define CONE_ANGLE_STEP 0.1F
