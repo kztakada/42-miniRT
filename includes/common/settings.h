@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 00:16:39 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:27:20 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@
 # define MAX_RAND_SAMPLING 100
 
 // rendering
-# define AIR_REFRACT_INDEX 1.0F
-# define MIN_OBJ_REFRACT_INDEX 1.0F
-
 // material
 # define SPECULAR_CN_DEFAULT 1.0F
 # define SPECULAR_KV_DEFAULT 0.2F
