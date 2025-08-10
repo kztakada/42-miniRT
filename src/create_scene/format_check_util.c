@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 16:17:38 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/08 21:46:36 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:40:21 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ t_binary_result	is_positive_float_three_dimensional(char *element)
 
 t_binary_result	is_positive_int_three_dimensional(char *element)
 {
-	char **split;
-	int i;
+	char	**split;
+	int		i;
 
 	if (has_2_commas(element) == FALSE)
 		return (FAILURE);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+         #
+#    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/16 20:13:13 by katakada          #+#    #+#              #
-#    Updated: 2025/08/10 14:56:28 by kharuya          ###   ########.fr        #
+#    Created: 2025/08/10 21:01:15 by katakada          #+#    #+#              #
+#    Updated: 2025/08/10 21:40:00 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,77 @@ CFLAGS			=	-Wall -Wextra -Werror
 INC_MAIN		=	-I includes/mandatory/
 INCS			=	-I includes/common/ $(INC_MAIN) -I $(LIBFT_DIR) -I $(MLX_DIR)
 
-SRCS_PATH		=	src/
-SRCS_MAIN		=	$(wildcard src/use_only_mandatory/*.c)
-SRCS			=	$(SRCS_MAIN) \
-					$(wildcard src/create_scene/*.c) \
-					$(wildcard src/key_controls/*.c) \
-					$(wildcard src/render_scene_to_mlx/*.c) \
-					$(wildcard src/setup_scene/*.c) \
-					$(wildcard src/util_foundation/*.c) \
-					$(wildcard src/obj_funcs/*.c) \
-					$(wildcard src/utils/*.c) \
+SRC_PATH		=	src/
+
+SRC_MAIN		=	$(SRC_PATH)use_only_mandatory/calc_screen_dot_pos.c \
+					$(SRC_PATH)use_only_mandatory/main.c \
+					$(SRC_PATH)use_only_mandatory/run_renderer.c \
+					$(SRC_PATH)use_only_mandatory/set_material.c \
+
+SRCS			=	$(SRC_MAIN) \
+					$(SRC_PATH)create_scene/create_scene.c \
+					$(SRC_PATH)create_scene/format_check_env.c \
+					$(SRC_PATH)create_scene/format_check_objs.c \
+					$(SRC_PATH)create_scene/format_check_util2.c \
+					$(SRC_PATH)create_scene/format_check_util.c \
+					$(SRC_PATH)create_scene/parse_obj.c \
+					$(SRC_PATH)create_scene/parse_obj_cone.c \
+					$(SRC_PATH)create_scene/parse_obj_cylinder.c \
+					$(SRC_PATH)create_scene/parse_obj_plane.c \
+					$(SRC_PATH)create_scene/parse_obj_sphere.c \
+					$(SRC_PATH)create_scene/parse_one_line_on_scene.c \
+					$(SRC_PATH)create_scene/parse_scene_env.c \
+					$(SRC_PATH)create_scene/set_info.c \
+					$(SRC_PATH)key_controls/press_arrow_key2.c \
+					$(SRC_PATH)key_controls/press_arrow_key3.c \
+					$(SRC_PATH)key_controls/press_arrow_key4.c \
+					$(SRC_PATH)key_controls/press_arrow_key.c \
+					$(SRC_PATH)key_controls/press_move_key2.c \
+					$(SRC_PATH)key_controls/press_move_key.c \
+					$(SRC_PATH)key_controls/press_utils_key.c \
+					$(SRC_PATH)key_controls/print_scene_rt_format.c \
+					$(SRC_PATH)key_controls/reset_scene.c \
+					$(SRC_PATH)key_controls/select_light.c \
+					$(SRC_PATH)key_controls/set_key_controls.c \
+					$(SRC_PATH)render_scene_to_mlx/calc_closest_obj.c \
+					$(SRC_PATH)render_scene_to_mlx/calc_lights_effect.c \
+					$(SRC_PATH)render_scene_to_mlx/print_rendering_console.c \
+					$(SRC_PATH)render_scene_to_mlx/raytracing.c \
+					$(SRC_PATH)render_scene_to_mlx/render_mlx_image.c \
+					$(SRC_PATH)render_scene_to_mlx/render_scene_to_mlx.c \
+					$(SRC_PATH)setup_scene/setup_camera_screen.c \
+					$(SRC_PATH)setup_scene/setup_scene.c \
+					$(SRC_PATH)util_foundation/calc_color2.c \
+					$(SRC_PATH)util_foundation/calc_color3.c \
+					$(SRC_PATH)util_foundation/calc_color.c \
+					$(SRC_PATH)util_foundation/calc_vector2.c \
+					$(SRC_PATH)util_foundation/calc_vector3.c \
+					$(SRC_PATH)util_foundation/calc_vector.c \
+					$(SRC_PATH)util_foundation/expand_math.c \
+					$(SRC_PATH)util_foundation/get_ref_vector.c \
+					$(SRC_PATH)obj_funcs/calc_bump_effects.c \
+					$(SRC_PATH)obj_funcs/calc_normal2.c \
+					$(SRC_PATH)obj_funcs/calc_normal_bump.c \
+					$(SRC_PATH)obj_funcs/calc_normal.c \
+					$(SRC_PATH)obj_funcs/calc_obj_hit2.c \
+					$(SRC_PATH)obj_funcs/calc_obj_hit3.c \
+					$(SRC_PATH)obj_funcs/calc_obj_hit.c \
+					$(SRC_PATH)obj_funcs/calc_obj_hit_util.c \
+					$(SRC_PATH)obj_funcs/calc_uv_map2.c \
+					$(SRC_PATH)obj_funcs/calc_uv_map.c \
+					$(SRC_PATH)obj_funcs/change_size.c \
+					$(SRC_PATH)obj_funcs/get_color2.c \
+					$(SRC_PATH)obj_funcs/get_color3.c \
+					$(SRC_PATH)obj_funcs/get_color.c \
+					$(SRC_PATH)obj_funcs/get_dir.c \
+					$(SRC_PATH)obj_funcs/get_pos.c \
+					$(SRC_PATH)obj_funcs/print_focused_obj.c \
+					$(SRC_PATH)obj_funcs/print_rt.c \
+					$(SRC_PATH)obj_funcs/reset_obj.c \
+					$(SRC_PATH)obj_funcs/set_local_xyz.c \
+					$(SRC_PATH)utils/free_scene.c \
+					$(SRC_PATH)utils/handle_shorter.c \
+					$(SRC_PATH)utils/put_error.c \
 
 OBJS_PATH		=	objs/
 OBJS			=	$(SRCS:src/%.c=objs/%.o)
@@ -61,7 +122,11 @@ endif
 
 ifdef WITH_BONUS
     INC_MAIN = -I includes/bonus/
-    SRCS_MAIN =	$(wildcard src/use_only_bonus/*.c)
+    SRC_MAIN =	$(SRC_PATH)use_only_bonus/calc_screen_dot_pos_bonus.c \
+				$(SRC_PATH)use_only_bonus/main_bonus.c \
+				$(SRC_PATH)use_only_bonus/run_renderer_bonus.c \
+				$(SRC_PATH)use_only_bonus/set_material_bonus.c \
+
 	CC = $(BONUS_CC)
 endif
 
@@ -70,7 +135,7 @@ all:	$(NAME)
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(INCS) $(OBJS) $(LIBFT) $(MLX) $(FRAMEWORKS) -o $(NAME)
 
-$(OBJS_PATH)%.o : $(SRCS_PATH)%.c
+$(OBJS_PATH)%.o : $(SRC_PATH)%.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 

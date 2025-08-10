@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 20:25:37 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:57:54 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,7 +485,8 @@ void						press_arrow_key(t_scene_with_mlx *r_scene,
 								int keycode);
 void						press_move_key(t_scene_with_mlx *r_scene,
 								int keycode);
-void						reset_selected_mode_target(t_scene_with_mlx *r_scene);
+void						reset_selected_mode_target(
+								t_scene_with_mlx *r_scene);
 void						reset_scene_all(t_scene_with_mlx *r_scene);
 void						select_next_light(t_scene_with_mlx *r_scene);
 void						select_prev_light(t_scene_with_mlx *r_scene);
@@ -667,7 +668,8 @@ float						clampf(float value, float min, float max);
 
 // utils
 void						free_scene(t_scene *scene);
-void						free_scene_with_mlx(t_scene_with_mlx *scene_with_mlx);
+void						free_scene_with_mlx(
+								t_scene_with_mlx *scene_with_mlx);
 t_binary_result				put_out_failure(char *err_msg);
 t_binary_result				put_out_format_error(char *type, char *err_msg);
 t_vector					put_out_error_vector(char *err_msg);

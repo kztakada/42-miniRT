@@ -6,77 +6,11 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:27:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 22:44:59 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:40:01 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-// static void	debug_print(t_scene *scene)
-// {
-// 	t_light	*light;
-// 	t_obj	*obj;
-
-// 	printf("\nAmbient----------------------------\n");
-// 	printf("brightness: %f\n", scene->ambient.brightness);
-// 	printf("color: r:%f g:%f b:%f\n", scene->ambient.color.r,
-// scene->ambient.color.g, scene->ambient.color.b);
-
-// 	printf("\nCamera----------------------------\n");
-// 	printf("pos: x:%f y:%f z:%f\n", scene->camera.pos.x, scene->camera.pos.y,
-// scene->camera.pos.z);
-// 	printf("dir: x:%f y:%f z:%f\n", scene->camera.dir.x, scene->camera.dir.y,
-// scene->camera.dir.z);
-// 	printf("fov: %zu\n", scene->camera.fov);
-
-// 	printf("\nLights----------------------------\n");
-// 	light = scene->lights->content;
-// 	printf("pos: x:%f y:%f z:%f\n", light->pos.x, light->pos.y, light->pos.z);
-// 	printf("brightness: %f\n", light->brightness);
-// 	printf("color: r:%f g:%f b:%f\n", light->color.r, light->color.g,
-// light->color.b);
-
-// 	printf("\nObjs----------------------------\n");
-// printf("\nplane---------------\n");
-// obj = scene->objs->content;
-// printf("pos: x:%f y:%f z:%f\n", obj->shape.plane.pos.x,
-// obj->shape.plane.pos.y, obj->shape.plane.pos.z);
-// printf("dir: x:%f y:%f z:%f\n", obj->shape.plane.dir.x,
-// obj->shape.plane.dir.y, obj->shape.plane.dir.z);
-// printf("color: r:%f g:%f b:%f\n", obj->material.color.r,
-// obj->material.color.g, obj->material.color.b);
-// printf("mirror:%f specn:%f speckv:%f\n", obj->material.mirror,
-// obj->material.specn, obj->material.speckv);
-// printf("refract:%f\n", obj->material.refract);
-// if (obj->material.is_checkerboard == TRUE)
-// 	printf("checker_board: TRUE\n");
-// if (obj->material.has_texture == TRUE)
-// 	printf("has_texture: TRUE\n");
-// if (obj->material.has_bump == TRUE)
-// 	printf("has_bump: TRUE\n");
-
-// printf("\nsphere---------------\n");
-// obj = scene->objs->content;
-// printf("pos: x:%f y:%f z:%f\n", obj->shape.sphere.pos.x,
-// obj->shape.sphere.pos.y, obj->shape.sphere.pos.z);
-// printf("diameter: %f\n", obj->shape.sphere.diameter);
-// printf("color: r:%f g:%f b:%f\n", obj->material.color.r,
-// obj->material.color.g, obj->material.color.b);
-// printf("mirror:%f specn:%f speckv:%f\n", obj->material.mirror,
-// obj->material.specn, obj->material.speckv);
-// printf("refract:%f\n", obj->material.refract);
-
-// printf("\ncylinder---------------\n");
-// obj = scene->objs->next->next->content;
-// printf("pos: x:%f y:%f z:%f\n", obj->shape.cylinder.pos.x,
-// obj->shape.cylinder.pos.y, obj->shape.cylinder.pos.z);
-// printf("dir: x:%f y:%f z:%f\n", obj->shape.cylinder.dir.x,
-// obj->shape.cylinder.dir.y, obj->shape.cylinder.dir.z);
-// printf("diameter: %f\n", obj->shape.cylinder.diameter);
-// printf("height: %f\n", obj->shape.cylinder.height);
-// printf("color: r:%f g:%f b:%f\n", obj->material.color.r,
-// obj->material.color.g, obj->material.color.b);
-// }
 
 void	parse_init(t_parse *format_info)
 {
@@ -109,7 +43,6 @@ t_binary_result	parse_scene(t_scene *scene, const char *file_path)
 		}
 		free(line);
 	}
-	// debug_print(scene); // for debug
 	close(rt_fd);
 	return (SUCCESS);
 }

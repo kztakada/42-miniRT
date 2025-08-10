@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 21:01:40 by kharuya           #+#    #+#             */
-/*   Updated: 2025/07/25 09:52:37 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:59:06 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static float	calc_decimal(char *str)
 	return (decimal);
 }
 
-float ft_atof(char *str)
+float	ft_atof(char *str)
 {
 	float	sign;
 	float	ans;

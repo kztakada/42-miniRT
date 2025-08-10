@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 23:20:38 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 18:36:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 21:11:11 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ t_pos2d	get_texture_pos_by_uv(t_material material, float *uv)
 {
 	t_pos2d	tex_pos;
 
-	// ピクセル座標を計算
 	tex_pos.x = (int)(uv[0] * (material.bump.width - 1) + 0.5f);
 	tex_pos.y = (int)(uv[1] * (material.bump.height - 1) + 0.5f);
-	// 境界チェック
 	tex_pos.x = clamp_int(tex_pos.x, 0, material.bump.width - 1);
 	tex_pos.y = clamp_int(tex_pos.y, 0, material.bump.height - 1);
 	return (tex_pos);
 }
 
+// latitude_factor = cosf(latitude)		latitude: -π/2 ~ π/2
 t_vector	calc_sphere_bump_normal(t_obj *obj, t_hit *hit)
 {
 	float	uv[2];
@@ -37,21 +36,15 @@ t_vector	calc_sphere_bump_normal(t_obj *obj, t_hit *hit)
 		return (put_out_error_vector(ERR_INVALID_CN_ARGS));
 	hit->normal = calc_sphere_normal(obj, hit);
 	ft_bzero(uv, sizeof(float) * 2);
-	// UV座標を計算
 	calc_sphere_uv_map_equirectangular(obj, hit->pos, uv,
 		obj->shape.sphere.rotation_y);
-	// 緯度補正係数を計算 uv[1] = 0は北極、uv[1] = 1は南極
-	float latitude = (uv[1] - 0.5F) * (float)M_PI; // -π/2 to π/2
-	latitude_factor = cosf(latitude);
-	// 極付近での過補正を防ぐ（最小値を0.1に制限）
+	latitude_factor = cosf((uv[1] - 0.5F) * (float)M_PI);
 	if (latitude_factor < 0.1F)
 		latitude_factor = 0.1F;
 	bump_dot = get_texture_pos_by_uv(obj->material, uv);
-	// 適応的サンプリング間隔の計算
-	ref_scale.u = 1.0F / latitude_factor; // 緯度が高いほど大きなステップ
-	ref_scale.v = 1.0F;                   // 垂直方向は一定
+	ref_scale.u = 1.0F / latitude_factor;
+	ref_scale.v = 1.0F;
 	bump_delta = calc_bump_effects(obj, bump_dot, ref_scale);
-	// 緯度補正を水平勾配に適用
 	bump_delta.u *= latitude_factor;
 	return (calc_bumped_normal(obj, hit->normal, bump_delta));
 }
@@ -86,10 +79,8 @@ t_vector	calc_cylinder_bump_normal(t_obj *obj, t_hit *hit)
 	ft_bzero(uv, sizeof(float) * 2);
 	local_pos = sub_vectors(hit->pos, obj->shape.cylinder.pos);
 	axis_projection = vectors_dot(local_pos, obj->shape.cylinder.dir);
-	// 上底面の場合
 	if (fabsf(axis_projection - obj->shape.cylinder.height) < EPSILON)
 		return (obj->shape.cylinder.dir);
-	// 下底面の場合
 	if (fabsf(axis_projection) < EPSILON)
 		return (inverse_vector(obj->shape.cylinder.dir));
 	calc_stretch_mapping_uv(local_pos, obj->shape.cylinder.dir,

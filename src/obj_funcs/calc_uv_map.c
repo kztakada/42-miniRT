@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:26:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 19:41:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:46:34 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	calc_sphere_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
 {
 	t_vector	target_dir;
 	t_vector	local_pos;
+	float		phi;
+	float		theta;
 
-	float phi;   // 方位角（経度）
-	float theta; // 極角（緯度の補角）
 	if (!obj || !uv_map)
 		return ;
 	target_dir = normalize_vector(sub_vectors(target_pos,
@@ -26,14 +26,10 @@ void	calc_sphere_uv_map_xy(t_obj *obj, t_vector target_pos, float *uv_map)
 	local_pos.x = vectors_dot(target_dir, obj->local.x);
 	local_pos.y = vectors_dot(target_dir, obj->local.y);
 	local_pos.z = vectors_dot(target_dir, obj->local.z);
-	// 極角（theta）: 0から πまで
 	theta = acosf(clampf(local_pos.y, -1.0f, 1.0f));
-	// 方位角（phi）: -πから πまで
 	phi = atan2f(local_pos.z, local_pos.x);
-	// UV座標への変換（均等マッピング）
-	uv_map[0] = (phi + M_PI) / (2.0f * M_PI); // 0.0 - 1.0
-	uv_map[1] = theta / M_PI;                 // 0.0 - 1.0
-	// 境界値の正規化
+	uv_map[0] = (phi + M_PI) / (2.0f * M_PI);
+	uv_map[1] = theta / M_PI;
 	if (uv_map[0] < 0.0f)
 		uv_map[0] += 1.0f;
 	if (uv_map[0] > 1.0f)
@@ -46,9 +42,9 @@ void	calc_sphere_uv_map_equirectangular(t_obj *obj, t_vector hit_pos,
 		float *uv, float rotation_y)
 {
 	t_vector	local_point;
+	float		phi;
+	float		theta;
 
-	float phi;   // 方位角（経度）
-	float theta; // 仰角（緯度の補角）
 	if (!obj || !uv)
 		return ;
 	if (obj->shape.sphere.diameter / 2.0F < EPSILON)
@@ -57,25 +53,16 @@ void	calc_sphere_uv_map_equirectangular(t_obj *obj, t_vector hit_pos,
 		uv[1] = 0.5F;
 		return ;
 	}
-	// 球面座標系に変換
 	local_point = normalize_vector(sub_vectors(hit_pos, obj->shape.sphere.pos));
-	// 仰角（theta）: 0（北極）から π（南極）
-	theta = acosf(clampf(local_point.y, -1.0f, 1.0f)); // 0.0 ～ 1.0
-	// 方位角（phi）: -π から π
-	phi = atan2f(local_point.z, local_point.x); // 0.0 ～ 1.0
-	// 回転を適用
+	theta = acosf(clampf(local_point.y, -1.0f, 1.0f));
+	phi = atan2f(local_point.z, local_point.x);
 	phi += rotation_y * (float)M_PI;
-	// UV座標に変換
 	uv[0] = (phi + M_PI) / (2.0f * M_PI);
-	uv[1] = theta / M_PI; // 0.0 ～ 1.0
-	//　マイナス値、範囲外の値の修正
+	uv[1] = theta / M_PI;
 	uv[0] = fmod(uv[0], 1.0f);
 	if (uv[0] < 0.0f)
 		uv[0] += 1.0f;
-	// 反転の修正（地球テクスチャ用）
-	uv[0] = 1.0f - uv[0]; // 水平反転
-	// uv[1] = 1.0f - uv[1];  // 垂直反転（必要に応じてコメントアウト）
-	// UV座標のクランプ
+	uv[0] = 1.0f - uv[0];
 	uv[0] = clampf(uv[0], 0.0f, 1.0f);
 	uv[1] = clampf(uv[1], 0.0f, 1.0f);
 }
@@ -99,7 +86,6 @@ void	generate_orthogonal_axes(t_vector normal, t_vector *axis_x,
 
 	up = (t_vector){0, 1, 0};
 	right = (t_vector){1, 0, 0};
-	// 法線がY軸に近い場合はX軸を基準にする
 	if (fabsf(vectors_dot(normal, up)) > 0.9f)
 		*axis_x = normalize_vector(cross_vector(normal, right));
 	else
@@ -113,19 +99,12 @@ void	calc_plane_uv_map_tiling(t_obj *obj, t_vector target_pos, float *uv)
 	t_vector	axis_x;
 	t_vector	axis_y;
 
-	// 平面の法線から直交する2つの軸を生成
 	generate_orthogonal_axes(obj->shape.plane.dir, &axis_x, &axis_y);
-	// 交点から平面の中心への相対位置を計算
 	local_pos = sub_vectors(target_pos, obj->shape.plane.pos);
-	// テクスチャの繰り返し頻度（調整可能）
 	uv[0] = vectors_dot(local_pos, axis_x) * TEXTURE_TILE_SCALE + 0.5f;
-	// [0,1]範囲に正規化
 	uv[1] = vectors_dot(local_pos, axis_y) * TEXTURE_TILE_SCALE + 0.5f;
-	// [0,1]範囲に正規化
-	// UV座標を[0,1]の範囲に正規化（繰り返しパターンのため）
-	uv[0] = uv[0] - floorf(uv[0]); // 小数部分のみ取得
+	uv[0] = uv[0] - floorf(uv[0]);
 	uv[1] = uv[1] - floorf(uv[1]);
-	// 負の値の処理
 	if (uv[0] < 0)
 		uv[0] += 1.0f;
 	if (uv[1] < 0)

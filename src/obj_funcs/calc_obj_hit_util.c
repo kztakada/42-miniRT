@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit_util.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 05:28:07 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/09 10:59:55 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:44:09 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_hit	get_zero_hit(void)
 	return (hit);
 }
 
-/* 交点情報を設定 */
 t_hit	set_hit_info(float t, t_ray *ray)
 {
 	t_hit	hit;
@@ -36,7 +35,6 @@ t_hit	set_hit_info(float t, t_ray *ray)
 	return (hit);
 }
 
-/* 複数の交点から最も近い交点を選択する */
 t_hit	get_nearest_hit(t_hit *hits, int hit_count)
 {
 	t_hit	nearest;
@@ -53,7 +51,6 @@ t_hit	get_nearest_hit(t_hit *hits, int hit_count)
 	return (nearest);
 }
 
-/* 二次方程式を解いて、最も近い正の解を返す */
 float	solve_quadratic(float a, float b, float c)
 {
 	float	discr;
@@ -82,9 +79,8 @@ float	solve_quadratic(float a, float b, float c)
 	return (t);
 }
 
-/* 円盤との交差判定 */
-t_hit	calc_disk_obj_hit(t_vector center, t_vector normal,
-		float radius2, t_ray *ray)
+t_hit	calc_disk_obj_hit(t_vector center, t_vector normal, float radius2,
+		t_ray *ray)
 {
 	float		denom;
 	float		t;

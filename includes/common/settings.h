@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 14:57:45 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:39:06 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define BG_COLOR_B 222
 
 // camera settings
-# define FOCAL_FACTOR 1.0F // 焦点距離係数
+# define FOCAL_FACTOR 1.0F
 
 // multi-threading
 # define MAX_THREADS 8

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 13:41:51 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:47:59 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:48:03 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,6 @@ static t_color	calc_diffuse_light(t_raytracing *rt, t_light *light,
 			* incident_intensity);
 	return (diffuse_color);
 }
-
-// using the Blinn-Phong reflection model
-// static t_color	calc_specular_light(t_raytracing *rt, t_light *light,
-// 		float incident_intensity)
-// {
-// 	t_vector	to_light_dir;
-// 	t_vector	to_camera_dir;
-// 	t_vector	half_vector_dir;
-// 	float		specular_intensity;
-// 	t_color		specular_color;
-
-// 	if (incident_intensity <= 0.0F)
-// 		return ((t_color){0.0F, 0.0F, 0.0F});
-// 	to_light_dir = rt->to_light_src_ray.dir;
-// 	to_camera_dir = normalize_vector(sub_vectors(rt->pov_ray.pos, rt->hit.pos));
-// 	half_vector_dir = normalize_vector(add_vectors(to_light_dir,
-// 				to_camera_dir));
-// 	specular_intensity = vectors_dot(half_vector_dir, rt->hit.normal);
-// 	if (specular_intensity <= 0.0F)
-// 		return ((t_color){0.0F, 0.0F, 0.0F});
-// 	specular_intensity = powf(specular_intensity,
-// 			rt->closest_obj->material.specn) * rt->closest_obj->material.speckv;
-// 	specular_color = add_lighting((t_color){1.0F, 1.0F, 1.0F}, light->color,
-// 			light->brightness * specular_intensity);
-// 	return (specular_color);
-// }
 
 static t_color	calc_specular_light_phong(t_raytracing *rt, t_light *light,
 		float incident_intensity)

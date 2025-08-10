@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:19:00 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 15:57:33 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:48:16 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,18 @@ void	print_rendering_console(t_scene_with_mlx *r_scene)
 	static int	completion_displayed = 0;
 
 	scene = r_scene->scene;
-	// 完了していて、既に表示済みなら何もしない
 	if (scene->sampling.count >= scene->sampling.max_count
 		&& r_scene->key.is_modified == FALSE && completion_displayed)
 		return ;
 	r_scene->key.is_modified = FALSE;
-	printf("\033[2J\033[H"); // 画面をクリア
+	printf("\033[2J\033[H");
 	print_minirt_header();
 	print_rendering_progress(scene);
 	print_key_status(r_scene);
 	if (scene->sampling.count >= scene->sampling.max_count)
 	{
 		printf("Press ESC to exit or any key to continue...\n");
-		completion_displayed = 1; // 完了表示フラグ
+		completion_displayed = 1;
 	}
 	else
 		completion_displayed = 0;

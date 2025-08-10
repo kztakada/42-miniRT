@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:47:51 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 19:57:36 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:44:45 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static float	calc_cone_t(t_vector ray_dir, t_vector cone_dir,
-	t_vector oc, float tan2_alpha)
+static float	calc_cone_t(t_vector ray_dir, t_vector cone_dir, t_vector oc,
+		float tan2_alpha)
 {
 	float	a;
 	float	b;
@@ -29,7 +29,6 @@ static float	calc_cone_t(t_vector ray_dir, t_vector cone_dir,
 	return (solve_quadratic(a, b, c));
 }
 
-/* 円錐側面との交差判定 */
 static t_hit	calc_cone_side_hit(t_ray *ray, t_cone *cone)
 {
 	float		t;
@@ -50,7 +49,6 @@ static t_hit	calc_cone_side_hit(t_ray *ray, t_cone *cone)
 	return (set_hit_info(t, ray));
 }
 
-/* 円錐全体との交差判定 */
 t_hit	calc_cone_obj_hit(t_obj *obj, t_ray *ray)
 {
 	t_cone		*cone;

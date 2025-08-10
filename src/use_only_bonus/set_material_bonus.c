@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/10 13:03:59 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:49:34 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_binary_result	is_file_exist(char *file_path)
 	}
 }
 
+// RGB = 3 bytes per pixel
 static t_binary_result	stbi_data_to_color(unsigned char *img_data, int width,
 		int height, t_texture *c_texture)
 {
@@ -39,7 +40,7 @@ static t_binary_result	stbi_data_to_color(unsigned char *img_data, int width,
 	i = 0;
 	while (i < width * height)
 	{
-		pixel = i * 3; // RGB = 3 bytes per pixel
+		pixel = i * 3;
 		c_texture->color[i].r = img_data[pixel] / 255.0F;
 		c_texture->color[i].g = img_data[pixel + 1] / 255.0F;
 		c_texture->color[i].b = img_data[pixel + 2] / 255.0F;

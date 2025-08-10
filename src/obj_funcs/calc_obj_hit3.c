@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj_hit3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:56:37 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/10 19:57:13 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:45:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#define  NO_SOLUTION -1.0f
+#define NO_SOLUTION -1.0f
 
 static float	calc_cylinder_t(t_ray *ray, t_cylinder *cyl, t_vector oc)
 {
@@ -32,8 +32,8 @@ static float	calc_cylinder_t(t_ray *ray, t_cylinder *cyl, t_vector oc)
 	o_z = vectors_dot(sub_vectors(oc, cyl->pos), cyl->dir);
 	if (o_z < 0 || o_z > cyl->height)
 	{
-		t = (-abc[1] + sqrtf(abc[1] * abc[1] - 4 * abc[0] * abc[2]))
-			/ (2 * abc[0]);
+		t = (-abc[1] + sqrtf(abc[1] * abc[1] - 4 * abc[0] * abc[2])) / (2
+				* abc[0]);
 		oc = get_ray_pos_at_t(*ray, t);
 		o_z = vectors_dot(sub_vectors(oc, cyl->pos), cyl->dir);
 		if (t < EPSILON || o_z < 0 || o_z > cyl->height)
@@ -42,7 +42,6 @@ static float	calc_cylinder_t(t_ray *ray, t_cylinder *cyl, t_vector oc)
 	return (t);
 }
 
-/* 円筒側面との交差判定 */
 static t_hit	calc_cylinder_side_hit(t_ray *ray, t_cylinder *cyl)
 {
 	t_vector	oc;
@@ -55,7 +54,6 @@ static t_hit	calc_cylinder_side_hit(t_ray *ray, t_cylinder *cyl)
 	return (set_hit_info(t, ray));
 }
 
-/* 円筒全体との交差判定 */
 t_hit	calc_cylinder_obj_hit(t_obj *obj, t_ray *ray)
 {
 	t_cylinder	*cyl;

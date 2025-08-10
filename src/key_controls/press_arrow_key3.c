@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:50:16 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 16:10:29 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:41:11 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ static t_vector	rotate_camera_vertically(t_vector *current_dir, float angle)
 
 	if (!current_dir)
 		return ((t_vector){0.0F, 0.0F, 0.0F});
-	// Y軸との平行度をチェック
 	y_dot = fabsf(vectors_dot(*current_dir, up_dir()));
 	y_delta = sinf(angle * (float)M_PI / 180.0F);
 	vertical_limit = 1.0f - fabsf(y_delta);
-	// ジンバルロック回避
 	if (y_dot > vertical_limit)
 	{
 		if (current_dir->y < 0 && angle > 0)
