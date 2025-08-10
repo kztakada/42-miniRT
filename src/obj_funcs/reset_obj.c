@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:18:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:00:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:23:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,4 @@ void	reset_object_cone(t_obj *obj)
 	obj->shape.cone.h = obj->shape.cone.h_initial;
 	obj->shape.cone.h2 = obj->shape.cone.h2_initial;
 	obj->shape.cone.angle = obj->shape.cone.angle_initial;
-	obj->shape.cone.cos2 = calc_cone_cos2(obj->shape.cone.angle);
 }

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 18:36:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:25:37 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,9 +207,6 @@ typedef struct s_cylinder
 	float					height;
 	float					height_initial;
 	float					radius_pow2;
-	t_vector				p1;
-	t_vector				p2;
-	t_vector				delta_p;
 }							t_cylinder;
 
 typedef struct s_sphere
@@ -234,11 +231,6 @@ typedef struct s_cone
 	float					h2_initial;
 	float					angle;
 	float					angle_initial;
-	float					cos2;
-	t_vector				c1;
-	t_vector				c2;
-	float					r1;
-	float					r2;
 }							t_cone;
 
 typedef union u_obj_shape
@@ -454,7 +446,6 @@ t_binary_result				parse_obj_cylinder(char **line_element, t_obj *obj,
 t_binary_result				parse_obj_cone(char **line_element, t_obj *obj,
 								t_bool is_bonus);
 
-float						calc_cone_cos2(float angle);
 t_binary_result				set_spec_mirror(t_obj *obj, char *str);
 t_binary_result				format_check_ambient(char **line_element,
 								t_parse *format_info);

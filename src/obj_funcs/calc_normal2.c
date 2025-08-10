@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   calc_normal2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:27:34 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 18:57:23 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:31:50 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-// 未実装
 t_vector	calc_cylinder_normal(t_obj *obj, t_hit *hit)
 {
 	t_vector	normal;
@@ -29,18 +28,18 @@ t_vector	calc_cylinder_normal(t_obj *obj, t_hit *hit)
 		return (inverse_vector(cyl->dir));
 	if (fabsf(dist_along_axis - cyl->height) < EPSILON)
 		return (cyl->dir);
-	normal = sub_vectors(center_to_hit, scale_vector(dist_along_axis, cyl->dir));
+	normal = sub_vectors(center_to_hit, scale_vector(dist_along_axis,
+				cyl->dir));
 	return (normalize_vector(normal));
 }
 
-static t_vector	calc_cone_side_normal(float dist_along_axis, t_vector tip_to_hit,
-	t_cone *cone, t_hit *hit)
+static t_vector	calc_cone_side_normal(float dist_along_axis,
+		t_vector tip_to_hit, t_cone *cone, t_hit *hit)
 {
 	float		scalar;
 	t_vector	cone_dir;
 	t_vector	axis_proj;
 	t_vector	normal;
-
 
 	scalar = vector_len(tip_to_hit) / cosf(cone->angle / 2.0f);
 	cone_dir = cone->dir;

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:26:45 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:20:52 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:23:46 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@ static t_binary_result	parse_cone_config(char **line_element, t_obj *obj)
 	if (set_material(obj, line_element + 6, line_element[0]) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
-}
-
-float	calc_cone_cos2(float angle)
-{
-	float	cos_val;
-
-	cos_val = cosf(angle);
-	return (cos_val * cos_val);
 }
 
 static void	set_cone_obj_funcs(t_obj *obj)
@@ -67,12 +59,6 @@ t_binary_result	parse_obj_cone(char **line_element, t_obj *obj, t_bool is_bonus)
 	obj->shape.cone.h_initial = obj->shape.cone.h;
 	obj->shape.cone.h2_initial = obj->shape.cone.h2;
 	obj->shape.cone.angle_initial = obj->shape.cone.angle;
-	obj->shape.cone.cos2 = calc_cone_cos2(obj->shape.cone.angle);
-	//使っていない？
-	obj->shape.cone.c1 = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->shape.cone.c2 = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->shape.cone.r1 = 0.0f;
-	obj->shape.cone.r2 = 0.0f;
 	obj->has_volume = FALSE;
 	set_cone_obj_funcs(obj);
 	return (SUCCESS);

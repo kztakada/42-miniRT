@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 23:06:32 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:48:46 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:23:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ t_bool	change_cone_size(t_obj *obj, t_obj_size_type type)
 		obj->shape.cone.h -= HEIGHT_STEP;
 		obj->shape.cone.h2 -= HEIGHT_STEP;
 	}
-	obj->shape.cone.cos2 = calc_cone_cos2(obj->shape.cone.angle);
 	return (TRUE);
 }

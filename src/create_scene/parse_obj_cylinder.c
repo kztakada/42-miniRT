@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 18:26:57 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 23:20:45 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:26:47 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ t_binary_result	parse_obj_cylinder(char **line_element, t_obj *obj,
 	obj->shape.cylinder.height_initial = obj->shape.cylinder.height;
 	obj->shape.cylinder.radius_pow2 = obj->shape.cylinder.diameter
 		* obj->shape.cylinder.diameter * 0.25f;
-	// 使っていない？
-	obj->shape.cylinder.p1 = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->shape.cylinder.p2 = (t_vector){0.0f, 0.0f, 0.0f};
-	obj->shape.cylinder.delta_p = (t_vector){0.0f, 0.0f, 0.0f};
 	obj->has_volume = TRUE;
 	set_cylinder_obj_funcs(obj);
 	return (SUCCESS);
