@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 18:19:29 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 19:08:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:35:02 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,14 @@ void	calc_stretch_mapping_uv(t_vector local_pos, t_vector obj_dir,
 	}
 	// ストレッチマッピングを適用
 	uv[1] = clampf((axis_projection / height), 0.0F, 1.0F); // V座標にストレッチ適用
+}
+
+void	calc_cone_stretch_mapping_uv(t_cone *cone, float axis_projection,
+		t_vector local_pos, float *uv)
+{
+	if (axis_projection > 0.0F)
+		calc_stretch_mapping_uv(local_pos, cone->dir, cone->h, uv);
+	if (axis_projection < 0.0F)
+		calc_stretch_mapping_uv(local_pos, inverse_vector(cone->dir), cone->h2,
+			uv);
 }

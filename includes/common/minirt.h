@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 14:57:33 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 18:36:00 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -603,6 +603,9 @@ void						calc_plane_uv_map_tiling(t_obj *obj,
 								t_vector target_pos, float *uv);
 void						calc_stretch_mapping_uv(t_vector local_pos,
 								t_vector axis, float height, float *uv);
+void						calc_cone_stretch_mapping_uv(t_cone *cone,
+								float axis_projection, t_vector local_pos,
+								float *uv);
 t_uv						calc_bump_effects(t_obj *obj, t_pos2d bump_dot,
 								t_uv ref_scale);
 t_vector					calc_bumped_normal(t_obj *obj,
