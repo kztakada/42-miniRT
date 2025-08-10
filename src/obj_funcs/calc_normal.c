@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_normal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:12:46 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 00:28:59 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/07 21:20:10 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,3 @@ t_vector	calc_plane_normal(t_obj *obj, t_hit *hit)
 	else
 		return (inverse_vector(obj->shape.plane.dir));
 }
-
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 12:45:58 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:56:42 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 // parse
 # define ERR_TYPE_IDENT "There are too many type identifiers\n"
-# define ERR_L_TYPE_MIXED "l type and L type are mixed up\n"
+# define ERR_L_TYPE_MIXED "lt type and L type are mixed up\n"
 # define ERR_NUM_ARG "The number of arguments is incorrect\n"
 # define ERR_NORMAL_ARG "The normal vector of arguments is incorrect\n"
 # define ERR_POS_ARG "The position vector of arguments is incorrect\n"

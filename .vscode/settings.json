@@ -2,6 +2,7 @@
 	"files.associations": {
 		"libft.h": "c",
 		"minirt_bonus.h": "c",
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"__locale": "c"
 	}
 }
