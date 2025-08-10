@@ -6,45 +6,36 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:47:51 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 19:38:59 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:47:01 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static float	calc_cylinder_t(t_vector ray_dir, t_vector cylinder_dir, t_vector oc)
-{
-	float	a;
-	float	b;
-	float	c;
-	float	d_z;  // レイの方向と円錐軸の内積
-	float	o_z;   // OCベクトルと円錐軸の内積
-
-	d_z = vectors_dot(ray_dir, cylinder_dir);
-	o_z = vectors_dot(oc, cylinder_dir);
-	a = vectors_dot(ray_dir, ray_dr) - d_z * d_z;
-	b = 2.0f * (vectors_dot(ray_dir, oc) - d_z * oc_dot_cyl_axis);
-	c = vectors_dot(oc, oc) - d_z * d_z - radius2;
-	return (solve_quadratic(a, b, c));
-}
 
 /* 円筒側面との交差判定 */
 static t_hit	calc_cylinder_side_hit(t_ray *ray, t_vector cylinder_pos, t_vector cylinder_dir,
 		float radius2, float height)
 {
 	t_vector	oc;
+	float		abc[3];
+	float		d_z;
 	float		o_z;
 	float		t;
 
 	oc = sub_vectors(ray->pos, cylinder_pos);
-	t = calc_cylinder_t(ray->dir, cylinder_dir, oc);
+	d_z = vectors_dot(ray->dir, cylinder_dir);
+	o_z = vectors_dot(oc, cylinder_dir);
+	abc[0] = vectors_dot(ray->dir, ray->dir) - d_z * d_z;
+	abc[1] = 2.0f * (vectors_dot(ray->dir, oc) - d_z * o_z);
+	abc[2] = vectors_dot(oc, oc) - radius2 - o_z * o_z;
+	t = solve_quadratic(abc[0], abc[1], abc[2]);
 	if (t < 0)
 		return (get_zero_hit());
 	oc = get_ray_pos_at_t(*ray, t);
 	o_z = vectors_dot(sub_vectors(oc, cylinder_pos), cylinder_dir);
 	if (o_z < 0 || o_z > height)
 	{
-		t = (-b + sqrtf(b * b - 4 * a * c)) / (2 * a);
+		t = (-abc[1] + sqrtf(abc[1] * abc[1] - 4 * abc[0] * abc[2])) / (2 * abc[0]);
 		oc = get_ray_pos_at_t(*ray, t);
 		o_z = vectors_dot(sub_vectors(oc, cylinder_pos), cylinder_dir);
 		if (t < EPSILON || o_z < 0 || o_z > height)
