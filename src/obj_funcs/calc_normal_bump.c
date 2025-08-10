@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 23:20:38 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 18:49:30 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:36:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_vector	calc_cylinder_bump_normal(t_obj *obj, t_hit *hit)
 	return (calc_bumped_normal(obj, hit->normal, bump_delta));
 }
 
-// 未確認
 t_vector	calc_cone_bump_normal(t_obj *obj, t_hit *hit)
 {
 	float		uv[2];
@@ -112,17 +111,16 @@ t_vector	calc_cone_bump_normal(t_obj *obj, t_hit *hit)
 		return (put_out_error_vector(ERR_INVALID_CN_ARGS));
 	hit->normal = calc_cone_normal(obj, hit);
 	ft_bzero(uv, sizeof(float) * 2);
-	local_pos = sub_vectors(hit->pos, obj->shape.cylinder.pos);
+	local_pos = sub_vectors(hit->pos, obj->shape.cone.pos);
 	axis_projection = vectors_dot(local_pos, obj->shape.cone.dir);
-	// 上底面の場合
-	if (fabsf(axis_projection - (obj->shape.cone.h
-				+ obj->shape.cone.h2)) < EPSILON)
+	if (axis_projection > 0.0F && fabsf(axis_projection
+			- obj->shape.cone.h) < EPSILON)
 		return (obj->shape.cone.dir);
-	// 下底面の場合
-	if (fabsf(axis_projection) < EPSILON)
+	if (axis_projection < 0.0F && fabsf(axis_projection
+			+ obj->shape.cone.h2) < EPSILON)
 		return (inverse_vector(obj->shape.cone.dir));
-	calc_stretch_mapping_uv(local_pos, obj->shape.cone.dir, obj->shape.cone.h
-		+ obj->shape.cone.h2, uv);
+	calc_cone_stretch_mapping_uv(&obj->shape.cone, axis_projection, local_pos,
+		uv);
 	bump_dot = get_texture_pos_by_uv(obj->material, uv);
 	bump_delta = calc_bump_effects(obj, bump_dot, (t_uv){1.0F, 1.0F});
 	return (calc_bumped_normal(obj, hit->normal, bump_delta));

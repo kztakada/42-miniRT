@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 22:07:27 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/06 05:44:42 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 18:37:28 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,24 @@ t_color	get_cone_texture_color(t_obj *obj, t_hit *hit)
 	t_color		color;
 	float		uv[2];
 	t_vector	local_pos;
-	float		height_offset;
+	float		axis_projection;
 
+	// float		height_offset;
 	if (!obj || !hit)
 		return (put_out_error_color(ERR_INVALID_GC_ARGS));
 	// ローカル座標に変換
 	local_pos = sub_vectors(hit->pos, obj->shape.cone.pos);
+	axis_projection = vectors_dot(local_pos, obj->shape.cone.dir);
 	// 双円錐の全高さ
 	// calc_cylinder_side_uvが期待する座標系に調整
 	// cylinder_side_uvは-height/2からheight/2の範囲を想定
 	// 双円錐では-h2からhの範囲なので、中心をずらす
 	// 双円錐の中心を円筒の中心に合わせるための調整
-	height_offset = (obj->shape.cone.h - obj->shape.cone.h2) / 2.0f;
-	local_pos = add_vectors(local_pos, scale_vector(-height_offset,
-				obj->shape.cone.dir));
-	calc_stretch_mapping_uv(local_pos, obj->shape.cone.dir, obj->shape.cone.h
-		+ obj->shape.cone.h2, uv);
+	// height_offset = (obj->shape.cone.h - obj->shape.cone.h2) / 2.0f;
+	// local_pos = add_vectors(local_pos, scale_vector(-height_offset,
+	// 			obj->shape.cone.dir));
+	calc_cone_stretch_mapping_uv(&obj->shape.cone, axis_projection, local_pos,
+		uv);
 	color = get_texture_color_by_uv(&obj->material.texture, uv);
 	return (color);
 }
