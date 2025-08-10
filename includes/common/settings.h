@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 16:08:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 10:48:17 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // sampling
 # define MAX_FIX_SAMPLING 4
 /* MAX_FIX_SAMPLING requires perfect square */
-# define MAX_RAND_SAMPLING 1
+# define MAX_RAND_SAMPLING 2
 
 // rendering
 # define AIR_REFRACT_INDEX 1.0F

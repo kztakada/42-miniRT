@@ -6,24 +6,11 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 21:41:03 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/03 17:36:29 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/09 05:30:03 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_hit	get_zero_hit(void)
-{
-	t_hit	hit;
-
-	hit.is_hit = FALSE;
-	hit.normal = (t_vector){0.0F, 0.0F, 0.0F};
-	hit.pos = (t_vector){0.0F, 0.0F, 0.0F};
-	hit.t = -1.0F;
-	hit.color = (t_color){0.0F, 0.0F, 0.0F};
-	hit.pov_dir = (t_vector){0.0F, 0.0F, 0.0F};
-	return (hit);
-}
 
 static t_quadratic_solution	calc_sphere_quadratic_discriminant(t_obj *obj,
 		t_ray *pov_ray)

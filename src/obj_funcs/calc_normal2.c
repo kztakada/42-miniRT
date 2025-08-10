@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_normal2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 18:27:34 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 21:12:30 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 10:48:50 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,19 @@ t_vector	calc_cone_normal(t_obj *obj, t_hit *hit)
 {
 	t_vector	normal;
 	t_cone		*cone;
-	t_vector	axis;
-	t_vector	center_to_hit;
-	float		dist_along_axis;
-	float		cos_angle;
+	t_vector	hit_to_tip;
+	t_vector	proj_point;
+	float		scalar;
 
 	if (!obj || !hit)
 		return (put_out_error_vector(ERR_INVALID_CN_ARGS));
 	cone = &obj->shape.cone;
-	axis = normalize_vector(cone->dir);
-	// 円錐の先端から交点へのベクトルを計算
-	center_to_hit = sub_vectors(hit->pos, cone->pos);
-	// 中心軸に沿った距離を計算
-	dist_along_axis = vectors_dot(center_to_hit, axis);
-	// 底面との交点の場合（高さhでの平面）
-	if (fabsf(dist_along_axis - cone->h) < EPSILON)
-	{
-		// 底面の法線は常に軸方向だが、視線の向きに応じて反転させる
-		if (vectors_dot(axis, hit->pov_dir) > 0)
-			return (scale_vector(-1.0f, axis));
-		return (axis);
-	}
-	// 円錐の先端での交点の場合（ただし、これは通常発生しにくい）
-	if (fabsf(dist_along_axis) < EPSILON && vector_len(center_to_hit) < EPSILON)
-		return (scale_vector(-1.0f, axis));
-	// 側面との交点の場合
-	cos_angle = cosf(cone->angle);
-	// 中心軸に投影した点から交点へのベクトル（放射方向）
-	normal = sub_vectors(center_to_hit, scale_vector(dist_along_axis, axis));
-	// 円錐の側面の法線は、軸と放射方向の両方の成分を持つ
-	normal = add_vectors(normal, scale_vector(cos_angle * cos_angle, axis));
-	// 法線が常に外側を向くようにする
-	if (vectors_dot(normal, hit->pov_dir) > 0)
-		normal = scale_vector(-1.0f, normal);
+	hit_to_tip = sub_vectors(hit->pos, cone->pos);
+	// 底面との交点の場合
+	if (vectors_dot(hit_to_tip, cone->dir) > cone->h - EPSILON)
+		return (inverse_vector(cone->dir));
+	scalar = vectors_dot(hit_to_tip, cone->dir);
+	proj_point = add_vectors(cone->pos, scale_vector(scalar, cone->dir));
+	normal = sub_vectors(hit->pos, proj_point);
 	return (normalize_vector(normal));
 }

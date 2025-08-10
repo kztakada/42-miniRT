@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:33:19 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 10:30:52 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -574,6 +574,10 @@ t_hit						calc_sphere_obj_hit(t_obj *obj, t_ray *pov_ray);
 t_hit						calc_plane_obj_hit(t_obj *obj, t_ray *pov_ray);
 t_hit						calc_cylinder_obj_hit(t_obj *obj, t_ray *pov_ray);
 t_hit						calc_cone_obj_hit(t_obj *obj, t_ray *pov_ray);
+t_hit						set_hit_info(float t, t_ray *ray);
+t_hit						get_nearest_hit(t_hit *hits, int hit_count);
+t_hit						calc_disk_obj_hit(t_vector center, t_vector normal,
+								float radius2, t_ray *ray);
 
 t_color						get_color(t_obj *obj, t_hit *hit);
 t_color						get_sphere_texture_color(t_obj *obj, t_hit *hit);
@@ -584,6 +588,8 @@ t_color						get_sphere_checker_color(t_obj *obj, t_hit *hit);
 t_color						get_plane_checker_color(t_obj *obj, t_hit *hit);
 t_color						get_cylinder_checker_color(t_obj *obj, t_hit *hit);
 t_color						get_cone_checker_color(t_obj *obj, t_hit *hit);
+
+float						solve_quadratic(float a, float b, float c);
 
 void						print_focused_obj_sphere(t_obj *obj);
 void						print_focused_obj_plane(t_obj *obj);
