@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 17:39:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 00:56:13 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:45:23 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	print_rt_material(t_material *material)
 	print_rgb_color(material->color);
 	if (!material->is_bonus)
 		return ;
-	printf(" %f,%f,%f %f %d", material->mirror, material->specn,
-		material->speckv, material->refract, material->is_checkerboard);
+	printf(" %f,%f,%f %d", material->mirror, material->specn, material->speckv,
+		material->is_checkerboard);
 	if (material->has_texture && material->texture.file_path != NULL)
 		printf(" %s", material->texture.file_path);
 	else

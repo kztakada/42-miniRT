@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 22:44:55 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:45:58 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 # define ERR_FOV_ARG "The FOV argument is incorrect\n"
 # define ERR_COLOR_ARG "The color of arguments is incorrect\n"
 # define ERR_SPECULAR_ARG "The specular of arguments is incorrect\n"
-# define ERR_REFRACT_ARG "The refract argument is incorrect\n"
 # define ERR_CHECKER_ARG "The checkerboard argument is incorrect\n"
 # define ERR_DIAMETER_ARG "The diameter argument is incorrect\n"
 # define ERR_HEIGHT_ARG "The height argument is incorrect\n"

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:44:00 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 15:44:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:48:12 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ static t_binary_result	check_format_bonus(char **line_element, char *type)
 {
 	if (is_positive_float_three_dimensional(line_element[0]) == FAILURE)
 		return (put_out_format_error(type, ERR_SPECULAR_ARG));
-	if (is_positive_float(line_element[1]) == FAILURE)
-		return (put_out_format_error(type, ERR_REFRACT_ARG));
-	if (line_element[2] == NULL)
+	if (line_element[1] == NULL)
 		return (SUCCESS);
-	if (strcmp(line_element[2], "1") == 0)
+	if (strcmp(line_element[1], "1") == 0)
 		return (SUCCESS);
-	if (strcmp(line_element[2], "0") == 0)
+	if (strcmp(line_element[1], "0") == 0)
 		return (SUCCESS);
 	return (put_out_format_error(type, ERR_CHECKER_ARG));
 }

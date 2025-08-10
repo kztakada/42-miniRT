@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 00:12:29 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:44:11 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ typedef struct s_material
 	float					speckv;
 	float					specn;
 	float					mirror;
-	float					refract;
 	t_texture				bump;
 	t_texture				texture;
 	t_bool					has_bump;
@@ -324,7 +323,6 @@ typedef struct s_raytracing
 	t_hit					hit;
 	t_hit					blocking_hit;
 	t_obj					*closest_obj;
-	float					refract_index;
 }							t_raytracing;
 
 typedef struct s_lighting
@@ -333,7 +331,6 @@ typedef struct s_lighting
 	t_color					diffuse;
 	t_color					specular;
 	t_color					reflect;
-	t_color					refract;
 }							t_lighting;
 
 /* ************************************************************************** */
@@ -652,8 +649,6 @@ t_vector					inverse_vector(t_vector v);
 t_vector					get_ray_pos_at_t(t_ray ray, float t);
 t_vector					calc_reflection_vector(t_vector incident,
 								t_vector normal);
-t_vector					calc_refraction_vector(t_vector incident,
-								t_vector normal, float n1, float n2);
 t_vector					calc_rodrigues_rotation(t_vector current_dir,
 								t_vector rotation_axis, float angle);
 t_color						add_colors(t_color c1, t_color c2);

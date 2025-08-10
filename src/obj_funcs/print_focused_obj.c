@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 16:13:38 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 23:06:08 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:44:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	print_material_info(t_material *material)
 	printf("  Mirror: %f\n", material->mirror);
 	printf("  speckv: %f\n", material->speckv);
 	printf("  specn: %f\n", material->specn);
-	printf("  Refraction: %f\n", material->refract);
 	if (material->has_texture)
 		printf("Texture: %s\n", material->texture.file_path);
 	if (material->has_bump)

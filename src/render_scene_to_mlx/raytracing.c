@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 22:02:15 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/05 20:03:50 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:43:03 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,6 @@ static t_color	calc_reflect_color(t_scene *scene, t_raytracing *rt,
 	return (raytracing(scene, &reflect_rt, max_depth));
 }
 
-static t_color	calc_refract_color(t_scene *scene, t_raytracing *rt,
-		int max_depth)
-{
-	t_raytracing	refract_rt;
-	t_vector		refract_dir;
-	t_vector		offset_pos;
-	float			incident_angle;
-
-	// 入射角を計算して内側・外側を判定
-	incident_angle = vectors_dot(rt->pov_ray.dir, rt->hit.normal);
-	// 屈折ベクトルを計算
-	if (incident_angle < 0.0F)
-		refract_dir = calc_refraction_vector(rt->pov_ray.dir, rt->hit.normal,
-				rt->refract_index, rt->closest_obj->material.refract);
-	else
-		refract_dir = calc_refraction_vector(rt->pov_ray.dir, rt->hit.normal,
-				rt->closest_obj->material.refract, rt->refract_index);
-	// 全反射の場合
-	if (vector_len(refract_dir) < EPSILON)
-		return ((t_color){0.0f, 0.0f, 0.0f});
-	refract_dir = normalize_vector(refract_dir);
-	// 屈折レイの開始点（自己交差回避）
-	offset_pos = add_vectors(rt->hit.pos, scale_vector(EPSILON, refract_dir));
-	refract_rt.pov_ray.pos = offset_pos;
-	refract_rt.pov_ray.dir = refract_dir;
-	// 屈折後の媒質の屈折率を設定
-	if (rt->closest_obj->has_volume && incident_angle < 0.0F)
-		refract_rt.refract_index = rt->closest_obj->material.refract;
-	// 外側から内側への屈折
-	else
-		refract_rt.refract_index = AIR_REFRACT_INDEX; // 内側から外側への屈折
-	return (raytracing(scene, &refract_rt, max_depth));
-}
-
 static t_color	calc_lighting_color(t_lighting lighting, t_material *material)
 {
 	t_color	c;
@@ -71,8 +37,6 @@ static t_color	calc_lighting_color(t_lighting lighting, t_material *material)
 	c.b = lighting.ambient.b + lighting.diffuse.b + lighting.specular.b;
 	if (material && material->mirror > 0.0F)
 		c = mix_colors_by_ratio(lighting.reflect, c, material->mirror);
-	if (material && material->refract > 0.0F)
-		c = mix_colors_by_ratio(lighting.refract, c, 0.7F);
 	c.r = fminf(c.r, 1.0F);
 	c.g = fminf(c.g, 1.0F);
 	c.b = fminf(c.b, 1.0F);
@@ -94,8 +58,6 @@ t_color	raytracing(t_scene *scene, t_raytracing *rt, int max_depth)
 	--max_depth;
 	if (rt->closest_obj->material.mirror > 0.0F && max_depth > 0)
 		lighting.reflect = calc_reflect_color(scene, rt, max_depth);
-	if (rt->closest_obj->material.refract > 0.0F && max_depth > 0)
-		lighting.refract = calc_refract_color(scene, rt, max_depth);
 	if (max_depth < 0)
 		result_color = calc_lighting_color(lighting, NULL);
 	else
@@ -111,7 +73,6 @@ t_color	raytrace_at_dot(t_scene *scene, t_vector dot_pos)
 
 	rt.pov_ray.pos = scene->camera.pos;
 	rt.pov_ray.dir = normalize_vector(sub_vectors(dot_pos, rt.pov_ray.pos));
-	rt.refract_index = AIR_REFRACT_INDEX;
 	raytraced_color = raytracing(scene, &rt, MAX_RECURSION_DEPTH);
 	return (raytraced_color);
 }

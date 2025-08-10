@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 21:43:25 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/08 21:46:40 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:54:10 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ t_bool	is_valid_num_of_element(int num_element, int required, t_bool is_bonus)
 {
 	if (is_bonus)
 	{
-		if (num_element == required || (num_element >= required + 2
-				&& num_element <= required + 5))
+		if (num_element == required || (num_element >= required + 1
+				&& num_element <= required + 4))
 			return (TRUE);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/09 19:57:10 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:03:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,24 +80,24 @@ static t_binary_result	load_png_to_texture(t_texture *texture, char *type,
 static t_binary_result	set_textures(t_obj *obj, char **line_element,
 		char *type)
 {
-	if (line_element[4] != NULL)
+	if (line_element[3] != NULL)
 	{
-		if (ft_strcmp(line_element[4], "NULL") != 0)
+		if (ft_strcmp(line_element[3], "NULL") != 0)
 		{
 			if (load_png_to_texture(&(obj->material.texture), type,
-					line_element[4]) == FAILURE)
+					line_element[3]) == FAILURE)
 				return (FAILURE);
 			obj->material.has_texture = TRUE;
 		}
 	}
 	else
 		return (SUCCESS);
-	if (line_element[5] != NULL)
+	if (line_element[4] != NULL)
 	{
-		if (ft_strcmp(line_element[5], "NULL") != 0)
+		if (ft_strcmp(line_element[4], "NULL") != 0)
 		{
 			if (load_png_to_texture(&(obj->material.bump), type,
-					line_element[5]) == FAILURE)
+					line_element[4]) == FAILURE)
 				return (FAILURE);
 			obj->material.has_bump = TRUE;
 		}
@@ -114,11 +114,11 @@ t_binary_result	set_material(t_obj *obj, char **line_element, char *type)
 	num_element = element_count(line_element);
 	if (set_material_common(obj, line_element, type) == FAILURE)
 		return (FAILURE);
-	if (num_element < 4)
+	if (num_element < 3)
 		return (SUCCESS);
-	if (line_element[3] != NULL)
+	if (line_element[2] != NULL)
 	{
-		if (ft_strcmp(line_element[3], "1") == 0)
+		if (ft_strcmp(line_element[2], "1") == 0)
 			obj->material.is_checkerboard = TRUE;
 	}
 	else

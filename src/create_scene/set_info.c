@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 07:52:16 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/09 15:41:48 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:44:49 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_binary_result	set_spec_mirror(t_obj *obj, char *str)
 		str++;
 	str++;
 	obj->material.specn = ft_atof(str);
-	if (obj->material.specn < 1.0f)
+	if (obj->material.specn < 0.0f)
 		return (FAILURE);
 	while (*str != ',')
 		str++;
@@ -73,7 +73,6 @@ static void	set_material_default(t_obj *obj)
 	obj->material.mirror = 0.0f;
 	obj->material.specn = SPECULAR_CN_DEFAULT;
 	obj->material.speckv = SPECULAR_KV_DEFAULT;
-	obj->material.refract = 0.0f;
 	obj->material.is_checkerboard = FALSE;
 	obj->material.has_texture = FALSE;
 	obj->material.has_bump = FALSE;
@@ -90,12 +89,8 @@ t_binary_result	set_material_common(t_obj *obj, char **line_element, char *type)
 	{
 		if (set_spec_mirror(obj, line_element[1]) == FAILURE)
 			return (put_out_format_error(type, ERR_SPECULAR_ARG));
-		obj->material.refract = ft_atof(line_element[2]);
-		if (obj->material.refract < 0.0f)
-			return (put_out_format_error(type, ERR_REFRACT_ARG));
-		if (obj->material.refract > 0.0f
-			&& obj->material.refract < MIN_OBJ_REFRACT_INDEX)
-			obj->material.refract = MIN_OBJ_REFRACT_INDEX;
+		if (obj->material.specn < 1.0f)
+			obj->material.specn = SPECULAR_CN_DEFAULT;
 	}
 	return (SUCCESS);
 }
