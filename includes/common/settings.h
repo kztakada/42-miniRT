@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:07:20 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/09 10:48:17 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/10 14:57:45 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@
 # define MAX_THREADS 8
 
 // sampling
-# define MAX_FIX_SAMPLING 4
+# define MAX_FIX_SAMPLING 9
 /* MAX_FIX_SAMPLING requires perfect square */
-# define MAX_RAND_SAMPLING 2
+# define MAX_RAND_SAMPLING 100
 
 // rendering
-# define AIR_REFRACT_INDEX 1.0F
-# define MIN_OBJ_REFRACT_INDEX 1.0F
-
 // material
+# define SPECULAR_CN_DEFAULT 1.0F
+# define SPECULAR_KV_DEFAULT 0.2F
+
 # define CHECKERBOARD_SIZE 10.0F
 # define TEXTURE_TILE_SCALE 0.001F
 # define BUMP_HEIGHT_SCALE 100.0F
@@ -54,5 +54,9 @@
 # define ROTATE_ANGLE 5.0F
 # define UV_ROTATE_ANGLE 0.05F
 # define BRIGHTNESS_STEP 0.1F
+# define LIGHT_COLOR_STEP 10
+# define HEIGHT_STEP 1.0F
+# define DIAMETER_STEP 1.0F
+# define CONE_ANGLE_STEP 0.1F
 
 #endif

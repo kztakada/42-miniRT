@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 17:32:31 by kharuya           #+#    #+#             */
-/*   Updated: 2025/08/07 14:59:00 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:03:59 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,28 @@ static t_binary_result	is_file_exist(char *file_path)
 	}
 }
 
-static t_binary_result	set_texture(t_texture *texture, char *type,
+static t_binary_result	stbi_data_to_color(unsigned char *img_data, int width,
+		int height, t_texture *c_texture)
+{
+	int		i;
+	size_t	pixel;
+
+	c_texture->color = malloc(width * height * sizeof(t_color));
+	if (c_texture->color == NULL)
+		return (FAILURE);
+	i = 0;
+	while (i < width * height)
+	{
+		pixel = i * 3; // RGB = 3 bytes per pixel
+		c_texture->color[i].r = img_data[pixel] / 255.0F;
+		c_texture->color[i].g = img_data[pixel + 1] / 255.0F;
+		c_texture->color[i].b = img_data[pixel + 2] / 255.0F;
+		i++;
+	}
+	return (SUCCESS);
+}
+
+static t_binary_result	load_png_to_texture(t_texture *texture, char *type,
 		char *file_path)
 {
 	unsigned char	*img_data;
@@ -56,54 +77,53 @@ static t_binary_result	set_texture(t_texture *texture, char *type,
 	return (SUCCESS);
 }
 
-static void	set_has_flag(t_obj *obj, char **line_element, int index)
+static t_binary_result	set_textures(t_obj *obj, char **line_element,
+		char *type)
 {
-	if (line_element[index])
+	if (line_element[3] != NULL)
 	{
-		obj->material.is_checkerboard = TRUE;
-		if (line_element[index + 1])
+		if (ft_strcmp(line_element[3], "NULL") != 0)
 		{
+			if (load_png_to_texture(&(obj->material.texture), type,
+					line_element[3]) == FAILURE)
+				return (FAILURE);
 			obj->material.has_texture = TRUE;
-			if (line_element[index + 2])
-				obj->material.has_bump = TRUE;
-			else
-				obj->material.has_bump = FALSE;
-		}
-		else
-		{
-			obj->material.has_texture = FALSE;
-			obj->material.has_bump = FALSE;
 		}
 	}
 	else
+		return (SUCCESS);
+	if (line_element[4] != NULL)
 	{
-		obj->material.is_checkerboard = FALSE;
-		obj->material.has_texture = FALSE;
-		obj->material.has_bump = FALSE;
+		if (ft_strcmp(line_element[4], "NULL") != 0)
+		{
+			if (load_png_to_texture(&(obj->material.bump), type,
+					line_element[4]) == FAILURE)
+				return (FAILURE);
+			obj->material.has_bump = TRUE;
+		}
 	}
+	else
+		return (SUCCESS);
+	return (SUCCESS);
 }
 
-t_binary_result	set_material(t_obj *obj, char **line_element, int start_index)
+t_binary_result	set_material(t_obj *obj, char **line_element, char *type)
 {
-	if (set_color(&(obj->material.color), line_element[start_index]) == FAILURE)
-		return (put_out_format_error(line_element[0], ERR_INVALID_VALUE));
-	if (!line_element[start_index + 1])
-		return (set_material_default(obj));
+	int	num_element;
+
+	num_element = element_count(line_element);
+	if (set_material_common(obj, line_element, type) == FAILURE)
+		return (FAILURE);
+	if (num_element < 3)
+		return (SUCCESS);
+	if (line_element[2] != NULL)
+	{
+		if (ft_strcmp(line_element[2], "1") == 0)
+			obj->material.is_checkerboard = TRUE;
+	}
 	else
-	{
-		if (set_material_common(obj, line_element, start_index) == FAILURE)
-			return (FAILURE);
-	}
-	set_has_flag(obj, line_element, start_index + 3);
-	if (obj->material.has_texture == TRUE)
-		if (set_texture(&(obj->material.texture), line_element[0],
-				line_element[start_index + 4]) == FAILURE)
-			return (FAILURE);
-	if (obj->material.has_bump == TRUE)
-	{
-		if (set_texture(&(obj->material.bump), line_element[0],
-				line_element[start_index + 5]) == FAILURE)
-			return (FAILURE);
-	}
+		return (SUCCESS);
+	if (set_textures(obj, line_element, type) == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }

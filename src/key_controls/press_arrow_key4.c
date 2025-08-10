@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 18:53:18 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 01:29:06 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:08:13 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	color_up(t_color *color)
 	if (!color)
 		return ;
 	color_24bit = get_24bit_color(color);
-	color_24bit += BRIGHTNESS_STEP;
+	color_24bit += LIGHT_COLOR_STEP;
 	if (color_24bit > 0xFFFFFF)
 		color_24bit = 0;
 	if (color_24bit < 0x000000)
@@ -34,7 +34,7 @@ void	color_down(t_color *color)
 	if (!color)
 		return ;
 	color_24bit = get_24bit_color(color);
-	color_24bit -= BRIGHTNESS_STEP;
+	color_24bit -= LIGHT_COLOR_STEP;
 	if (color_24bit > 0xFFFFFF)
 		color_24bit = 0xFFFFFF;
 	if (color_24bit < 0x000000)

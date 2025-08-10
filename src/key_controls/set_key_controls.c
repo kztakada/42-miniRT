@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 17:04:02 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:47:36 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 23:57:15 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	mouse_down(int button, int mouse_x, int mouse_y, void *param)
 	r_scene->key.selected_obj = rt.closest_obj;
 	r_scene->key.mode = OBJECT_MODE;
 	r_scene->key.is_modified = TRUE;
-	print_rendering_console(r_scene);
+	print_console(r_scene);
 	return (0);
 }
 
@@ -43,22 +43,32 @@ static int	close_window(void *param)
 	r_scene = (t_scene_with_mlx *)param;
 	if (!r_scene)
 		return (0);
-	printf("Window closed\n");
 	free_scene_with_mlx(r_scene);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-static void	toggle_selected_mode(t_scene_with_mlx *r_scene)
+static void	press_change_size_key(t_scene_with_mlx *r_scene, int keycode)
 {
-	if (r_scene->key.mode == CAMERA_MODE)
-		r_scene->key.mode = LIGHT_MODE;
-	else if (r_scene->key.mode == LIGHT_MODE)
-		r_scene->key.mode = OBJECT_MODE;
-	else
-		r_scene->key.mode = CAMERA_MODE;
+	t_bool	has_changed;
+	t_obj	*obj;
+
+	if (!r_scene->key.selected_obj)
+		return ;
+	obj = r_scene->key.selected_obj;
+	has_changed = FALSE;
+	if (keycode == KEY_H)
+		has_changed = obj->change_size(obj, SIZE_HEIGHT_UP);
+	else if (keycode == KEY_G)
+		has_changed = obj->change_size(obj, SIZE_HEIGHT_DOWN);
+	else if (keycode == KEY_B)
+		has_changed = obj->change_size(obj, SIZE_DIAMETER_UP);
+	else if (keycode == KEY_V)
+		has_changed = obj->change_size(obj, SIZE_DIAMETER_DOWN);
+	if (!has_changed)
+		return ;
 	r_scene->key.is_modified = TRUE;
-	print_rendering_console(r_scene);
+	reset_rendering_scene(r_scene->scene);
 }
 
 static int	key_press(int keycode, void *param)
@@ -72,18 +82,16 @@ static int	key_press(int keycode, void *param)
 	else if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A
 		|| keycode == KEY_D || keycode == KEY_Q || keycode == KEY_E)
 		press_move_key(r_scene, keycode);
+	else if (keycode == KEY_H || keycode == KEY_G || keycode == KEY_B
+		|| keycode == KEY_V)
+		press_change_size_key(r_scene, keycode);
 	else if (keycode == KEY_PLUS)
 		select_next_light(r_scene);
 	else if (keycode == KEY_MINUS)
 		select_prev_light(r_scene);
-	else if (keycode == KEY_SPACE)
-		toggle_selected_mode(r_scene);
-	else if (keycode == KEY_C)
-		reset_scene_all(r_scene);
-	else if (keycode == KEY_R)
-		reset_selected_mode_target(r_scene);
-	else if (keycode == KEY_Z)
-		print_scene_rt_format(r_scene);
+	else if (keycode == KEY_SPACE || keycode == KEY_C || keycode == KEY_R
+		|| keycode == KEY_Z)
+		press_utils_key(r_scene, keycode);
 	else if (keycode == KEY_ESC)
 		close_window(r_scene);
 	return (0);
@@ -93,6 +101,5 @@ void	set_key_controls(t_scene_with_mlx *r_scene)
 {
 	mlx_hook(r_scene->mlx_win, 17, 0, close_window, r_scene);
 	mlx_hook(r_scene->mlx_win, 4, 1L << 2, mouse_down, r_scene);
-	// mlx_hook(r_scene->mlx_win, 5, 1L << 3, mouse_up, r_scene);
 	mlx_key_hook(r_scene->mlx_win, key_press, r_scene);
 }

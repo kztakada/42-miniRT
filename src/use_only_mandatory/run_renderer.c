@@ -6,11 +6,18 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:32:34 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/25 23:58:27 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:36:32 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+void	print_console(t_scene_with_mlx *r_scene)
+{
+	if (!r_scene)
+		return ;
+	print_rendering_console(r_scene);
+}
 
 // i[0] is x, i[1] is y, i[2] is dot index
 t_binary_result	run_renderer(t_scene *scene)

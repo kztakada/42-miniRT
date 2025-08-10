@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 16:07:56 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/03 20:06:23 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:55:36 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,12 @@ t_binary_result	render_scene_to_mlx(t_scene *scene)
 	t_scene_with_mlx	r_scene;
 	t_image				mlx_img;
 
-	printf("Rendering scene...\n");
+	if (!scene || scene->screen.width == 0 || scene->screen.height == 0)
+		return (put_out_failure(ERR_INVALID_SCREEN_SIZE));
+	ft_bzero(&r_scene, sizeof(t_scene_with_mlx));
 	if (init_mlx(&r_scene, &mlx_img, scene) == FAILURE)
 		return (put_out_failure(ERR_MLX_INIT));
+	r_scene.key.is_console = TRUE;
 	set_key_control_defaults(&r_scene);
 	mlx_put_image_to_window(r_scene.mlx, r_scene.mlx_win, mlx_img.img, 0, 0);
 	set_key_controls(&r_scene);

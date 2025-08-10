@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_ft_list.c                                   :+:      :+:    :+:   */
+/*   handle_shorter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 20:21:04 by katakada          #+#    #+#             */
-/*   Updated: 2025/07/30 16:47:41 by kharuya          ###   ########.fr       */
+/*   Created: 2025/08/08 18:57:32 by katakada          #+#    #+#             */
+/*   Updated: 2025/08/08 18:57:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,12 @@ inline t_obj	*get_obj(t_list *obj)
 inline t_light	*get_light(t_list *light)
 {
 	return ((t_light *)light->content);
+}
+
+t_bool	is_normal_range(t_vector normal)
+{
+	if (normal.x < -1.0f || normal.x > 1.0f || normal.y < -1.0f
+		|| normal.y > 1.0f || normal.z < -1.0f || normal.z > 1.0f)
+		return (FALSE);
+	return (TRUE);
 }

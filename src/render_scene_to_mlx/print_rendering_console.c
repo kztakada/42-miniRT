@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:19:00 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 14:04:15 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:57:33 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ static void	print_light_mode(t_scene_with_mlx *r_scene)
 		printf("  Position: (%.2f, %.2f, %.2f)\n", light->pos.x, light->pos.y,
 			light->pos.z);
 		printf("  Brightness: %.2f\n", light->brightness);
-		printf("  Color: (%.2f, %.2f, %.2f)\n", light->color.r, light->color.g,
-			light->color.b);
+		print_rgb_color_info(light->color);
 	}
 	else
 	{
@@ -123,5 +122,4 @@ void	print_rendering_console(t_scene_with_mlx *r_scene)
 	}
 	else
 		completion_displayed = 0;
-	fflush(stdout);
 }

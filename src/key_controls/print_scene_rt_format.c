@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_rt_format.c                                  :+:      :+:    :+:   */
+/*   print_scene_rt_format.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 17:16:48 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/07 20:46:44 by katakada         ###   ########.fr       */
+/*   Created: 2025/08/09 16:13:59 by katakada          #+#    #+#             */
+/*   Updated: 2025/08/09 23:56:42 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	print_rgb_color(t_color color)
-{
-	printf(" %d,%d,%d", (int)(256.0F * clamp_color(color.r, 0.0F, 0.999F)),
-		(int)(256.0F * clamp_color(color.g, 0.0F, 0.999F)), (int)(256.0F
-			* clamp_color(color.b, 0.0F, 0.999F)));
-}
 
 static void	print_a_c_rt_format(t_scene *scene)
 {
@@ -42,7 +35,7 @@ static void	print_light_rt_format(t_light *light, char *type, t_bool is_bonus)
 	printf("\n");
 }
 
-void	print_scene_rt_format(t_scene_with_mlx *r_scene)
+static void	print_scene_rt_format(t_scene_with_mlx *r_scene)
 {
 	t_list	*objs;
 	t_list	*lights;
@@ -67,5 +60,27 @@ void	print_scene_rt_format(t_scene_with_mlx *r_scene)
 		if (get_obj(objs)->print_rt)
 			get_obj(objs)->print_rt(get_obj(objs));
 		objs = objs->next;
+	}
+}
+
+void	toggle_console(t_scene_with_mlx *r_scene)
+{
+	if (r_scene == NULL)
+		return ;
+	if (r_scene->key.is_console == TRUE)
+	{
+		r_scene->key.is_console = FALSE;
+		printf("\033[2J\033[H");
+		printf("\033[0m");
+		if (r_scene->scene == NULL)
+			return ;
+		print_scene_rt_format(r_scene);
+	}
+	else
+	{
+		r_scene->key.is_console = TRUE;
+		r_scene->key.is_modified = TRUE;
+		printf("\033[2J\033[H");
+		print_console(r_scene);
 	}
 }
