@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 20:57:54 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:32:18 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,7 +422,6 @@ typedef struct s_scene_with_mlx
 
 // create_scene
 t_binary_result				create_scene(t_scene *scene, const char *file_path);
-t_binary_result				parse_scene(t_scene *scene, const char *file_path);
 t_binary_result				parse_one_line_on_scene(t_scene *scene, char *line,
 								t_parse *format_info);
 t_binary_result				parse_ambient(t_scene *scene, char **line_element,

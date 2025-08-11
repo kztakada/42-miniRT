@@ -6,13 +6,13 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:27:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 20:40:01 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:34:06 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	parse_init(t_parse *format_info)
+static void	parse_init(t_parse *format_info)
 {
 	format_info->ambient = FALSE;
 	format_info->camera = FALSE;
@@ -20,7 +20,20 @@ void	parse_init(t_parse *format_info)
 	format_info->light_count = 0;
 }
 
-t_binary_result	parse_scene(t_scene *scene, const char *file_path)
+static void	flush_get_next_line(int fd)
+{
+	char	*line;
+
+	while (TRUE)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		free(line);
+	}
+}
+
+static t_binary_result	parse_scene(t_scene *scene, const char *file_path)
 {
 	int		rt_fd;
 	char	*line;
@@ -38,6 +51,7 @@ t_binary_result	parse_scene(t_scene *scene, const char *file_path)
 		if (parse_one_line_on_scene(scene, line, &format_info) == FAILURE)
 		{
 			free(line);
+			flush_get_next_line(rt_fd);
 			close(rt_fd);
 			return (FAILURE);
 		}
