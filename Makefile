@@ -6,7 +6,7 @@
 #    By: katakada <katakada@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/10 21:01:15 by katakada          #+#    #+#              #
-#    Updated: 2025/08/10 21:40:00 by katakada         ###   ########.fr        #
+#    Updated: 2025/08/11 12:42:44 by katakada         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,7 +106,7 @@ MLX_MAC			=	$(MLX_DIR)libmlx_Darwin.a
 FRAMEWORKS_MAC	=	-L /usr/X11/include/../lib -lXext -lX11
 
 ISDEBUG = 0
-ARGS ?= scene/sample.rt
+ARGS ?= scene/mandatory.rt
 
 ifeq ($(ISDEBUG), 1)
 	CC = $(DEBUG_CC)
