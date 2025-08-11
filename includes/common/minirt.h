@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 18:41:49 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/11 13:32:18 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:02:27 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # include "libft.h"
 # include "mlx.h"
 # include "settings.h"
-# include <float.h>
 # include <math.h>
 # include <stdio.h>
 
 // calculation constants
 # define EPSILON 0.0001F
 # define GIMBAL_LOCK_THRESHOLD 0.001F
+# define FLT_MAX 3.40282347e+38F
+# define FLT_EPSILON 1.19209290e-7F
 
 // key code
 # define KEY_ESC 65307
