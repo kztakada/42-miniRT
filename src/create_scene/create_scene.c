@@ -6,7 +6,7 @@
 /*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:27:01 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/11 13:34:06 by katakada         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:37:41 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,20 @@ static t_binary_result	parse_scene(t_scene *scene, const char *file_path)
 	return (SUCCESS);
 }
 
+static t_bool	is_rt_extension(const char *file_path)
+{
+	const char	*ext;
+
+	ext = ft_strrchr(file_path, '.');
+	if (ext && ft_strcmp(ext, ".rt") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 t_binary_result	create_scene(t_scene *scene, const char *file_path)
 {
+	if (!is_rt_extension(file_path))
+		return (put_out_failure(ERR_NO_RT_EXT));
 	scene->screen.dots = malloc(sizeof(t_color) * scene->screen.width
 			* scene->screen.height);
 	if (scene->screen.dots == NULL)

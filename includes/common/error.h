@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
+/*   By: katakada <katakada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:58:42 by katakada          #+#    #+#             */
-/*   Updated: 2025/08/10 14:56:42 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/08/11 14:37:36 by katakada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define ERR_INVALID_C_RATIO "Invalid color ratio (RANGE 0.0 - 1.0)\n"
 
 // parse
+# define ERR_NO_RT_EXT "The file extension is not .rt\n"
 # define ERR_TYPE_IDENT "There are too many type identifiers\n"
 # define ERR_L_TYPE_MIXED "lt type and L type are mixed up\n"
 # define ERR_NUM_ARG "The number of arguments is incorrect\n"
